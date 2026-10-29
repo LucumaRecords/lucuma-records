@@ -1,96 +1,19 @@
 <!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Lucuma Records: vinilos seleccionados, rock nacional e internacional, metal y más.">
-<title>Lucuma Records — Vinilos con historia</title>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f1e8"><meta name="description" content="Lucuma Records — Vinilos seleccionados. Rock nacional, internacional, metal y mucho más."><title>Lucuma Records — Vinilos con historia</title>
 <style>
-:root{--cream:#f3ebdd;--ink:#171717;--orange:#ff633b;--muted:#6f675d;--line:#d9cdbb;--white:#fffaf2}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
-a{color:inherit;text-decoration:none}button,input{font:inherit}.wrap{width:min(1440px,94%);margin:auto}
-header{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px 0;border-bottom:1px solid var(--line)}
-.brand{font-weight:950;font-size:clamp(22px,3vw,36px);letter-spacing:-1.5px;line-height:.95}.brand span{color:var(--orange)}.tagline{font-size:10px;letter-spacing:4px;margin-top:9px}
-nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap;font-size:11px;font-weight:800;text-transform:uppercase}nav a:hover,.text-link:hover{color:var(--orange)}
-.hero{display:grid;grid-template-columns:.8fr 1.2fr;gap:32px;align-items:center;padding:34px 0 28px}
-.eyebrow{font-size:11px;letter-spacing:2px;color:var(--orange);font-weight:900;text-transform:uppercase}
-h1{font-size:clamp(42px,5.4vw,76px);line-height:.9;letter-spacing:-3px;margin:15px 0}
-.hero p{font-size:17px;line-height:1.55;max-width:470px;color:#39342e}
-.btn{display:inline-block;border:0;background:var(--orange);color:#fff;padding:14px 20px;font-size:12px;font-weight:900;text-transform:uppercase;cursor:pointer;border-radius:3px;margin-top:8px}.btn:hover{filter:brightness(.94)}
-.hero-art{min-height:300px;border-radius:5px;overflow:hidden;background:linear-gradient(130deg,#38271e,#0e0d0c 55%,#6b4327);position:relative;display:flex;align-items:center;justify-content:center}
-.hero-art:before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:repeating-radial-gradient(circle,#111 0 3px,#242424 4px 6px);box-shadow:0 20px 40px #0008}
-.hero-art:after{content:"";position:absolute;width:85px;height:85px;border-radius:50%;background:var(--orange);border:9px solid #151515;box-shadow:0 0 0 3px #777}
-.hero-copy{position:absolute;bottom:22px;right:24px;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;z-index:2}
-.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 36px}
-.category{min-height:125px;display:flex;flex-direction:column;justify-content:end;padding:18px;background:linear-gradient(145deg,#514034,#181716);color:white;border-radius:4px;position:relative;overflow:hidden}
-.category:after{content:"◉";position:absolute;right:-7px;top:-25px;font-size:110px;color:#ffffff14}
-.category strong{font-size:20px;text-transform:uppercase;position:relative;z-index:1}.category span{font-size:11px;color:var(--orange);font-weight:bold;margin-top:8px;position:relative;z-index:1}
-.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:30px 0 18px}.section-head h2{font-size:clamp(27px,3vw,38px);margin:6px 0 0;letter-spacing:-1px;text-transform:uppercase}.text-link{font-size:11px;color:var(--orange);font-weight:900;text-transform:uppercase}
-.products{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
-.product{min-width:0}.cover{aspect-ratio:1/1;background:#ded0b9;border-radius:3px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;color:#171717;text-align:center;padding:12px}
-.cover .record{position:absolute;width:77%;height:77%;border-radius:50%;right:-17%;top:12%;background:repeating-radial-gradient(circle,#0b0b0b 0 2px,#292929 3px 4px);box-shadow:0 4px 12px #0003}
-.cover .sleeve{position:relative;z-index:1;width:76%;height:82%;padding:10px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:2px 4px 10px #0003;font-weight:950;font-size:clamp(12px,1.1vw,19px);line-height:1.05;letter-spacing:-.5px}
-.cover .sleeve small{display:block;font-size:8px;letter-spacing:1px;margin-top:8px}
-.cover.orange .sleeve{background:#d65a2d;color:#151515}.cover.dark .sleeve{background:#191919;color:#eee}.cover.sand .sleeve{background:#c5a87b;color:#211b16}.cover.red .sleeve{background:#7d2923;color:#f2e4cd}.cover.blue .sleeve{background:#34484b;color:#f3ebdd}.cover.olive .sleeve{background:#776b42;color:#f3ebdd}
-.product h3{font-size:13px;margin:10px 0 3px}.album{font-size:12px;line-height:1.4;min-height:32px}.condition{font-size:11px;color:var(--muted);margin:6px 0}.price{font-size:16px;font-weight:900}.wa-button{display:block;border:1px solid var(--orange);color:#d94b27;padding:9px 6px;text-align:center;font-size:10px;font-weight:900;margin-top:11px;border-radius:2px}.wa-button:hover{background:var(--orange);color:#fff}
-.notice{font-size:12px;color:var(--muted);background:#fff8ed;border:1px solid var(--line);padding:12px;border-radius:4px;margin:20px 0}
-.sell{background:#201e1a;color:var(--cream);padding:28px;border-radius:5px;margin:42px 0;display:flex;align-items:center;justify-content:space-between;gap:24px}.sell h2{margin:8px 0;font-size:clamp(25px,3vw,36px)}.sell p{color:#d2c7b8;max-width:620px;line-height:1.5}
-.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.benefit{font-size:12px;font-weight:800;text-transform:uppercase;display:flex;gap:10px;align-items:center}.benefit b{font-size:24px}
-footer{display:flex;justify-content:space-between;gap:20px;padding:26px 0 38px;font-size:12px;color:var(--muted)}.float-wa{position:fixed;bottom:18px;right:18px;background:#1fae60;color:#fff;border-radius:28px;padding:14px 18px;font-weight:800;font-size:13px;box-shadow:0 5px 20px #0002;z-index:5}
-@media(max-width:950px){nav{gap:12px}.products{grid-template-columns:repeat(3,1fr)}.hero{grid-template-columns:1fr 1fr}.categories{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:620px){.wrap{width:92%}header{align-items:flex-start;flex-direction:column}.tagline{letter-spacing:3px}nav{font-size:10px}.hero{grid-template-columns:1fr;padding-top:28px}.hero-art{min-height:230px}.categories{grid-template-columns:repeat(2,1fr)}.category{min-height:105px;padding:12px}.category strong{font-size:16px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.section-head{align-items:flex-start;flex-direction:column}.benefits{grid-template-columns:repeat(2,1fr)}.sell{align-items:flex-start;flex-direction:column;padding:22px}footer{flex-direction:column}.float-wa{bottom:12px;right:12px}}
-</style>
-</head>
-<body>
-<div class="wrap">
-<header>
-  <a href="#" aria-label="Lucuma Records inicio"><div class="brand">LUCUMA <span>RECORDS</span> ◉</div><div class="tagline">VINILOS · MÚSICA · HISTORIA</div></a>
-  <nav><a href="#inicio">Inicio</a><a href="#novedades">Novedades</a><a href="#categorias">Géneros</a><a href="#catalogo">Todos los discos</a><a href="#compramos">Compramos vinilos</a></nav>
-</header>
-<main>
-<section class="hero" id="inicio">
-  <div><div class="eyebrow">Discos que siguen sonando</div><h1>VINILOS<br>CON HISTORIA.</h1><p>Rock nacional e internacional, metal y mucho más. Discos seleccionados para quienes viven la música.</p><a class="btn" href="#catalogo">Explorar catálogo →</a></div>
-  <div class="hero-art" role="img" aria-label="Ilustración de un disco de vinilo"><div class="hero-copy">Good music. Better memories.</div></div>
-</section>
-<section id="categorias" class="categories">
-  <a class="category" href="#catalogo"><strong>Rock nacional</strong><span>VER DISCOS →</span></a>
-  <a class="category" href="#catalogo"><strong>Rock internacional</strong><span>VER DISCOS →</span></a>
-  <a class="category" href="#catalogo"><strong>Metal</strong><span>VER DISCOS →</span></a>
-  <a class="category" href="#novedades"><strong>Novedades</strong><span>VER INGRESOS →</span></a>
-</section>
-<section id="catalogo">
-  <div class="section-head"><div><div class="eyebrow">Una selección para vos</div><h2>Últimos ingresos</h2></div><a class="text-link" href="#catalogo">Ver catálogo completo ↓</a></div>
-  <div class="notice">Vista de muestra: los discos, estados y precios de abajo son ejemplos ilustrativos. Reemplazalos por tu stock real antes de publicar.</div>
-  <div class="products" id="products"></div>
-</section>
-<section class="sell" id="compramos"><div><div class="eyebrow">Renová tu colección</div><h2>¿Tenés vinilos para vender?</h2><p>Compramos discos de rock, pop-rock, metal y otros géneros. Mandanos fotos de tus discos o de tu colección y te respondemos.</p><a class="btn" id="sellLink" href="#">Ofrecer mis vinilos por WhatsApp ↗</a></div></section>
-<section class="benefits"><div class="benefit"><b>◉</b><span>Vinilos seleccionados</span></div><div class="benefit"><b>↗</b><span>Envíos a todo el país</span></div><div class="benefit"><b>✓</b><span>Consulta directa</span></div><div class="benefit"><b>◎</b><span>Compramos usados</span></div></section>
-</main>
-<footer><div><strong style="color:var(--ink)">LUCUMA RECORDS</strong><br>Vinilos para escuchar, descubrir y coleccionar.</div><div>Instagram: <a href="https://instagram.com/lucumarecords">@lucumarecords</a><br><span>© Lucuma Records</span></div></footer>
-</div>
-<a class="float-wa" id="floatWA" href="#">WhatsApp · Consultanos</a>
+:root{--cream:#f6f1e8;--white:#fff;--black:#181818;--gray:#77736e;--line:#e1dcd2}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--black);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}a{text-decoration:none;color:inherit}img{display:block;max-width:100%}.wrap{max-width:1370px;width:calc(100% - 72px);margin:auto}.topbar{background:var(--black);color:#fff;text-align:center;padding:10px 15px;font-size:10px;letter-spacing:2.1px;text-transform:uppercase}.header{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 0;border-bottom:1px solid var(--line)}.identity{display:flex;align-items:center;gap:13px}.identity img{height:66px;width:66px;object-fit:cover;border-radius:50%;background:#000}.identity strong{font-size:21px;letter-spacing:-.8px;font-weight:900;display:block}.identity small{font-size:9px;letter-spacing:2.2px;color:#555;text-transform:uppercase}nav{display:flex;gap:29px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}nav a:hover{opacity:.5}.hero{display:grid;grid-template-columns:44% 56%;min-height:540px;padding:34px 0 20px}.hero-copy{padding:60px 36px 55px 0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}.eyebrow{font-size:11px;font-weight:700;letter-spacing:2.7px;text-transform:uppercase;color:#756d64}.hero h1{font-size:clamp(52px,6.3vw,92px);line-height:.96;letter-spacing:-5px;margin:22px 0}.hero p{font-size:17px;line-height:1.65;max-width:440px;color:#514c47}.button{background:var(--black);color:#fff;border:1px solid var(--black);display:inline-flex;align-items:center;justify-content:center;gap:18px;padding:16px 23px;font-size:11px;letter-spacing:1.3px;font-weight:700;text-transform:uppercase;margin-top:20px;transition:.2s}.button:hover{background:transparent;color:var(--black)}.hero-image{min-height:480px;background:#b6a898;overflow:hidden}.hero-image img{width:100%;height:100%;object-fit:cover;object-position:center}.section{padding:76px 0}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:30px}.section-heading h2{font-size:clamp(30px,3.3vw,47px);letter-spacing:-2px;margin:10px 0 0;line-height:1.06}.section-heading p{max-width:440px;font-size:14px;line-height:1.65;color:var(--gray);margin:0}.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.category{position:relative;min-height:340px;overflow:hidden;background:#d7d0c5}.category img{height:100%;width:100%;position:absolute;inset:0;object-fit:cover;filter:grayscale(15%);transition:transform .5s}.category:hover img{transform:scale(1.06)}.category:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 20%,#000b)}.category-label{position:absolute;bottom:25px;left:25px;z-index:2;color:#fff}.category-label strong{font-size:24px;display:block;letter-spacing:-.7px}.category-label span{font-size:10px;letter-spacing:1.6px;display:block;margin-top:9px;text-transform:uppercase}.feature{background:#fff;display:grid;grid-template-columns:1fr 1fr;min-height:430px}.feature-photo{min-height:400px;background:#a99a88}.feature-photo img{height:100%;width:100%;object-fit:cover}.feature-copy{padding:65px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}.feature-copy h2{font-size:clamp(36px,4vw,58px);letter-spacing:-2.5px;line-height:1.05;margin:16px 0}.feature-copy p{font-size:15px;color:#59534d;line-height:1.7;max-width:420px}.coming{text-align:center;padding:95px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.coming h2{font-size:clamp(32px,4vw,52px);letter-spacing:-2px;margin:14px 0}.coming p{max-width:540px;margin:0 auto;line-height:1.7;color:#6d665e;font-size:15px}.small-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:26px}.outline{border:1px solid var(--black);padding:14px 19px;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700}.outline:hover{background:var(--black);color:white}.footer{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:35px 0;font-size:12px;color:#5c564f}.footer strong{font-size:19px;color:var(--black);letter-spacing:-.7px}.footer a{text-decoration:underline;text-underline-offset:3px}.photo-credit{font-size:10px;color:#777;margin-top:12px}.photo-credit a{text-decoration:underline}.whatsapp{position:fixed;bottom:18px;right:18px;background:#1d1d1d;color:#fff;padding:15px 19px;font-size:12px;font-weight:bold;box-shadow:0 5px 25px #0002;z-index:10}.whatsapp:hover{background:#424242}@media(max-width:900px){.wrap{width:calc(100% - 36px)}nav{gap:14px;flex-wrap:wrap}.hero{min-height:auto;grid-template-columns:1fr 1fr}.hero-copy{padding:40px 22px 40px 0}.hero h1{letter-spacing:-3px}.hero-image{min-height:380px}.category{min-height:260px}.feature-copy{padding:40px}}@media(max-width:650px){.topbar{font-size:9px}.header{align-items:flex-start;flex-direction:column}.identity img{height:54px;width:54px}nav{gap:16px;font-size:10px}.hero{display:flex;flex-direction:column}.hero-copy{padding:40px 0}.hero h1{font-size:58px}.hero-image{min-height:320px;height:320px}.section{padding:54px 0}.section-heading{display:block}.section-heading p{margin-top:14px}.category-grid{grid-template-columns:1fr}.category{min-height:300px}.feature{grid-template-columns:1fr}.feature-photo{min-height:290px;height:290px}.feature-copy{padding:35px 25px}.coming{padding:70px 10px}.footer{flex-direction:column;align-items:flex-start}.whatsapp{font-size:11px;padding:13px}}
+</style></head><body>
+<div class="topbar">Vinilos seleccionados · Buenos Aires, Argentina</div>
+<div class="wrap"><header class="header"><a class="identity" href="#inicio"><img src="logo-lucuma.jpg" alt="Logo original de Lucuma Records"><span><strong>LUCUMA RECORDS</strong><small>Vinilos · Música · Historia</small></span></a><nav aria-label="Menú principal"><a href="#inicio">Inicio</a><a href="#colecciones">Colecciones</a><a href="#nosotros">Nosotros</a><a href="#catalogo">Catálogo</a><a href="#contacto">Contacto</a></nav></header>
+<main><section class="hero" id="inicio"><div class="hero-copy"><span class="eyebrow">Una forma distinta de escuchar</span><h1>VINILOS<br>CON<br>HISTORIA.</h1><p>Discos seleccionados, ediciones especiales y música que merece seguir girando.</p><a class="button" href="#colecciones">Descubrí Lucuma <span aria-hidden="true">↗</span></a></div><div class="hero-image"><img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&amp;fit=crop&amp;w=1400&amp;q=85" alt="Fotografía de discos de vinilo" referrerpolicy="no-referrer"></div></section>
+<section class="section" id="colecciones"><div class="section-heading"><div><span class="eyebrow">Explorá nuestros géneros</span><h2>La música que nos mueve.</h2></div><p>De los clásicos que nunca fallan a esos discos difíciles de encontrar. Una selección pensada para escuchar y coleccionar.</p></div><div class="category-grid"><a href="#catalogo" class="category"><img loading="lazy" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&amp;fit=crop&amp;w=850&amp;q=80" alt="Música en vivo"><div class="category-label"><strong>Rock nacional</strong><span>Próximamente →</span></div></a><a href="#catalogo" class="category"><img loading="lazy" src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&amp;fit=crop&amp;w=850&amp;q=80" alt="Discos y música"><div class="category-label"><strong>Rock internacional</strong><span>Próximamente →</span></div></a><a href="#catalogo" class="category"><img loading="lazy" src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&amp;fit=crop&amp;w=850&amp;q=80" alt="Escenario musical"><div class="category-label"><strong>Metal y más</strong><span>Próximamente →</span></div></a></div></section>
+<section class="feature" id="nosotros"><div class="feature-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1539375665275-f9de415ef9ac?auto=format&amp;fit=crop&amp;w=1100&amp;q=85" alt="Discos de vinilo y equipo de audio"></div><div class="feature-copy"><span class="eyebrow">Nuestra pasión</span><h2>Más que discos.<br>Música para toda la vida.</h2><p>En Lucuma Records creemos que cada vinilo tiene algo para contar. Nos gustan las buenas ediciones, los grandes álbumes y la emoción de encontrar ese disco que estabas buscando.</p><a class="button" href="https://www.instagram.com/" target="_blank" rel="noopener" id="instagram-link">Conocenos en Instagram ↗</a></div></section>
+<section class="coming" id="catalogo"><span class="eyebrow">Estamos preparando algo especial</span><h2>El catálogo llega pronto.</h2><p>Muy pronto vas a poder explorar nuestros vinilos, conocer sus ediciones y consultar disponibilidad. Mientras tanto, seguinos en Instagram para ver las novedades.</p><div class="small-links"><a class="outline" href="https://www.instagram.com/" id="catalog-instagram" target="_blank" rel="noopener">Ver Instagram ↗</a><a class="outline" href="mailto:" id="contact-link">Contactanos ↗</a></div></section></main>
+<footer class="footer" id="contacto"><div><strong>LUCUMA RECORDS</strong><p>Buenos Aires · Argentina</p></div><div>Seguinos en <a href="https://www.instagram.com/" id="footer-instagram" target="_blank" rel="noopener">Instagram</a><br><span>© <span id="year"></span> Lucuma Records</span></div></footer></div>
 <script>
-/* CONFIGURACIÓN: reemplazá el número de abajo por tu WhatsApp internacional,
-   solo números, sin +, espacios ni guiones. Ejemplo argentino: 54911XXXXXXXX */
-const WHATSAPP_NUMBER = "REEMPLAZAR_CON_TU_NUMERO";
-const products = [
- {artist:"Soda Stereo",album:"Canción Animal",condition:"Estado: Muy bueno",price:"$ 45.000",cover:"orange",label:"SODA STEREO"},
- {artist:"Pink Floyd",album:"The Dark Side of the Moon",condition:"Estado: Excelente",price:"$ 60.000",cover:"dark",label:"PINK FLOYD"},
- {artist:"Serú Girán",album:"Peperina",condition:"Estado: Muy bueno",price:"$ 55.000",cover:"sand",label:"SERÚ GIRÁN"},
- {artist:"Metallica",album:"Master of Puppets",condition:"Estado: Excelente",price:"$ 70.000",cover:"red",label:"METALLICA"},
- {artist:"The Beatles",album:"Abbey Road",condition:"Estado: Muy bueno",price:"$ 65.000",cover:"blue",label:"THE BEATLES"},
- {artist:"Charly García",album:"Clics Modernos",condition:"Estado: Muy bueno",price:"$ 50.000",cover:"olive",label:"CHARLY GARCÍA"}
-];
-function waUrl(message){return "https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message)}
-document.getElementById("products").innerHTML=products.map(p=>`
-<article class="product"><div class="cover ${p.cover}"><div class="record"></div><div class="sleeve">${p.label}<small>LUCUMA RECORDS · EJEMPLO</small></div></div>
-<h3>${p.artist}</h3><div class="album">${p.album}</div><div class="condition">${p.condition}</div><div class="price">${p.price}</div>
-<a class="wa-button" href="${waUrl("Hola Lucuma Records, consulto por "+p.artist+" - "+p.album+". ¿Sigue disponible?")}" target="_blank" rel="noopener">CONSULTAR POR WHATSAPP</a></article>`).join("");
-document.getElementById("sellLink").href=waUrl("Hola Lucuma Records, tengo vinilos para ofrecer. ¿Les puedo mandar fotos?");
-document.getElementById("floatWA").href=waUrl("Hola Lucuma Records, quería hacer una consulta.");
-if(WHATSAPP_NUMBER==="REEMPLAZAR_CON_TU_NUMERO"){
-  document.querySelectorAll('a[href^="https://wa.me/"]').forEach(a=>a.addEventListener("click",e=>{e.preventDefault();alert("Antes de publicar, abrí index.html y reemplazá REEMPLAZAR_CON_TU_NUMERO por tu número de WhatsApp con código de país y área, solo números.");}));
-}
-</script>
-</body>
-</html>
+// CONFIGURACIÓN: completaremos el Instagram real y WhatsApp en la próxima etapa.
+const INSTAGRAM_URL='https://www.instagram.com/';
+for(const id of ['instagram-link','catalog-instagram','footer-instagram']) document.getElementById(id).href=INSTAGRAM_URL;
+document.getElementById('year').textContent=new Date().getFullYear();
+// El botón de contacto no se habilita hasta contar con un medio de contacto confirmado.
+const contact=document.getElementById('contact-link');contact.href=INSTAGRAM_URL;contact.textContent='Escribinos por Instagram ↗';contact.target='_blank';contact.rel='noopener';
