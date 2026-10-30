@@ -18,6 +18,8 @@ export const EXTRAS = Object.freeze({
   "doble-lp": "Doble LP"
 });
 
+export const WHATSAPP_NUMBER = "5491165437000";
+
 const collator = new Intl.Collator("es", { sensitivity: "base", numeric: true });
 const slugIdPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const uuidV4Pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -92,4 +94,18 @@ export function formatPrice(priceARS) {
     currency: "ARS",
     maximumFractionDigits: 0
   }).format(priceARS);
+}
+
+export function buildWhatsAppUrl(product) {
+  if (product.availability === "sold") return null;
+
+  const price = product.priceARS === null
+    ? "precio a consultar"
+    : formatPrice(product.priceARS).replace(/\s/gu, "");
+  const status = product.availability === "reserved"
+    ? "Veo que figura como reservado. ¿Podrían confirmarme si sigue disponible?"
+    : "¿Sigue disponible?";
+  const message = `Hola, ¿cómo están? Me interesa el vinilo ${product.artist} - ${product.album}, edición ${product.country} ${product.year}, publicado a ${price}. ${status}`;
+
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }

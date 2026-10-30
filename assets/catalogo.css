@@ -91,6 +91,12 @@ button, input, select { font: inherit; }
 .detail-copy__meta { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
 .detail-copy__price { margin: 20px 0 12px; font-size: 22px; font-weight: 700; }
 .detail-copy .availability { margin-bottom: 19px; }
+.whatsapp-button { width: min(100%, 380px); min-height: 52px; display: inline-flex; align-items: center; justify-content: center; margin-top: 24px; padding: 14px 20px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-align: center; text-transform: uppercase; transition: background-color .18s ease; }
+.whatsapp-button:hover { background: #333; }
+.whatsapp-button:focus-visible { outline-color: var(--ink); outline-offset: 4px; }
+.detail-contact-alt { margin: 12px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.detail-contact-alt a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.sold-notice { margin: 19px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
 .detail-specs { display: grid; grid-template-columns: minmax(110px, .7fr) 1.3fr; margin: 0; border-top: 1px solid var(--line); }
 .detail-specs dt, .detail-specs dd { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.45; }
 .detail-specs dt { color: var(--muted); }

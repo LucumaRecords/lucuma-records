@@ -1,4 +1,4 @@
-import { AVAILABILITY, EXTRAS, GENRES, filterAndSortProducts, formatPrice, validateCatalog } from "./catalogo-core.mjs";
+import { AVAILABILITY, EXTRAS, GENRES, buildWhatsAppUrl, filterAndSortProducts, formatPrice, validateCatalog } from "./catalogo-core.mjs";
 
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.getElementById("main-nav");
@@ -165,7 +165,11 @@ function openProductDetails(product) {
   copy.append(makeElement("p", "detail-copy__album", product.album));
   copy.append(makeElement("p", "detail-copy__meta", `${product.country} · ${product.year}`));
   copy.append(makeElement("p", "detail-copy__price", formatPrice(product.priceARS)));
-  copy.append(availabilityBadge(product.availability));
+  if (product.availability === "sold") {
+    copy.append(makeElement("p", "sold-notice", "VINILO VENDIDO"));
+  } else {
+    copy.append(availabilityBadge(product.availability));
+  }
 
   const specs = makeElement("dl", "detail-specs");
   const extras = [
@@ -183,6 +187,31 @@ function openProductDetails(product) {
   });
   copy.append(specs);
   if (product.notes?.trim()) copy.append(makeElement("p", "detail-notes", product.notes));
+
+  const instagramLink = document.createElement("a");
+  instagramLink.href = "https://www.instagram.com/lucumarecords/";
+  instagramLink.target = "_blank";
+  instagramLink.rel = "noopener noreferrer";
+  instagramLink.textContent = "Instagram";
+
+  if (product.availability === "sold") {
+    const soldContact = makeElement("p", "detail-contact-alt", "¿Buscás otro disco? Consultanos por ");
+    soldContact.append(instagramLink);
+    copy.append(soldContact);
+  } else {
+    const whatsappLink = document.createElement("a");
+    whatsappLink.className = "whatsapp-button";
+    whatsappLink.href = buildWhatsAppUrl(product);
+    whatsappLink.target = "_blank";
+    whatsappLink.rel = "noopener noreferrer";
+    whatsappLink.textContent = "CONSULTAR POR WHATSAPP";
+    whatsappLink.setAttribute("aria-label", `Consultar por WhatsApp sobre ${product.artist} - ${product.album}`);
+    copy.append(whatsappLink);
+
+    const contactAlt = makeElement("p", "detail-contact-alt", "También podés escribirnos por ");
+    contactAlt.append(instagramLink);
+    copy.append(contactAlt);
+  }
 
   dialogContent.replaceChildren(gallery, copy);
   if (typeof dialog.showModal === "function") dialog.showModal();
