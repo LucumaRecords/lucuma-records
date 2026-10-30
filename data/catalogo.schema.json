@@ -16,7 +16,7 @@
       "type": "object",
       "required": [
         "id", "artist", "album", "genre", "country", "year", "editionType",
-        "coverCondition", "vinylCondition", "extras", "notes", "priceARS",
+        "coverCondition", "vinylCondition", "priceARS",
         "availability", "photos"
       ],
       "properties": {
@@ -29,11 +29,11 @@
         "editionType": { "type": "string", "minLength": 1 },
         "coverCondition": { "type": "string", "minLength": 1 },
         "vinylCondition": { "type": "string", "minLength": 1 },
-        "extras": { "type": "array", "items": { "type": "string" } },
+        "extras": { "type": "array", "default": [], "items": { "type": "string" } },
         "otherExtras": { "type": "string", "default": "" },
-        "notes": { "type": "string" },
+        "notes": { "type": "string", "default": "" },
         "priceARS": { "type": ["integer", "null"], "minimum": 0 },
-        "availability": { "enum": ["available", "reserved", "sold"] },
+        "availability": { "enum": ["available", "reserved", "sold"], "default": "available" },
         "published": { "type": "boolean", "default": true },
         "photos": {
           "type": "array",

@@ -98,7 +98,7 @@ content:
       - name: extras
         label: Extras incluidos
         type: select
-        required: true
+        required: false
         default: []
         options:
           multiple: true
@@ -113,29 +113,28 @@ content:
       - name: otherExtras
         label: Otros extras
         type: text
-        required: true
+        required: false
         default: ""
         description: Especificá otros elementos incluidos.
 
       - name: notes
         label: Observaciones
         type: text
-        required: true
+        required: false
         default: ""
         description: Podés incluir el estado de cada lado, por ejemplo Lado A EX / Lado B VG+.
 
       - name: priceARS
         label: Precio en pesos argentinos (ARS)
         type: number
-        required: false
-        default: null
+        required: true
         options:
           min: 0
 
       - name: availability
         label: Disponibilidad
         type: select
-        required: true
+        required: false
         default: available
         options:
           values:
@@ -149,20 +148,30 @@ content:
       - name: published
         label: Visible en el catálogo
         type: boolean
-        required: true
+        required: false
         default: true
         description: Desactivá esta opción para ocultar temporalmente el vinilo sin eliminarlo.
 
-      - name: photos
-        label: Fotografías (la primera es la tapa principal)
+      - name: cover
+        label: Fotografía principal
         type: image
         required: true
-        description: Subí hasta 12 fotos y ordenalas; la primera se usa en la grilla.
+        description: Esta tapa aparece en la grilla del catálogo.
+        options:
+          media: vinyl-photos
+          extensions: [jpg, jpeg, png, webp]
+          rename: safe
+
+      - name: additionalPhotos
+        label: Fotografías adicionales (opcional)
+        type: image
+        required: false
+        default: []
+        description: Agregá fotos secundarias para la ficha del vinilo.
         options:
           media: vinyl-photos
           multiple:
-            min: 1
-            max: 12
+            max: 11
           unique: true
           extensions: [jpg, jpeg, png, webp]
           rename: safe

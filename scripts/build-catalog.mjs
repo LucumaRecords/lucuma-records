@@ -24,6 +24,22 @@ const records = [];
 for (const filename of recordFiles) {
   const record = JSON.parse(await readFile(path.join(recordsRoot, filename), "utf8"));
   if (record.priceARS === undefined) record.priceARS = null;
+  if (record.extras === undefined || record.extras === null) record.extras = [];
+  if (record.otherExtras === undefined || record.otherExtras === null) record.otherExtras = "";
+  if (record.notes === undefined || record.notes === null) record.notes = "";
+  if (record.availability === undefined || record.availability === null) record.availability = "available";
+  if (record.published === undefined || record.published === null) record.published = true;
+
+  if (Object.hasOwn(record, "cover") || Object.hasOwn(record, "additionalPhotos")) {
+    if (typeof record.cover !== "string" || !record.cover.trim()) {
+      throw new Error(`Falta la fotografía principal de ${record.album ?? filename}.`);
+    }
+    const additionalPhotos = Array.isArray(record.additionalPhotos) ? record.additionalPhotos : [];
+    record.photos = [record.cover, ...additionalPhotos];
+    delete record.cover;
+    delete record.additionalPhotos;
+  }
+
   if (filename !== `${record.id}.json`) {
     throw new Error(`El archivo ${filename} no coincide con el identificador del vinilo.`);
   }

@@ -43,9 +43,9 @@ export function validateCatalog(data) {
       && typeof product.editionType === "string" && product.editionType.trim()
       && typeof product.coverCondition === "string" && product.coverCondition.trim()
       && typeof product.vinylCondition === "string" && product.vinylCondition.trim()
-      && Array.isArray(product.extras) && product.extras.every(extra => typeof extra === "string")
+      && (product.extras === undefined || (Array.isArray(product.extras) && product.extras.every(extra => typeof extra === "string")))
       && (product.otherExtras === undefined || typeof product.otherExtras === "string")
-      && typeof product.notes === "string"
+      && (product.notes === undefined || typeof product.notes === "string")
       && (product.priceARS === null || (Number.isInteger(product.priceARS) && product.priceARS >= 0))
       && Object.hasOwn(AVAILABILITY, product.availability)
       && (product.published === undefined || typeof product.published === "boolean")

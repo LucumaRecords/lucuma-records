@@ -169,7 +169,7 @@ function openProductDetails(product) {
 
   const specs = makeElement("dl", "detail-specs");
   const extras = [
-    ...product.extras.map(extra => EXTRAS[extra] || extra),
+    ...(Array.isArray(product.extras) ? product.extras.map(extra => EXTRAS[extra] || extra) : []),
     ...(product.otherExtras?.trim() ? [product.otherExtras.trim()] : [])
   ];
   const fields = [
@@ -182,7 +182,7 @@ function openProductDetails(product) {
     specs.append(makeElement("dt", "", label), makeElement("dd", "", value));
   });
   copy.append(specs);
-  if (product.notes.trim()) copy.append(makeElement("p", "detail-notes", product.notes));
+  if (product.notes?.trim()) copy.append(makeElement("p", "detail-notes", product.notes));
 
   dialogContent.replaceChildren(gallery, copy);
   if (typeof dialog.showModal === "function") dialog.showModal();
