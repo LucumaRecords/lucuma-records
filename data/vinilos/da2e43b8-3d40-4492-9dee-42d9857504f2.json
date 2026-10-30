@@ -10,6 +10,6 @@
   "vinylCondition": "VG+",
   "priceARS": 45000,
   "availability": "available",
-  "published": false,
+  "published": true,
   "cover": "assets/catalogo/kiss.jpg"
 }
