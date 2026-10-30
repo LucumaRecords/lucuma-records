@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Catálogo de Lucuma Records",
+  "type": "object",
+  "required": ["schemaVersion", "products"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "products": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/product" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "product": {
+      "type": "object",
+      "required": [
+        "id", "artist", "album", "genre", "country", "year", "editionType",
+        "coverCondition", "vinylCondition", "extras", "notes", "priceARS",
+        "availability", "photos"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$" },
+        "artist": { "type": "string", "minLength": 1 },
+        "album": { "type": "string", "minLength": 1 },
+        "genre": { "enum": ["rock-nacional", "rock-internacional", "hard-rock-metal", "jazz", "brasil"] },
+        "country": { "type": "string", "minLength": 1 },
+        "year": { "type": "integer", "minimum": 1900, "maximum": 2100 },
+        "editionType": { "type": "string", "minLength": 1 },
+        "coverCondition": { "type": "string", "minLength": 1 },
+        "vinylCondition": { "type": "string", "minLength": 1 },
+        "extras": { "type": "array", "items": { "type": "string" } },
+        "otherExtras": { "type": "string", "default": "" },
+        "notes": { "type": "string" },
+        "priceARS": { "type": ["integer", "null"], "minimum": 0 },
+        "availability": { "enum": ["available", "reserved", "sold"] },
+        "published": { "type": "boolean", "default": true },
+        "photos": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f6f1">
+  <meta name="description" content="Explorá el catálogo de vinilos de Lucuma Records. Una colección curada de originales, reediciones y ediciones especiales.">
+  <title>Catálogo de vinilos — Lucuma Records</title>
+  <link rel="stylesheet" href="assets/catalogo.css">
+  <script type="module" src="assets/catalogo.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html#inicio" aria-label="Lucuma Records, inicio">
+        <img src="assets/logo-lucuma-transparente.png" width="372" height="329" alt="Lucuma Records">
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+        <span class="menu-icon" aria-hidden="true"></span><span>Menú</span>
+      </button>
+      <nav class="primary-nav" id="main-nav" aria-label="Navegación principal">
+        <a href="index.html#inicio">Inicio</a>
+        <a href="index.html#colecciones">Colecciones</a>
+        <a href="index.html#nosotros">Nosotros</a>
+        <a href="catalogo.html" aria-current="page">Catálogo</a>
+        <a href="index.html#contacto">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <a class="social-link" href="https://www.instagram.com/lucumarecords/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Lucuma Records">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r=".8" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container catalog-page">
+    <section class="catalog-intro" aria-labelledby="catalog-title">
+      <span class="eyebrow">Lucuma Records · Colección curada</span>
+      <h1 id="catalog-title">CATÁLOGO DE VINILOS</h1>
+      <p>Originales, reediciones y ediciones especiales. Una colección para descubrir, escuchar y atesorar.</p>
+    </section>
+
+    <section class="catalog-browser" aria-label="Explorar vinilos">
+      <div class="catalog-controls">
+        <label class="field search-field">
+          <span>Buscar</span>
+          <input id="catalog-search" type="search" placeholder="Artista, álbum, país…" autocomplete="off">
+        </label>
+        <label class="field">
+          <span>Género</span>
+          <select id="genre-filter">
+            <option value="todos">Todos los géneros</option>
+            <option value="rock-nacional">Rock Nacional</option>
+            <option value="rock-internacional">Rock Internacional</option>
+            <option value="hard-rock-metal">Hard Rock / Metal</option>
+            <option value="jazz">Jazz</option>
+            <option value="brasil">Brasil</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Ordenar por</span>
+          <select id="catalog-sort">
+            <option value="artist-asc">Artista: A–Z</option>
+            <option value="album-asc">Álbum: A–Z</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="catalog-results-bar">
+        <p id="results-count" aria-live="polite">Cargando colección…</p>
+        <button class="text-button" id="reset-filters" type="button" hidden>Limpiar filtros</button>
+      </div>
+
+      <div class="product-grid" id="product-grid" aria-live="polite" hidden></div>
+
+      <section class="empty-state" id="empty-state" aria-live="polite">
+        <span class="eyebrow" id="empty-eyebrow">Colección en preparación</span>
+        <h2 id="empty-title">Muy pronto, nuevos hallazgos.</h2>
+        <p id="empty-message">Estamos preparando nuestra colección. Muy pronto vas a poder explorar nuestros vinilos.</p>
+        <a class="empty-link" href="https://www.instagram.com/lucumarecords/" target="_blank" rel="noopener noreferrer">Seguí las novedades en Instagram <span aria-hidden="true">→</span></a>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div><strong>LUCUMA RECORDS</strong><p>Buenos Aires · Argentina</p></div>
+      <div>Seguinos en <a href="https://www.instagram.com/lucumarecords/" target="_blank" rel="noopener noreferrer">Instagram</a><br><span>© <span id="year"></span> Lucuma Records</span></div>
+    </div>
+  </footer>
+
+  <dialog class="product-dialog" id="product-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-topline">
+      <span class="eyebrow">Detalle del vinilo</span>
+      <button class="dialog-close" type="button" aria-label="Cerrar detalle">Cerrar <span aria-hidden="true">×</span></button>
+    </div>
+    <div class="dialog-content" id="dialog-content"></div>
+  </dialog>
+</body>
+</html>

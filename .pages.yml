@@ -1,0 +1,172 @@
+media:
+  - name: vinyl-photos
+    label: Fotografías de vinilos
+    input: assets/catalogo
+    output: assets/catalogo
+    extensions: [jpg, jpeg, png, webp]
+    categories: [image]
+    rename: safe
+
+content:
+  - name: vinyls
+    label: Vinilos
+    type: collection
+    path: data/vinilos
+    format: json
+    filename: "{id}.json"
+    exclude: [".gitkeep"]
+    subfolders: false
+    operations:
+      create: true
+      rename: false
+      delete: true
+    view:
+      fields: [artist, genre, availability, published]
+      primary: album
+      sort: [artist, album]
+      search: [artist, album, country, genre]
+      default:
+        sort: artist
+        order: asc
+    fields:
+      - name: id
+        label: Identificador
+        type: uuid
+        required: true
+        options:
+          editable: false
+
+      - name: artist
+        label: Artista
+        type: string
+        required: true
+
+      - name: album
+        label: Álbum
+        type: string
+        required: true
+
+      - name: genre
+        label: Género
+        type: select
+        required: true
+        options:
+          values:
+            - name: rock-nacional
+              label: Rock Nacional
+            - name: rock-internacional
+              label: Rock Internacional
+            - name: hard-rock-metal
+              label: Hard Rock / Metal
+            - name: jazz
+              label: Jazz
+            - name: brasil
+              label: Brasil
+
+      - name: country
+        label: País de edición
+        type: string
+        required: true
+
+      - name: year
+        label: Año de edición
+        type: number
+        required: true
+        options:
+          min: 1900
+          max: 2100
+
+      - name: editionType
+        label: Tipo o descripción de la edición
+        type: text
+        required: true
+
+      - name: coverCondition
+        label: Estado de la tapa
+        type: select
+        required: true
+        options:
+          values: [M, NM, EX+, EX, EX-, VG+, VG, VG-, G+, G]
+
+      - name: vinylCondition
+        label: Estado del disco
+        type: select
+        required: true
+        options:
+          values: [M, NM, EX+, EX, EX-, VG+, VG, VG-, G+, G]
+
+      - name: extras
+        label: Extras incluidos
+        type: select
+        required: true
+        default: []
+        options:
+          multiple: true
+          values:
+            - name: insert
+              label: Insert
+            - name: gatefold
+              label: Gatefold
+            - name: doble-lp
+              label: Doble LP
+
+      - name: otherExtras
+        label: Otros extras
+        type: text
+        required: true
+        default: ""
+        description: Especificá otros elementos incluidos.
+
+      - name: notes
+        label: Observaciones
+        type: text
+        required: true
+        default: ""
+        description: Podés incluir el estado de cada lado, por ejemplo Lado A EX / Lado B VG+.
+
+      - name: priceARS
+        label: Precio en pesos argentinos (ARS)
+        type: number
+        required: false
+        default: null
+        options:
+          min: 0
+
+      - name: availability
+        label: Disponibilidad
+        type: select
+        required: true
+        default: available
+        options:
+          values:
+            - name: available
+              label: Disponible
+            - name: reserved
+              label: Reservado
+            - name: sold
+              label: Vendido
+
+      - name: published
+        label: Visible en el catálogo
+        type: boolean
+        required: true
+        default: true
+        description: Desactivá esta opción para ocultar temporalmente el vinilo sin eliminarlo.
+
+      - name: photos
+        label: Fotografías (la primera es la tapa principal)
+        type: image
+        required: true
+        description: Subí hasta 12 fotos y ordenalas; la primera se usa en la grilla.
+        options:
+          media: vinyl-photos
+          multiple:
+            min: 1
+            max: 12
+          unique: true
+          extensions: [jpg, jpeg, png, webp]
+          rename: safe
+
+settings:
+  commit:
+    identity: user

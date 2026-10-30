@@ -1,0 +1,58 @@
+name: Publicar Lucuma Records
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Preparar sitio y catálogo
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Construir archivos públicos
+        run: |
+          mkdir -p _site
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.pages.yml' \
+            --exclude='scripts/' \
+            --exclude='data/README.md' \
+            --exclude='data/catalogo.schema.json' \
+            --exclude='data/vinilos/' \
+            --exclude='assets/catalogo/' \
+            --exclude='_site/' \
+            ./ _site/
+          node scripts/build-catalog.mjs _site
+
+      - name: Subir artefacto de Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Publicar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
