@@ -39,11 +39,14 @@ jobs:
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='.pages.yml' \
+            --exclude='desktop.ini' \
             --exclude='scripts/' \
             --exclude='data/README.md' \
             --exclude='data/catalogo.schema.json' \
             --exclude='data/vinilos/' \
+            --exclude='data/import-history/' \
             --exclude='assets/catalogo/' \
+            --exclude='VINILOS PARA PUBLICAR/' \
             --exclude='_site/' \
             ./ _site/
           node scripts/build-catalog.mjs _site

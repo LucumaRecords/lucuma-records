@@ -1,4 +1,4 @@
-import { AVAILABILITY, EXTRAS, GENRES, buildWhatsAppUrl, filterAndSortProducts, formatPrice, validateCatalog } from "./catalogo-core.mjs";
+import { AVAILABILITY, EXTRAS, GENRES, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatPrice, productTitle, validateCatalog } from "./catalogo-core.mjs";
 
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.getElementById("main-nav");
@@ -52,28 +52,86 @@ function availabilityBadge(status, extraClass = "") {
   return badge;
 }
 
+function productLabel(product) {
+  return [product.artist, product.album].filter(value => typeof value === "string" && value.trim()).join(" · ") || "Vinilo sin título";
+}
+
+function vinylPlaceholder(label) {
+  const placeholder = makeElement("div", "vinyl-placeholder");
+  placeholder.setAttribute("role", "img");
+  placeholder.setAttribute("aria-label", label || "Ilustración de un disco de vinilo");
+
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 120 120");
+  svg.setAttribute("aria-hidden", "true");
+  const disc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  disc.setAttribute("cx", "60");
+  disc.setAttribute("cy", "60");
+  disc.setAttribute("r", "47");
+  disc.setAttribute("fill", "#171717");
+  svg.append(disc);
+  for (const radius of [38, 33, 28, 23]) {
+    const groove = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    groove.setAttribute("cx", "60");
+    groove.setAttribute("cy", "60");
+    groove.setAttribute("r", String(radius));
+    groove.setAttribute("fill", "none");
+    groove.setAttribute("stroke", "#79766f");
+    groove.setAttribute("stroke-opacity", ".38");
+    groove.setAttribute("stroke-width", "1");
+    svg.append(groove);
+  }
+  const labelCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  labelCircle.setAttribute("cx", "60");
+  labelCircle.setAttribute("cy", "60");
+  labelCircle.setAttribute("r", "13");
+  labelCircle.setAttribute("fill", "#f3ebdd");
+  const centerHole = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  centerHole.setAttribute("cx", "60");
+  centerHole.setAttribute("cy", "60");
+  centerHole.setAttribute("r", "2");
+  centerHole.setAttribute("fill", "#171717");
+  svg.append(labelCircle, centerHole);
+  placeholder.append(svg);
+  return placeholder;
+}
+
+function displayPhoto(container, source, alt, fallbackLabel) {
+  if (!source) {
+    container.replaceChildren(vinylPlaceholder(fallbackLabel));
+    return;
+  }
+  const photo = document.createElement("img");
+  photo.src = source;
+  photo.alt = alt;
+  photo.loading = "lazy";
+  photo.decoding = "async";
+  photo.addEventListener("error", () => container.replaceChildren(vinylPlaceholder(fallbackLabel)), { once: true });
+  container.replaceChildren(photo);
+}
+
 function makeProductCard(product) {
   const article = makeElement("article", "product-card");
   const openButton = makeElement("button", "product-card__open");
   openButton.type = "button";
   openButton.setAttribute("aria-haspopup", "dialog");
-  openButton.setAttribute("aria-label", `Ver detalles de ${product.artist}: ${product.album}`);
+  openButton.setAttribute("aria-label", `Ver detalles de ${productLabel(product)}`);
 
   const photoWrap = makeElement("div", "product-card__photo");
-  const photo = document.createElement("img");
-  photo.src = product.photos[0];
-  photo.alt = `Tapa de ${product.album}, de ${product.artist}`;
-  photo.loading = "lazy";
-  photo.decoding = "async";
-  photo.addEventListener("error", () => photoWrap.classList.add("is-broken"), { once: true });
-  photoWrap.append(photo);
+  displayPhoto(photoWrap, product.photos[0], `Tapa de ${productLabel(product)}`, `Imagen no disponible para ${productLabel(product)}`);
 
   const info = makeElement("div", "product-card__info");
-  info.append(makeElement("span", "product-card__artist", product.artist));
-  info.append(makeElement("h2", "product-card__album", product.album));
-  info.append(makeElement("span", "product-card__price", formatPrice(product.priceARS)));
-  info.append(makeElement("p", "product-card__pressing", `${product.country} · ${product.year}`));
-  info.append(availabilityBadge(product.availability, "product-card__availability"));
+  if (product.artist && product.album) {
+    info.append(makeElement("span", "product-card__artist", product.artist));
+    info.append(makeElement("h2", "product-card__album", product.album));
+  } else {
+    info.append(makeElement("h2", "product-card__album product-card__generic", product.artist || product.album || "VINILO"));
+  }
+  const price = formatPrice(product.priceARS);
+  if (price) info.append(makeElement("span", "product-card__price", price));
+  const pressing = [product.country, product.year].filter(value => value !== undefined && value !== null && value !== "").join(" · ");
+  if (pressing) info.append(makeElement("p", "product-card__pressing", pressing));
+  if (product.availability) info.append(availabilityBadge(product.availability, "product-card__availability"));
 
   openButton.append(photoWrap, info);
   openButton.addEventListener("click", () => openProductDetails(product));
@@ -129,10 +187,8 @@ function render() {
 function openProductDetails(product) {
   const gallery = makeElement("div", "detail-gallery");
   const mainPhoto = makeElement("div", "detail-gallery__main");
-  const mainImage = document.createElement("img");
-  mainImage.src = product.photos[0];
-  mainImage.alt = `Tapa de ${product.album}, de ${product.artist}`;
-  mainPhoto.append(mainImage);
+  const label = productLabel(product);
+  displayPhoto(mainPhoto, product.photos[0], `Tapa de ${label}`, `Imagen no disponible para ${label}`);
   gallery.append(mainPhoto);
 
   if (product.photos.length > 1) {
@@ -142,14 +198,9 @@ function openProductDetails(product) {
       button.type = "button";
       button.setAttribute("aria-label", `Ver fotografía ${index + 1}`);
       button.setAttribute("aria-pressed", String(index === 0));
-      const thumbnail = document.createElement("img");
-      thumbnail.src = src;
-      thumbnail.alt = "";
-      thumbnail.loading = "lazy";
-      button.append(thumbnail);
+      displayPhoto(button, src, "", `Fotografía ${index + 1} no disponible`);
       button.addEventListener("click", () => {
-        mainImage.src = src;
-        mainImage.alt = `Fotografía ${index + 1} de ${product.album}, de ${product.artist}`;
+        displayPhoto(mainPhoto, src, `Fotografía ${index + 1} de ${label}`, `Fotografía ${index + 1} no disponible para ${label}`);
         thumbnails.querySelectorAll("button").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
       });
       thumbnails.append(button);
@@ -158,16 +209,19 @@ function openProductDetails(product) {
   }
 
   const copy = makeElement("div", "detail-copy");
-  const artistHeading = makeElement("h2", "", product.artist);
-  artistHeading.id = "dialog-title";
-  copy.append(makeElement("span", "eyebrow", GENRES[product.genre]));
-  copy.append(artistHeading);
-  copy.append(makeElement("p", "detail-copy__album", product.album));
-  copy.append(makeElement("p", "detail-copy__meta", `${product.country} · ${product.year}`));
-  copy.append(makeElement("p", "detail-copy__price", formatPrice(product.priceARS)));
+  if (product.genre) copy.append(makeElement("span", "eyebrow", GENRES[product.genre]));
+  const headingText = product.artist || product.album || "VINILO";
+  const heading = makeElement("h2", "", headingText);
+  heading.id = "dialog-title";
+  copy.append(heading);
+  if (product.artist && product.album) copy.append(makeElement("p", "detail-copy__album", product.album));
+  const metadata = [product.country, product.year].filter(value => value !== undefined && value !== null && value !== "").join(" · ");
+  if (metadata) copy.append(makeElement("p", "detail-copy__meta", metadata));
+  const price = formatPrice(product.priceARS);
+  if (price) copy.append(makeElement("p", "detail-copy__price", price));
   if (product.availability === "sold") {
     copy.append(makeElement("p", "sold-notice", "VINILO VENDIDO"));
-  } else {
+  } else if (product.availability) {
     copy.append(availabilityBadge(product.availability));
   }
 
@@ -175,17 +229,17 @@ function openProductDetails(product) {
   const extras = [
     ...(Array.isArray(product.extras) ? product.extras.map(extra => EXTRAS[extra] || extra) : []),
     ...(product.otherExtras?.trim() ? [product.otherExtras.trim()] : [])
-  ];
+  ].map(extra => capitalizeExtraDescriptions(extra.trim()));
   const fields = [
     ["Edición", product.editionType],
     ["Estado de tapa", product.coverCondition],
     ["Estado del vinilo", product.vinylCondition],
-    ["Extras", extras.length ? extras.join(", ") : "Sin extras declarados"]
-  ];
+    ...(extras.length ? [["Extras", extras.join(", ")]] : [])
+  ].filter(([, value]) => typeof value === "string" && value.trim());
   fields.forEach(([label, value]) => {
     specs.append(makeElement("dt", "", label), makeElement("dd", "", value));
   });
-  copy.append(specs);
+  if (fields.length) copy.append(specs);
   if (product.notes?.trim()) copy.append(makeElement("p", "detail-notes", product.notes));
 
   const instagramLink = document.createElement("a");
@@ -205,7 +259,7 @@ function openProductDetails(product) {
     whatsappLink.target = "_blank";
     whatsappLink.rel = "noopener noreferrer";
     whatsappLink.textContent = "CONSULTAR POR WHATSAPP";
-    whatsappLink.setAttribute("aria-label", `Consultar por WhatsApp sobre ${product.artist} - ${product.album}`);
+    whatsappLink.setAttribute("aria-label", `Consultar por WhatsApp sobre ${productTitle(product)}`);
     copy.append(whatsappLink);
 
     const contactAlt = makeElement("p", "detail-contact-alt", "También podés escribirnos por ");
@@ -235,7 +289,7 @@ async function loadCatalog() {
   try {
     const response = await fetch("data/catalogo.json", { cache: "no-cache" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    products = validateCatalog(await response.json()).filter(product => product.published !== false);
+    products = validateCatalog(await response.json()).filter(product => product.published === true);
     render();
   } catch (error) {
     console.error("No se pudo cargar el catálogo:", error);

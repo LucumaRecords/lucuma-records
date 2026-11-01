@@ -52,11 +52,13 @@ button, input, select { font: inherit; }
 .product-card__open { width: 100%; display: block; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; text-align: left; }
 .product-card__photo { position: relative; overflow: hidden; aspect-ratio: 1 / 1; background: #eeeae2; }
 .product-card__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
-.product-card__photo.is-broken img { visibility: hidden; }
-.product-card__photo.is-broken::after { position: absolute; inset: 0; display: grid; place-items: center; color: #89847d; content: "Imagen no disponible"; font-size: 11px; }
+.vinyl-placeholder { width: 100%; height: 100%; display: grid; place-items: center; background: radial-gradient(circle at 50% 45%, #fffefa 0, #f3ebdd 56%, #e9e3d8 100%); }
+.vinyl-placeholder svg { width: min(68%, 220px); height: auto; filter: drop-shadow(0 8px 9px rgb(23 23 23 / 13%)); }
+.detail-thumbnails .vinyl-placeholder svg { width: 76%; }
 .product-card__info { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; padding-top: 12px; }
 .product-card__artist { grid-column: 1 / -1; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
 .product-card__album { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.025em; line-height: 1.25; }
+.product-card__generic { grid-column: 1 / -1; letter-spacing: .04em; }
 .product-card__pressing { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.45; }
 .product-card__price { align-self: start; font-size: 14px; font-weight: 700; white-space: nowrap; }
 .availability { display: inline-flex; align-items: center; gap: 7px; color: #514d47; font-size: 9px; font-weight: 700; letter-spacing: .9px; text-transform: uppercase; }
@@ -100,7 +102,7 @@ button, input, select { font: inherit; }
 .detail-specs { display: grid; grid-template-columns: minmax(110px, .7fr) 1.3fr; margin: 0; border-top: 1px solid var(--line); }
 .detail-specs dt, .detail-specs dd { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.45; }
 .detail-specs dt { color: var(--muted); }
-.detail-specs dd { font-weight: 600; }
+.detail-specs dd { font-weight: 600; overflow-wrap: anywhere; }
 .detail-notes { margin: 17px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
 
 .site-footer { border-top: 1px solid var(--line); }

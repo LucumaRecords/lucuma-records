@@ -32,25 +32,27 @@ content:
       - name: id
         label: Identificador
         type: uuid
-        required: true
+        required: false
+        description: Se genera automáticamente; no hace falta completarlo.
         options:
           editable: false
 
       - name: artist
         label: Artista
         type: string
-        required: true
+        required: false
 
       - name: album
         label: Álbum
         type: string
-        required: true
+        required: false
 
       - name: genre
         label: Género
         type: select
-        required: true
+        required: false
         options:
+          placeholder: Sin especificar
           values:
             - name: rock-nacional
               label: Rock Nacional
@@ -66,12 +68,12 @@ content:
       - name: country
         label: País de edición
         type: string
-        required: true
+        required: false
 
       - name: year
         label: Año de edición
         type: number
-        required: true
+        required: false
         options:
           min: 1900
           max: 2100
@@ -79,21 +81,19 @@ content:
       - name: editionType
         label: Tipo o descripción de la edición
         type: text
-        required: true
+        required: false
 
       - name: coverCondition
         label: Estado de la tapa
-        type: select
-        required: true
-        options:
-          values: [M, NM, EX+, EX, EX-, VG+, VG, VG-, G+, G]
+        type: text
+        required: false
+        description: Podés escribir una o varias calificaciones y agregar observaciones tal como las registraste.
 
       - name: vinylCondition
         label: Estado del disco
-        type: select
-        required: true
-        options:
-          values: [M, NM, EX+, EX, EX-, VG+, VG, VG-, G+, G]
+        type: text
+        required: false
+        description: Podés escribir estados por lado, calificaciones combinadas y observaciones sin simplificarlos.
 
       - name: extras
         label: Extras incluidos
@@ -127,7 +127,7 @@ content:
       - name: priceARS
         label: Precio en pesos argentinos (ARS)
         type: number
-        required: true
+        required: false
         options:
           min: 0
 
@@ -135,8 +135,8 @@ content:
         label: Disponibilidad
         type: select
         required: false
-        default: available
         options:
+          placeholder: Sin especificar
           values:
             - name: available
               label: Disponible
@@ -149,14 +149,14 @@ content:
         label: Visible en el catálogo
         type: boolean
         required: false
-        default: true
-        description: Desactivá esta opción para ocultar temporalmente el vinilo sin eliminarlo.
+        default: false
+        description: Los vinilos nuevos quedan ocultos hasta que actives esta opción.
 
       - name: cover
         label: Fotografía principal
         type: image
-        required: true
-        description: Esta tapa aparece en la grilla del catálogo.
+        required: false
+        description: Opcional. Si no agregás una foto, se mostrará un reemplazo visual.
         options:
           media: vinyl-photos
           extensions: [jpg, jpeg, png, webp]
