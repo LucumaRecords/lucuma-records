@@ -53,7 +53,7 @@ function configureGenreFilter() {
     for (const collection of collections) {
       const option = document.createElement("option");
       option.value = `collection:${collection}`;
-      option.textContent = COLLECTIONS[collection];
+      option.textContent = `Colección · ${COLLECTIONS[collection]}`;
       group.append(option);
     }
     options.push(group);
@@ -65,7 +65,7 @@ function configureGenreFilter() {
     for (const genre of genres) {
       const option = document.createElement("option");
       option.value = `genre:${genre.value}`;
-      option.textContent = genre.label;
+      option.textContent = `Género · ${genre.label}`;
       group.append(option);
     }
     options.push(group);
