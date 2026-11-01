@@ -122,7 +122,8 @@ function parseCollection(value) {
   const known = new Map([
     ["rock-nacional", "rock-nacional"], ["rock-internacional", "rock-internacional"],
     ["hard-rock-metal", "hard-rock-metal"], ["hard-rock", "hard-rock-metal"], ["metal", "hard-rock-metal"],
-    ["jazz", "jazz"], ["brasil", "brasil"], ["brazil", "brasil"]
+    ["jazz", "jazz"], ["otros", "otros"], ["other", "otros"],
+    ["brasil", "otros"], ["brazil", "otros"]
   ]);
   return known.get(key);
 }

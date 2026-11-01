@@ -1,9 +1,10 @@
-import { AVAILABILITY, COLLECTIONS, EXTRAS, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatPrice, listCatalogGenres, matchesCollection, productTitle, validateCatalog } from "./catalogo-core.mjs?v=2";
+import { AVAILABILITY, COLLECTIONS, EXTRAS, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatPrice, listCatalogGenres, matchesCollection, productTitle, validateCatalog } from "./catalogo-core.mjs?v=3";
 
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.getElementById("main-nav");
 const searchInput = document.getElementById("catalog-search");
 const genreFilter = document.getElementById("genre-filter");
+const collectionFilter = document.getElementById("collection-filter");
 const sortSelect = document.getElementById("catalog-sort");
 const resultsCount = document.getElementById("results-count");
 const productGrid = document.getElementById("product-grid");
@@ -16,7 +17,8 @@ const resetButton = document.getElementById("reset-filters");
 const dialog = document.getElementById("product-dialog");
 const dialogContent = document.getElementById("dialog-content");
 let products = [];
-let pendingFilter = "todos";
+let pendingGenre = "todos";
+let pendingCollection = "todos";
 
 function closeMenu() {
   if (!menuToggle || !mainNav) return;
@@ -39,47 +41,51 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 const params = new URLSearchParams(window.location.search);
 const requestedGenre = params.get("genero");
-const requestedCollection = params.get("coleccion") || (requestedGenre && Object.hasOwn(COLLECTIONS, requestedGenre) ? requestedGenre : "");
-if (requestedCollection && Object.hasOwn(COLLECTIONS, requestedCollection)) pendingFilter = `collection:${requestedCollection}`;
-else if (requestedGenre) pendingFilter = `genre:${requestedGenre}`;
+const legacyCollectionAliases = { brasil: "otros" };
+const requestedCollection = params.get("coleccion") || (requestedGenre && (Object.hasOwn(COLLECTIONS, requestedGenre) || Object.hasOwn(legacyCollectionAliases, requestedGenre)) ? requestedGenre : "");
+if (requestedCollection) {
+  const canonical = legacyCollectionAliases[requestedCollection] || requestedCollection;
+  if (Object.hasOwn(COLLECTIONS, canonical)) pendingCollection = canonical;
+}
+if (requestedGenre && requestedGenre !== requestedCollection && !Object.hasOwn(COLLECTIONS, requestedGenre) && !Object.hasOwn(legacyCollectionAliases, requestedGenre)) pendingGenre = requestedGenre;
+
+function configureCollectionFilter() {
+  const options = [makeElement("option", "", "Todas las colecciones")];
+  options[0].value = "todos";
+  for (const [collection, label] of Object.entries(COLLECTIONS)) {
+    if (!products.some(product => matchesCollection(product, collection))) continue;
+    const option = makeElement("option", "", label);
+    option.value = collection;
+    options.push(option);
+  }
+  collectionFilter.replaceChildren(...options);
+  collectionFilter.value = [...collectionFilter.options].some(option => option.value === pendingCollection) ? pendingCollection : "todos";
+  collectionFilter.disabled = options.length === 1;
+}
 
 function configureGenreFilter() {
+  const scope = collectionFilter.value === "todos"
+    ? products
+    : products.filter(product => matchesCollection(product, collectionFilter.value));
   const options = [makeElement("option", "", "Todos los géneros")];
   options[0].value = "todos";
-  const collections = Object.keys(COLLECTIONS).filter(collection => products.some(product => matchesCollection(product, collection)));
-  if (collections.length) {
-    const group = document.createElement("optgroup");
-    group.label = "Colecciones principales";
-    for (const collection of collections) {
-      const option = document.createElement("option");
-      option.value = `collection:${collection}`;
-      option.textContent = `Colección · ${COLLECTIONS[collection]}`;
-      group.append(option);
-    }
-    options.push(group);
-  }
-  const genres = listCatalogGenres(products);
-  if (genres.length) {
-    const group = document.createElement("optgroup");
-    group.label = "Géneros disponibles";
-    for (const genre of genres) {
-      const option = document.createElement("option");
-      option.value = `genre:${genre.value}`;
-      option.textContent = `Género · ${genre.label}`;
-      group.append(option);
-    }
-    options.push(group);
+  for (const genre of listCatalogGenres(scope)) {
+    const option = makeElement("option", "", genre.label);
+    option.value = genre.value;
+    options.push(option);
   }
   genreFilter.replaceChildren(...options);
-  genreFilter.value = [...genreFilter.options].some(option => option.value === pendingFilter) ? pendingFilter : "todos";
+  genreFilter.value = [...genreFilter.options].some(option => option.value === pendingGenre) ? pendingGenre : "todos";
+  pendingGenre = genreFilter.value;
+  genreFilter.disabled = options.length === 1;
 }
 
 function syncFilterUrl() {
   const url = new URL(window.location.href);
   url.searchParams.delete("genero");
   url.searchParams.delete("coleccion");
-  if (genreFilter.value.startsWith("collection:")) url.searchParams.set("coleccion", genreFilter.value.slice("collection:".length));
-  else if (genreFilter.value.startsWith("genre:")) url.searchParams.set("genero", genreFilter.value.slice("genre:".length));
+  if (collectionFilter.value !== "todos") url.searchParams.set("coleccion", collectionFilter.value);
+  if (genreFilter.value !== "todos") url.searchParams.set("genero", genreFilter.value);
   window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
 }
 
@@ -192,15 +198,12 @@ function showEmptyState({ eyebrow, title, message, link = false }) {
 }
 
 function render() {
-  const hasFilters = Boolean(searchInput.value.trim()) || genreFilter.value !== "todos";
+  const hasFilters = Boolean(searchInput.value.trim()) || genreFilter.value !== "todos" || collectionFilter.value !== "todos";
   resetButton.hidden = !hasFilters;
-  const selected = genreFilter.value;
-  const collection = selected.startsWith("collection:") ? selected.slice("collection:".length) : "todos";
-  const genre = selected.startsWith("genre:") ? selected.slice("genre:".length) : "todos";
   const visibleProducts = filterAndSortProducts(products, {
     query: searchInput.value,
-    genre,
-    collection,
+    genre: genreFilter.value,
+    collection: collectionFilter.value,
     sort: sortSelect.value
   });
 
@@ -328,9 +331,19 @@ dialog.addEventListener("click", event => { if (event.target === dialog) dialog.
 searchInput.addEventListener("input", render);
 genreFilter.addEventListener("change", render);
 genreFilter.addEventListener("change", syncFilterUrl);
+collectionFilter.addEventListener("change", () => {
+  pendingGenre = "todos";
+  configureGenreFilter();
+  render();
+  syncFilterUrl();
+});
+genreFilter.addEventListener("change", () => { pendingGenre = genreFilter.value; });
 sortSelect.addEventListener("change", render);
 resetButton.addEventListener("click", () => {
   searchInput.value = "";
+  collectionFilter.value = "todos";
+  pendingGenre = "todos";
+  configureGenreFilter();
   genreFilter.value = "todos";
   sortSelect.value = "artist-asc";
   window.history.replaceState(null, "", window.location.pathname);
@@ -342,6 +355,7 @@ async function loadCatalog() {
     const response = await fetch("data/catalogo.json", { cache: "no-cache" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     products = validateCatalog(await response.json()).filter(product => product.published === true);
+    configureCollectionFilter();
     configureGenreFilter();
     render();
   } catch (error) {

@@ -10,5 +10,8 @@
   ],
   "priceARS": 10000,
   "published": true,
-  "cover": "assets/catalogo/93dfb9b7-3290-4703-813b-9da7bd7f9693/1-foto-1.jpg"
+  "cover": "assets/catalogo/93dfb9b7-3290-4703-813b-9da7bd7f9693/1-foto-1.jpg",
+  "genre": "Pop/Rock / Soft Rock",
+  "collection": "rock-internacional",
+  "availability": "available"
 }

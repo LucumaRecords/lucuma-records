@@ -10,5 +10,8 @@
   ],
   "priceARS": 10000,
   "published": true,
-  "cover": "assets/catalogo/8e3ded16-33e0-4972-a924-136b7e340be8/2-foto-2.jpg"
+  "cover": "assets/catalogo/8e3ded16-33e0-4972-a924-136b7e340be8/2-foto-2.jpg",
+  "genre": "Folk / Country",
+  "collection": "otros",
+  "availability": "available"
 }

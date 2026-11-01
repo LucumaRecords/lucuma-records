@@ -7,7 +7,7 @@
   <meta name="description" content="Explorá el catálogo de vinilos de Lucuma Records. Una colección curada de originales, reediciones y ediciones especiales.">
   <title>Catálogo de vinilos — Lucuma Records</title>
   <link rel="stylesheet" href="assets/catalogo.css">
-  <script type="module" src="assets/catalogo.js?v=2"></script>
+  <script type="module" src="assets/catalogo.js?v=3"></script>
 </head>
 <body>
   <header class="site-header">
@@ -47,7 +47,13 @@
           <input id="catalog-search" type="search" placeholder="Artista, álbum, país…" autocomplete="off">
         </label>
         <label class="field">
-          <span>Género o colección</span>
+          <span>Colección</span>
+          <select id="collection-filter">
+            <option value="todos">Todas las colecciones</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Género</span>
           <select id="genre-filter">
             <option value="todos">Todos los géneros</option>
           </select>

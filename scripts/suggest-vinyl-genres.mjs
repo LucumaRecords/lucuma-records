@@ -61,7 +61,7 @@ export async function suggestGenres(record, fetchImpl = globalThis.fetch) {
       .filter(tag => tag.count > 0)
       .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, "es"))
       .slice(0, 5)
-      .map(tag => ({ label: tag.label, count: tag.count, url: `https://musicbrainz.org/release-group/${[...tag.ids][0]}` }));
+      .map(tag => ({ label: tag.label, count: tag.count, releaseGroups: tag.ids.size, url: `https://musicbrainz.org/release-group/${[...tag.ids][0]}` }));
     return suggestions.length
       ? { suggestions, status: "Sugerencias orientativas; confirmar antes de asignar." }
       : { status: "Coincidencia exacta sin etiquetas de género en MusicBrainz." };

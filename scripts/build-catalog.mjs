@@ -79,7 +79,9 @@ for (const filename of recordFiles) {
 }
 
 const allProducts = validateCatalog({ schemaVersion: 1, products: records });
-const publishedProducts = allProducts.filter(product => product.published === true);
+const publishedProducts = allProducts
+  .filter(product => product.published === true)
+  .map(({ classificationPending, ...product }) => product);
 const imageCopies = new Map();
 
 for (const product of publishedProducts) {

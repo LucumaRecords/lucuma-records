@@ -3,8 +3,9 @@ export const COLLECTIONS = Object.freeze({
   "rock-internacional": "Rock Internacional",
   "hard-rock-metal": "Hard Rock / Metal",
   jazz: "Jazz",
-  brasil: "Brasil"
+  otros: "Otros"
 });
+const LEGACY_COLLECTION_ALIASES = Object.freeze({ brasil: "otros" });
 // Backward-compatible export: older code and the five homepage links use these IDs.
 export const GENRES = COLLECTIONS;
 
@@ -75,11 +76,23 @@ export function normalizeCatalogProduct(source) {
   for (const field of optionalTextFields) normalizeTextField(source, product, field);
 
   if (!isBlank(source.collection)) {
-    if (typeof source.collection !== "string" || !Object.hasOwn(COLLECTIONS, source.collection.trim())) {
+    if (typeof source.collection !== "string") {
       throw new Error("La colección debe ser una de las cinco colecciones principales.");
     }
-    product.collection = source.collection.trim();
+    const collection = source.collection.trim();
+    const canonical = LEGACY_COLLECTION_ALIASES[collection] || collection;
+    if (!Object.hasOwn(COLLECTIONS, canonical)) throw new Error("La colección debe ser una de las cinco colecciones principales.");
+    product.collection = canonical;
+  } else if (product.genre && (Object.hasOwn(COLLECTIONS, product.genre) || Object.hasOwn(LEGACY_COLLECTION_ALIASES, product.genre))) {
+    // Older CMS entries stored the homepage collection slug in `genre`.
+    product.collection = LEGACY_COLLECTION_ALIASES[product.genre] || product.genre;
+    delete product.genre;
   }
+
+  if (source.classificationPending !== undefined && typeof source.classificationPending !== "boolean") {
+    throw new Error("El campo «classificationPending» debe ser verdadero o falso.");
+  }
+  if (source.classificationPending === true) product.classificationPending = true;
 
   if (!isBlank(source.year)) {
     const year = typeof source.year === "number" ? source.year : Number(source.year);
@@ -174,9 +187,11 @@ export function filterAndSortProducts(products, { query = "", genre = "todos", c
 }
 
 export function matchesCollection(product, collection) {
-  if (!Object.hasOwn(COLLECTIONS, collection)) return false;
-  // Legacy records stored the homepage collection slug in `genre`.
-  return product.collection === collection || (!product.collection && product.genre === collection);
+  const canonical = LEGACY_COLLECTION_ALIASES[collection] || collection;
+  if (!Object.hasOwn(COLLECTIONS, canonical)) return false;
+  // Legacy records stored homepage collection slugs in `genre` or `collection`.
+  return (LEGACY_COLLECTION_ALIASES[product.collection] || product.collection) === canonical
+    || (!product.collection && (LEGACY_COLLECTION_ALIASES[product.genre] || product.genre) === canonical);
 }
 
 export function listCatalogGenres(products) {

@@ -8,7 +8,8 @@ No se incluyen productos de ejemplo. Mientras la colección esté vacía, la pá
 
 - Todos los datos descriptivos, el precio, la disponibilidad y las fotografías son opcionales. El formulario omite la información vacía; no muestra campos sin datos ni un precio de $0.
 - El identificador técnico se genera automáticamente y se usa como nombre del archivo.
-- `genre` es texto libre y opcional (por ejemplo, Soul, Funk, Country, Folk, Pop, Blues o Rock Progresivo). `collection` es un campo separado y opcional para ubicar el disco en una de las cinco colecciones destacadas de la portada. Dejar colección vacía no limita la venta ni el filtro general.
+- `genre` es texto libre y opcional (por ejemplo, Soul, Funk, Country, Folk, Pop, Blues o Rock Progresivo). `collection` es un campo separado y opcional para ubicar el disco en Rock Nacional, Rock Internacional, Hard Rock / Metal, Jazz u Otros. Dejar colección vacía no limita la venta ni el filtro general.
+- La importación desde Notas consulta etiquetas del álbum en coincidencias exactas de MusicBrainz. Solo asigna género y colección cuando la evidencia es consistente; si no, deja el género vacío, propone Otros y marca `classificationPending: true` para revisión. La marca se conserva en Pages CMS pero no se muestra a los visitantes del catálogo.
 - Los vinilos nuevos quedan ocultos. Activá «Visible en el catálogo» para publicarlos; si ese dato falta en un registro, el generador también lo trata como oculto.
 - La foto principal y la galería son opcionales. Si una publicación visible no tiene foto, el catálogo muestra una ilustración local de un vinilo.
 - Hasta confirmar la carga múltiple en la versión alojada de Pages CMS, subí las fotos de a una y luego agregalas/ordenalas en el campo de galería. Hay un reporte abierto reciente de errores al subir varias imágenes juntas: https://github.com/hunvreus/pagescms/issues/448.
@@ -20,7 +21,7 @@ No se incluyen productos de ejemplo. Mientras la colección esté vacía, la pá
 
 ## Estructura de un registro
 
-El archivo fuente de cada registro usa el identificador como nombre y solo necesita el identificador técnico y el estado de publicación. Los demás campos pueden faltar. En el catálogo generado, los productos contienen además `photos` (una lista vacía cuando no hay fotografías). Los registros antiguos que guardaban uno de los cinco códigos de portada en `genre` siguen filtrándose por esa colección; no se aplica esa interpretación a los géneros nuevos.
+El archivo fuente de cada registro usa el identificador como nombre y solo necesita el identificador técnico y el estado de publicación. Los demás campos pueden faltar. En el catálogo generado, los productos contienen además `photos` (una lista vacía cuando no hay fotografías). Los registros antiguos que guardaban un código de portada en `genre` siguen filtrándose por esa colección; el código heredado `brasil` se interpreta como `otros`. Esa compatibilidad se aplica solo a códigos técnicos exactos, no al texto libre normal de un género.
 
 ## Método principal: enviar el lote al chat de Codex desde iPhone
 

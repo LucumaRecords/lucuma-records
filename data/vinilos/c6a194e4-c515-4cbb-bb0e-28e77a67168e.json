@@ -10,5 +10,8 @@
   ],
   "priceARS": 10000,
   "published": true,
-  "cover": "assets/catalogo/c6a194e4-c515-4cbb-bb0e-28e77a67168e/3-foto-3.jpg"
+  "cover": "assets/catalogo/c6a194e4-c515-4cbb-bb0e-28e77a67168e/3-foto-3.jpg",
+  "genre": "Pop / Soul",
+  "collection": "otros",
+  "availability": "available"
 }

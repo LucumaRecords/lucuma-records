@@ -21,7 +21,7 @@ content:
       rename: false
       delete: true
     view:
-      fields: [artist, genre, collection, availability, published]
+      fields: [artist, genre, collection, classificationPending, availability, published]
       primary: album
       sort: [artist, album]
       search: [artist, album, country, genre, collection]
@@ -54,7 +54,7 @@ content:
         description: Género musical libre, por ejemplo Soul, Funk, Country, Folk o Rock Progresivo.
 
       - name: collection
-        label: Colección principal (opcional)
+        label: Colección principal
         type: select
         required: false
         options:
@@ -68,8 +68,15 @@ content:
               label: Hard Rock / Metal
             - name: jazz
               label: Jazz
-            - name: brasil
-              label: Brasil
+            - name: otros
+              label: Otros
+
+      - name: classificationPending
+        label: Clasificación pendiente de revisión
+        type: boolean
+        required: false
+        default: false
+        description: Marcá esta opción cuando género o colección sean provisionales.
 
       - name: country
         label: País de edición

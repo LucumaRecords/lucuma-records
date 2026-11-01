@@ -5,6 +5,7 @@ import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { parseVinylList, normalizeMatchName, similarNameCandidates } from "./parse-vinyl-list.mjs";
 import { suggestGenres } from "./suggest-vinyl-genres.mjs";
+import { classifyVinyl } from "./classify-vinyl.mjs";
 
 const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 const listFilename = "LISTADO DE VINILOS.txt";
@@ -376,7 +377,10 @@ function reviewReport(products, inventory, unusedPhotoFiles, sourcePath) {
       `- **País:** ${product.country || "(vacío)"}`,
       `- **Año:** ${product.year || "(vacío)"}`,
       `- **Género:** ${product.genre || "(vacío)"}`,
-      `- **Colección principal:** ${product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",brasil:"Brasil"}[product.collection] || product.collection) : "(sin asignar)"}`,
+      `- **Colección principal:** ${product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",otros:"Otros"}[product.collection] || product.collection) : "(sin asignar)"}`,
+      `- **Confianza de la clasificación:** ${product.classificationConfidence || "Sin clasificar"}`,
+      ...(product.classificationSources?.length ? [`- **Fuentes de clasificación:** ${product.classificationSources.join("; ")}`] : []),
+      ...(product.classificationWarning ? [`- **Advertencia de clasificación:** ${product.classificationWarning}`] : []),
       ...(product.genreSuggestions?.length ? [`- **Sugerencias de género (MusicBrainz, revisar):** ${product.genreSuggestions.map(item => `${item.label} (${item.count} votos; ${item.url})`).join("; ")}`] : product.genreSuggestionStatus ? [`- **Sugerencias de género:** ${product.genreSuggestionStatus}`] : []),
       `- **Estado de tapa:** ${product.coverCondition || "(vacío)"}`,
       `- **Estado del disco:** ${product.vinylCondition || "(vacío)"}`,
@@ -429,7 +433,10 @@ function reviewReportHtml(products, unusedPhotoFiles) {
     const rows = [
       ["Artista", product.artist], ["Álbum", product.album], ["País / año", [product.country, product.year].filter(Boolean).join(" · ")],
       ["Edición", product.editionDescription || product.editionType], ["Género informado", product.genre],
-      ["Colección principal", product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",brasil:"Brasil"}[product.collection] || product.collection) : undefined],
+      ["Colección principal", product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",otros:"Otros"}[product.collection] || product.collection) : undefined],
+      ["Confianza de clasificación", product.classificationConfidence],
+      ["Fuentes de clasificación", product.classificationSources?.join("; ")],
+      ["Estado de clasificación", product.classificationPending ? "PENDIENTE DE REVISIÓN" : "Clasificación confirmada"],
       ["Sugerencias de género (revisar)", product.genreSuggestions?.length ? product.genreSuggestions.map(item => `${item.label} (${item.count} votos) — ${item.url}`).join("; ") : product.genreSuggestionStatus],
       ["Estado tapa", product.coverCondition], ["Estado disco", product.vinylCondition],
       ["Extras", [...(product.extras ?? []), product.otherExtras].filter(Boolean).join(", ")],
@@ -445,7 +452,10 @@ function reviewReportHtml(products, unusedPhotoFiles) {
     const issues = product.blockingIssues.length
       ? `<p class="warning"><strong>Revisión necesaria:</strong> ${escapeHtml(product.blockingIssues.join("; "))}</p>`
       : "";
-    return `<article><header><span>Lote · ${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(operationLabel(product.operation))}</strong></header><h2>${escapeHtml(candidateTitle(product))}</h2><div class="layout"><div>${cover}${gallery}</div><div>${details}${duplicates}${issues}</div></div></article>`;
+    const classificationWarning = product.classificationWarning
+      ? `<p class="warning"><strong>Clasificación provisional:</strong> ${escapeHtml(product.classificationWarning)}</p>`
+      : "";
+    return `<article><header><span>Lote · ${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(operationLabel(product.operation))}</strong></header><h2>${escapeHtml(candidateTitle(product))}</h2><div class="layout"><div>${cover}${gallery}</div><div>${details}${duplicates}${classificationWarning}${issues}</div></div></article>`;
   }).join("");
   const unused = unusedPhotoFiles.length
     ? `<section><h2>Fotos sin asociar</h2><p>Quedaron en el área de preparación y no se asignarán hasta revisarlas.</p><ul>${unusedPhotoFiles.map(file => `<li>${escapeHtml(file)}</li>`).join("")}</ul></section>`
@@ -564,6 +574,7 @@ function sourceRecord(product, id) {
   for (const field of ["artist", "album", "genre", "collection", "country", "year", "editionType", "coverCondition", "vinylCondition", "extras", "otherExtras", "notes", "priceARS", "availability"]) {
     if (product[field] !== undefined && product[field] !== null && product[field] !== "") record[field] = product[field];
   }
+  if (product.classificationPending === true) record.classificationPending = true;
   return record;
 }
 
@@ -595,13 +606,20 @@ export async function createListReview({ repositoryRoot, preparationRoot, gitRun
   const registry = await readRegistry(repositoryRoot);
   const photoMap = await readPhotoMap(preparationRoot);
   const parsed = parseVinylList(raw);
-  if (genreLookup) {
-    for (const record of parsed) {
-      if (record.genre || !record.artist || !record.album) continue;
-      const result = await suggestGenres(record, fetchImpl);
-      record.genreSuggestions = result.suggestions ?? [];
-      record.genreSuggestionStatus = result.status;
-    }
+  for (const record of parsed) {
+    const lookup = genreLookup && !record.genre && record.artist && record.album
+      ? await suggestGenres(record, fetchImpl)
+      : { suggestions: [], status: genreLookup ? "No se necesitó consulta externa o falta artista/álbum." : "Consulta externa desactivada." };
+    record.genreSuggestions = lookup.suggestions ?? [];
+    record.genreSuggestionStatus = lookup.status;
+    const classification = classifyVinyl(record, lookup);
+    if (!record.genre && classification.genre) record.genre = classification.genre;
+    if (!record.collection && classification.collection) record.collection = classification.collection;
+    record.classificationPending = classification.pending;
+    record.classificationConfidence = classification.confidence;
+    record.classificationSources = classification.sources;
+    record.classificationWarning = classification.warning;
+    if (record.genre) record.missing = record.missing.filter(field => field !== "género");
   }
   if (photoMap.assignments.some(assignment => assignment.sourceIndex > parsed.length)) {
     throw new Error("ASOCIACION DE FOTOS.json refiere a un número de producto que no existe en el TXT. Actualizá la asociación y volvé a revisar.");
@@ -611,7 +629,7 @@ export async function createListReview({ repositoryRoot, preparationRoot, gitRun
   const unusedPhotoFiles = current.photos.flatMap(group => group.images.map(image => image.fileRef)).filter(file => !usedFiles.has(file));
   const blockingProducts = products.filter(product => product.blocked);
   const plan = {
-    version: 2,
+    version: 3,
     createdAt: new Date().toISOString(),
     headSha: current.headSha,
     listHash: current.listHash,
@@ -660,7 +678,7 @@ export async function importReviewedList({ repositoryRoot, preparationRoot, gitR
   const planInfo = await stat(planPath).catch(() => null);
   if (!planInfo?.isFile()) throw new Error(`No existe ${planFilename}. Primero generá el informe con --review-list.`);
   const plan = JSON.parse(await readFile(planPath, "utf8"));
-  if (plan.version !== 2 || !Array.isArray(plan.products)) throw new Error("El plan de revisión no tiene el formato vigente. Generá un informe nuevo.");
+  if (plan.version !== 3 || !Array.isArray(plan.products)) throw new Error("El plan de revisión no tiene el formato vigente. Generá un informe nuevo.");
   if (plan.products.some(product => product.blocked)) {
     const titles = plan.products.filter(product => product.blocked).map(product => `#${product.sourceIndex} ${candidateTitle(product)}`).join("; ");
     throw new Error(`La importación se detuvo sin escribir archivos porque hay productos que requieren revisión: ${titles}. Corregí el listado o la asociación de fotos y volvé a generar el informe.`);
@@ -691,7 +709,16 @@ export async function importReviewedList({ repositoryRoot, preparationRoot, gitR
       || product.operation !== plan.products[index].operation)) {
     throw new Error("La revisión actual detectó diferencias, nuevas coincidencias o cambios en el historial. No importé nada; generá un informe nuevo.");
   }
-  const products = checked.map((product, index) => ({ ...product, id: plan.products[index].id }));
+  const products = checked.map((product, index) => {
+    const reviewed = plan.products[index];
+    return {
+      ...product,
+      genre: product.genre || reviewed.genre,
+      collection: product.collection || reviewed.collection,
+      classificationPending: reviewed.classificationPending === true,
+      id: reviewed.id
+    };
+  });
   const createIds = products.filter(product => product.operation === "create").map(product => product.id);
   if (createIds.some(id => typeof id !== "string" || !uuidV4Pattern.test(id) || existingIds.has(id)) || new Set(createIds).size !== createIds.length) {
     throw new Error("El plan contiene identificadores nuevos repetidos, existentes o inválidos. No importé nada; generá un informe nuevo.");
