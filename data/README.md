@@ -8,6 +8,7 @@ No se incluyen productos de ejemplo. Mientras la colección esté vacía, la pá
 
 - Todos los datos descriptivos, el precio, la disponibilidad y las fotografías son opcionales. El formulario omite la información vacía; no muestra campos sin datos ni un precio de $0.
 - El identificador técnico se genera automáticamente y se usa como nombre del archivo.
+- `genre` es texto libre y opcional (por ejemplo, Soul, Funk, Country, Folk, Pop, Blues o Rock Progresivo). `collection` es un campo separado y opcional para ubicar el disco en una de las cinco colecciones destacadas de la portada. Dejar colección vacía no limita la venta ni el filtro general.
 - Los vinilos nuevos quedan ocultos. Activá «Visible en el catálogo» para publicarlos; si ese dato falta en un registro, el generador también lo trata como oculto.
 - La foto principal y la galería son opcionales. Si una publicación visible no tiene foto, el catálogo muestra una ilustración local de un vinilo.
 - Hasta confirmar la carga múltiple en la versión alojada de Pages CMS, subí las fotos de a una y luego agregalas/ordenalas en el campo de galería. Hay un reporte abierto reciente de errores al subir varias imágenes juntas: https://github.com/hunvreus/pagescms/issues/448.
@@ -19,7 +20,7 @@ No se incluyen productos de ejemplo. Mientras la colección esté vacía, la pá
 
 ## Estructura de un registro
 
-El archivo fuente de cada registro usa el identificador como nombre y solo necesita el identificador técnico y el estado de publicación. Los demás campos pueden faltar. En el catálogo generado, los productos contienen además `photos` (una lista vacía cuando no hay fotografías).
+El archivo fuente de cada registro usa el identificador como nombre y solo necesita el identificador técnico y el estado de publicación. Los demás campos pueden faltar. En el catálogo generado, los productos contienen además `photos` (una lista vacía cuando no hay fotografías). Los registros antiguos que guardaban uno de los cinco códigos de portada en `genre` siguen filtrándose por esa colección; no se aplica esa interpretación a los géneros nuevos.
 
 ## Método principal: enviar el lote al chat de Codex desde iPhone
 
@@ -37,7 +38,7 @@ Si un adjunto no se puede copiar desde el chat, subí las fotos desde OneDrive m
 
 Pegá la nota completa en `VINILOS PARA PUBLICAR/LISTADO DE VINILOS.txt`. Para las fotos ya no hace falta crear una carpeta por álbum: podés dejar todos los archivos directamente en `VINILOS PARA PUBLICAR/FOTOS DE VINILOS/`. Nombralos con el formato `Artista - Álbum__tapa.jpg`, `Artista - Álbum__contratapa.jpg` y `Artista - Álbum__foto-02.jpg`; la parte anterior a `__` debe coincidir con el título del listado. El sufijo `__tapa` o `__portada` identifica la tapa principal. También se conservan las carpetas individuales por álbum, si ya las tenés. La carpeta de preparación está excluida de Git y del sitio publicado; permanece en esta computadora.
 
-El importador reconoce encabezados `Artista - Álbum`, banderas de país conocidas, líneas de edición, año, gradaciones de tapa y disco, extras como `c/ insert`, y precios argentinos como `$ 50.000`. También permite cada publicación en una sola línea usando `•`. Una línea compuesta solo por `-` separa productos; el guion dentro del nombre Artista - Álbum no los separa. Los campos que no aparezcan permanecen vacíos, sin inferencias.
+El importador reconoce encabezados `Artista - Álbum`, banderas de país conocidas, líneas de edición, año, gradaciones de tapa y disco, extras como `c/ insert`, géneros libres y precios argentinos como `$ 50.000`. Una línea opcional `Colección: Rock Nacional` asigna además una colección principal; no se deduce del género. Si no se escribe género, el informe intenta consultar etiquetas de MusicBrainz cuando hay coincidencia exacta artista/álbum. Las etiquetas son colaborativas, no una clasificación editorial: se presentan como sugerencias orientativas con enlace y cantidad de votos, nunca se guardan solas; agregá la opción elegida como `Género: ...` y generá un informe nuevo. Si no hay conexión o coincidencia confiable, el género queda vacío. Para omitir la consulta online: `--review-list --skip-genre-lookup`. También permite cada publicación en una sola línea usando `•`. Una línea compuesta solo por `-` separa productos; el guion dentro del nombre Artista - Álbum no los separa. Los campos que no aparezcan permanecen vacíos, sin inferencias.
 
 En carpetas individuales, usá `tapa.jpg` o `portada.jpg` para indicar la portada; las otras fotos pasan a la galería. Para dos copias del mismo álbum, podés usar nombres planos como `Artista - Álbum__copia-1__tapa.jpg` y `Artista - Álbum__copia-2__tapa.jpg`, y dentro de cada bloque indicar `Carpeta de fotos: Artista - Álbum__copia-1` o `...__copia-2`. También funcionan carpetas separadas con esos nombres. Si hay más de una posible portada, falta una carpeta indicada o una asociación es ambigua, el informe lo marca y no asigna fotos a ciegas. También compara los títulos con los registros de Pages CMS y señala coincidencias posibles.
 
@@ -73,7 +74,7 @@ lote/
     01-foto.webp
 ```
 
-En `datos.txt`, escribí un campo por línea con formato `campo: valor` o `campo = valor`. Se aceptan nombres en español o inglés: artista/artist, álbum/album, género/genre, país/country, año/year, edición/edition, estado_tapa/coverCondition, estado_disco/vinylCondition, extras, otros_extras/otherExtras, observaciones/notes, precio/priceARS, disponibilidad/availability y publicado/published. Se ignoran campos vacíos y líneas que empiezan con `#`. También se puede usar un objeto JSON dentro de `datos.txt`.
+En `datos.txt`, escribí un campo por línea con formato `campo: valor` o `campo = valor`. Se aceptan nombres en español o inglés: artista/artist, álbum/album, género/genre (texto libre), colección/collection (una de las cinco colecciones principales), país/country, año/year, edición/edition, estado_tapa/coverCondition, estado_disco/vinylCondition, extras, otros_extras/otherExtras, observaciones/notes, precio/priceARS, disponibilidad/availability y publicado/published. Se ignoran campos vacíos y líneas que empiezan con `#`. También se puede usar un objeto JSON dentro de `datos.txt`.
 
 Solo fotos: el importador genera el registro sin datos descriptivos. Solo `datos.txt`: también genera el registro sin fotos, que tendrá el reemplazo visual en la web si luego se publica. Los identificadores UUID se generan automáticamente; las fotos se copian a `assets/catalogo/<id>/`. La primera foto por orden alfabético se toma como portada y las restantes se guardan en la galería.
 

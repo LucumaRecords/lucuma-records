@@ -1,4 +1,4 @@
-import { AVAILABILITY, EXTRAS, GENRES, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatPrice, productTitle, validateCatalog } from "./catalogo-core.mjs";
+import { AVAILABILITY, COLLECTIONS, EXTRAS, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatPrice, listCatalogGenres, matchesCollection, productTitle, validateCatalog } from "./catalogo-core.mjs";
 
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.getElementById("main-nav");
@@ -16,6 +16,7 @@ const resetButton = document.getElementById("reset-filters");
 const dialog = document.getElementById("product-dialog");
 const dialogContent = document.getElementById("dialog-content");
 let products = [];
+let pendingFilter = "todos";
 
 function closeMenu() {
   if (!menuToggle || !mainNav) return;
@@ -38,7 +39,49 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 const params = new URLSearchParams(window.location.search);
 const requestedGenre = params.get("genero");
-genreFilter.value = requestedGenre && Object.hasOwn(GENRES, requestedGenre) ? requestedGenre : "todos";
+const requestedCollection = params.get("coleccion") || (requestedGenre && Object.hasOwn(COLLECTIONS, requestedGenre) ? requestedGenre : "");
+if (requestedCollection && Object.hasOwn(COLLECTIONS, requestedCollection)) pendingFilter = `collection:${requestedCollection}`;
+else if (requestedGenre) pendingFilter = `genre:${requestedGenre}`;
+
+function configureGenreFilter() {
+  const options = [makeElement("option", "", "Todos los géneros")];
+  options[0].value = "todos";
+  const collections = Object.keys(COLLECTIONS).filter(collection => products.some(product => matchesCollection(product, collection)));
+  if (collections.length) {
+    const group = document.createElement("optgroup");
+    group.label = "Colecciones principales";
+    for (const collection of collections) {
+      const option = document.createElement("option");
+      option.value = `collection:${collection}`;
+      option.textContent = COLLECTIONS[collection];
+      group.append(option);
+    }
+    options.push(group);
+  }
+  const genres = listCatalogGenres(products);
+  if (genres.length) {
+    const group = document.createElement("optgroup");
+    group.label = "Géneros disponibles";
+    for (const genre of genres) {
+      const option = document.createElement("option");
+      option.value = `genre:${genre.value}`;
+      option.textContent = genre.label;
+      group.append(option);
+    }
+    options.push(group);
+  }
+  genreFilter.replaceChildren(...options);
+  genreFilter.value = [...genreFilter.options].some(option => option.value === pendingFilter) ? pendingFilter : "todos";
+}
+
+function syncFilterUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("genero");
+  url.searchParams.delete("coleccion");
+  if (genreFilter.value.startsWith("collection:")) url.searchParams.set("coleccion", genreFilter.value.slice("collection:".length));
+  else if (genreFilter.value.startsWith("genre:")) url.searchParams.set("genero", genreFilter.value.slice("genre:".length));
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+}
 
 function makeElement(tag, className, text) {
   const node = document.createElement(tag);
@@ -151,9 +194,13 @@ function showEmptyState({ eyebrow, title, message, link = false }) {
 function render() {
   const hasFilters = Boolean(searchInput.value.trim()) || genreFilter.value !== "todos";
   resetButton.hidden = !hasFilters;
+  const selected = genreFilter.value;
+  const collection = selected.startsWith("collection:") ? selected.slice("collection:".length) : "todos";
+  const genre = selected.startsWith("genre:") ? selected.slice("genre:".length) : "todos";
   const visibleProducts = filterAndSortProducts(products, {
     query: searchInput.value,
-    genre: genreFilter.value,
+    genre,
+    collection,
     sort: sortSelect.value
   });
 
@@ -209,7 +256,11 @@ function openProductDetails(product) {
   }
 
   const copy = makeElement("div", "detail-copy");
-  if (product.genre) copy.append(makeElement("span", "eyebrow", GENRES[product.genre]));
+  if (product.genre) {
+    const legacyCollectionLabel = Object.hasOwn(COLLECTIONS, product.genre) ? COLLECTIONS[product.genre] : product.genre;
+    copy.append(makeElement("span", "eyebrow", legacyCollectionLabel));
+  }
+  if (product.collection) copy.append(makeElement("p", "detail-copy__meta", `Colección: ${COLLECTIONS[product.collection]}`));
   const headingText = product.artist || product.album || "VINILO";
   const heading = makeElement("h2", "", headingText);
   heading.id = "dialog-title";
@@ -276,6 +327,7 @@ document.querySelector(".dialog-close").addEventListener("click", () => dialog.c
 dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); });
 searchInput.addEventListener("input", render);
 genreFilter.addEventListener("change", render);
+genreFilter.addEventListener("change", syncFilterUrl);
 sortSelect.addEventListener("change", render);
 resetButton.addEventListener("click", () => {
   searchInput.value = "";
@@ -290,6 +342,7 @@ async function loadCatalog() {
     const response = await fetch("data/catalogo.json", { cache: "no-cache" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     products = validateCatalog(await response.json()).filter(product => product.published === true);
+    configureGenreFilter();
     render();
   } catch (error) {
     console.error("No se pudo cargar el catálogo:", error);

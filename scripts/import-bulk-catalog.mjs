@@ -10,6 +10,7 @@ const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");
 const reviewList = args.includes("--review-list");
 const importReviewedList = args.includes("--import-reviewed-list");
+const skipGenreLookup = args.includes("--skip-genre-lookup");
 const help = args.includes("--help") || args.includes("-h");
 const inputArgument = args.find(value => !value.startsWith("--"));
 const reservedIds = new Set();
@@ -17,6 +18,7 @@ const reservedIds = new Set();
 if (help || (!inputArgument && !reviewList && !importReviewedList)) {
   console.log(`Uso:
   node scripts/import-bulk-catalog.mjs "VINILOS PARA PUBLICAR" --review-list
+  node scripts/import-bulk-catalog.mjs "VINILOS PARA PUBLICAR" --review-list --skip-genre-lookup
   node scripts/import-bulk-catalog.mjs "VINILOS PARA PUBLICAR" --import-reviewed-list
   node scripts/import-bulk-catalog.mjs <carpeta-de-un-vinilo-o-lote> [--dry-run]
 
@@ -34,7 +36,7 @@ if (!rootInfo?.isDirectory()) throw new Error(`No se encontró una carpeta de en
 
 if (reviewList || importReviewedList) {
   const listWorkflow = await import("./import-vinyl-list.mjs");
-  if (reviewList) await listWorkflow.createListReview({ repositoryRoot, preparationRoot: inputRoot });
+  if (reviewList) await listWorkflow.createListReview({ repositoryRoot, preparationRoot: inputRoot, genreLookup: !skipGenreLookup });
   else await listWorkflow.importReviewedList({ repositoryRoot, preparationRoot: inputRoot });
   process.exit(0);
 }
@@ -59,7 +61,7 @@ function normalizeKey(value) {
 const aliases = new Map([
   ["artista", "artist"], ["artist", "artist"],
   ["album", "album"],
-  ["genero", "genre"], ["genre", "genre"],
+  ["genero", "genre"], ["genre", "genre"], ["coleccion", "collection"], ["coleccionprincipal", "collection"], ["collection", "collection"],
   ["pais", "country"], ["country", "country"],
   ["ano", "year"], ["year", "year"],
   ["edicion", "editionType"], ["tipodeedicion", "editionType"], ["edition", "editionType"], ["editiontype", "editionType"],
@@ -110,6 +112,10 @@ function optionalString(value) {
 }
 
 function parseGenre(value) {
+  return optionalString(value);
+}
+
+function parseCollection(value) {
   const raw = optionalString(value);
   if (!raw) return undefined;
   const key = normalizedToken(raw).replace(/[\s/]+/gu, "-").replace(/-{2,}/gu, "-");
@@ -206,6 +212,11 @@ async function prepareProduct(folder) {
 
   const genre = parseGenre(fields.genre);
   if (genre) product.genre = genre;
+  const collection = parseCollection(fields.collection);
+  if (optionalString(fields.collection) && !collection) {
+    throw new Error(`La colección «${fields.collection}» no coincide con ninguna de las cinco colecciones principales.`);
+  }
+  if (collection) product.collection = collection;
   const year = parseYear(fields.year);
   if (year) product.year = year;
   const price = parsePrice(fields.priceARS);

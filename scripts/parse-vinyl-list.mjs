@@ -57,7 +57,7 @@ function countryFromText(value) {
 function titleParts(line) {
   const text = clean(line).replace(/^[-–—•·\s]+/u, "");
   const separator = text.match(/\s+-\s+/u);
-  if (!separator || /^(?:edici[oó]n|tapa|discos?|vinilos?|precio|pa[ií]s|a[ñn]o|g[eé]nero|extras?|observaciones|notas|carpeta\s+(?:de\s+)?fotos|fotos\s+de\s+carpeta|(?:importar\s+como\s+)?(?:ejemplar\s+independiente|nuevo\s+ejemplar|otro\s+ejemplar|ejemplar\s+distinto)|ya\s+est[aá]\s+cargad[oa]|ya\s+existe\s+en\s+cat[aá]logo|vincular\s+existente)\b/i.test(text)) return null;
+  if (!separator || /^(?:edici[oó]n|tapa|discos?|vinilos?|precio|pa[ií]s|a[ñn]o|g[eé]nero|colecci[oó]n|extras?|observaciones|notas|carpeta\s+(?:de\s+)?fotos|fotos\s+de\s+carpeta|(?:importar\s+como\s+)?(?:ejemplar\s+independiente|nuevo\s+ejemplar|otro\s+ejemplar|ejemplar\s+distinto)|ya\s+est[aá]\s+cargad[oa]|ya\s+existe\s+en\s+cat[aá]logo|vincular\s+existente)\b/i.test(text)) return null;
   const index = separator.index;
   const artist = clean(text.slice(0, index));
   let album = clean(text.slice(index + separator[0].length));
@@ -153,14 +153,20 @@ function parseExtras(line) {
 function parseGenreLine(line) {
   const match = line.match(/^(?:g[eé]nero)\s*[:\-]?\s*(.+)$/i);
   if (!match) return null;
+  return { value: clean(match[1]), raw: clean(match[1]) };
+}
+
+function parseCollectionLine(line) {
+  const match = line.match(/^colecci[oó]n(?:\s+principal)?\s*[:\-]?\s*(.+)$/i);
+  if (!match) return null;
   const key = normalized(match[1]).replace(/[\s/]+/gu, "-").replace(/-{2,}/gu, "-");
-  const genres = new Map([
-    ["rock nacional", "rock-nacional"], ["rock-nacional", "rock-nacional"],
-    ["rock internacional", "rock-internacional"], ["rock-internacional", "rock-internacional"],
-    ["hard rock metal", "hard-rock-metal"], ["hard-rock-metal", "hard-rock-metal"], ["metal", "hard-rock-metal"],
-    ["jazz", "jazz"], ["brasil", "brasil"]
+  const collections = new Map([
+    ["rock-nacional", "rock-nacional"],
+    ["rock-internacional", "rock-internacional"],
+    ["hard-rock-metal", "hard-rock-metal"], ["hard-rock", "hard-rock-metal"], ["metal", "hard-rock-metal"],
+    ["jazz", "jazz"], ["brasil", "brasil"], ["brazil", "brasil"]
   ]);
-  return { value: genres.get(key), raw: clean(match[1]) };
+  return { value: collections.get(key), raw: clean(match[1]) };
 }
 
 function parseEdition(line) {
@@ -254,8 +260,14 @@ function parseRecord(lines, index) {
 
     const genreLine = parseGenreLine(line);
     if (genreLine) {
-      if (genreLine.value) record.genre = genreLine.value;
-      else issues.push(`No se reconoce el género «${genreLine.raw}».`);
+      record.genre = genreLine.value;
+      continue;
+    }
+
+    const collectionLine = parseCollectionLine(line);
+    if (collectionLine) {
+      if (collectionLine.value) record.collection = collectionLine.value;
+      else issues.push(`No se reconoce la colección principal «${collectionLine.raw}». Elegí una de las cinco colecciones de portada o dejala vacía.`);
       continue;
     }
 

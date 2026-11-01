@@ -1,10 +1,12 @@
-export const GENRES = Object.freeze({
+export const COLLECTIONS = Object.freeze({
   "rock-nacional": "Rock Nacional",
   "rock-internacional": "Rock Internacional",
   "hard-rock-metal": "Hard Rock / Metal",
   jazz: "Jazz",
   brasil: "Brasil"
 });
+// Backward-compatible export: older code and the five homepage links use these IDs.
+export const GENRES = COLLECTIONS;
 
 export const AVAILABILITY = Object.freeze({
   available: "Disponible",
@@ -33,7 +35,7 @@ export const WHATSAPP_NUMBER = "5491165437000";
 const collator = new Intl.Collator("es", { sensitivity: "base", numeric: true });
 const slugIdPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const uuidV4Pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const optionalTextFields = ["artist", "album", "country", "editionType", "coverCondition", "vinylCondition", "otherExtras", "notes"];
+const optionalTextFields = ["artist", "album", "genre", "collection", "country", "editionType", "coverCondition", "vinylCondition", "otherExtras", "notes"];
 
 function isBlank(value) {
   return value === undefined || value === null || (typeof value === "string" && (!value.trim() || /^[.\-–—_\s]+$/u.test(value)));
@@ -72,11 +74,11 @@ export function normalizeCatalogProduct(source) {
 
   for (const field of optionalTextFields) normalizeTextField(source, product, field);
 
-  if (!isBlank(source.genre)) {
-    if (typeof source.genre !== "string" || !Object.hasOwn(GENRES, source.genre.trim())) {
-      throw new Error("El género debe ser uno de los géneros configurados.");
+  if (!isBlank(source.collection)) {
+    if (typeof source.collection !== "string" || !Object.hasOwn(COLLECTIONS, source.collection.trim())) {
+      throw new Error("La colección debe ser una de las cinco colecciones principales.");
     }
-    product.genre = source.genre.trim();
+    product.collection = source.collection.trim();
   }
 
   if (!isBlank(source.year)) {
@@ -137,16 +139,22 @@ function searchable(value) {
   return String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("es");
 }
 
-export function filterAndSortProducts(products, { query = "", genre = "todos", sort = "artist-asc" } = {}) {
+function normalizedGenre(value) {
+  return searchable(value).replace(/[-_]+/gu, " ").replace(/\s+/gu, " ").trim();
+}
+
+export function filterAndSortProducts(products, { query = "", genre = "todos", collection = "todos", sort = "artist-asc" } = {}) {
   const normalizedQuery = searchable(query.trim());
   const filtered = products.filter(product => {
-    const matchesGenre = genre === "todos" || product.genre === genre;
+    const matchesGenre = (genre === "todos" || normalizedGenre(product.genre) === normalizedGenre(genre))
+      && (collection === "todos" || matchesCollection(product, collection));
     const haystack = searchable([
       product.artist,
       product.album,
       product.country,
       product.year,
-      GENRES[product.genre]
+      product.genre,
+      COLLECTIONS[product.collection] || COLLECTIONS[product.genre]
     ].filter(value => value !== undefined && value !== null && value !== "").join(" "));
     return matchesGenre && (!normalizedQuery || haystack.includes(normalizedQuery));
   });
@@ -163,6 +171,23 @@ export function filterAndSortProducts(products, { query = "", genre = "todos", s
     const field = sort === "album-asc" ? "album" : "artist";
     return collator.compare(a[field] ?? "", b[field] ?? "");
   });
+}
+
+export function matchesCollection(product, collection) {
+  if (!Object.hasOwn(COLLECTIONS, collection)) return false;
+  // Legacy records stored the homepage collection slug in `genre`.
+  return product.collection === collection || (!product.collection && product.genre === collection);
+}
+
+export function listCatalogGenres(products) {
+  const values = new Map();
+  for (const product of products) {
+    if (typeof product.genre !== "string" || !product.genre.trim()) continue;
+    const label = (COLLECTIONS[product.genre] || product.genre).trim().replace(/\s+/gu, " ");
+    const key = normalizedGenre(label);
+    if (!values.has(key)) values.set(key, { label, value: product.genre });
+  }
+  return [...values.values()].sort((a, b) => collator.compare(a.label, b.label));
 }
 
 export function formatPrice(priceARS) {

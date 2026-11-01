@@ -4,6 +4,7 @@ import { copyFile, mkdir, readFile, readdir, rename, rm, stat, writeFile } from 
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { parseVinylList, normalizeMatchName, similarNameCandidates } from "./parse-vinyl-list.mjs";
+import { suggestGenres } from "./suggest-vinyl-genres.mjs";
 
 const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 const listFilename = "LISTADO DE VINILOS.txt";
@@ -375,6 +376,8 @@ function reviewReport(products, inventory, unusedPhotoFiles, sourcePath) {
       `- **País:** ${product.country || "(vacío)"}`,
       `- **Año:** ${product.year || "(vacío)"}`,
       `- **Género:** ${product.genre || "(vacío)"}`,
+      `- **Colección principal:** ${product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",brasil:"Brasil"}[product.collection] || product.collection) : "(sin asignar)"}`,
+      ...(product.genreSuggestions?.length ? [`- **Sugerencias de género (MusicBrainz, revisar):** ${product.genreSuggestions.map(item => `${item.label} (${item.count} votos; ${item.url})`).join("; ")}`] : product.genreSuggestionStatus ? [`- **Sugerencias de género:** ${product.genreSuggestionStatus}`] : []),
       `- **Estado de tapa:** ${product.coverCondition || "(vacío)"}`,
       `- **Estado del disco:** ${product.vinylCondition || "(vacío)"}`,
       `- **Extras:** ${[...(product.extras ?? []), product.otherExtras].filter(Boolean).join(", ") || "(vacíos)"}`,
@@ -425,7 +428,9 @@ function reviewReportHtml(products, unusedPhotoFiles) {
       : "";
     const rows = [
       ["Artista", product.artist], ["Álbum", product.album], ["País / año", [product.country, product.year].filter(Boolean).join(" · ")],
-      ["Edición", product.editionDescription || product.editionType], ["Género", product.genre],
+      ["Edición", product.editionDescription || product.editionType], ["Género informado", product.genre],
+      ["Colección principal", product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",brasil:"Brasil"}[product.collection] || product.collection) : undefined],
+      ["Sugerencias de género (revisar)", product.genreSuggestions?.length ? product.genreSuggestions.map(item => `${item.label} (${item.count} votos) — ${item.url}`).join("; ") : product.genreSuggestionStatus],
       ["Estado tapa", product.coverCondition], ["Estado disco", product.vinylCondition],
       ["Extras", [...(product.extras ?? []), product.otherExtras].filter(Boolean).join(", ")],
       ["Observaciones", product.notes], ["Precio", product.priceARS ? `$ ${new Intl.NumberFormat("es-AR").format(product.priceARS)}` : undefined],
@@ -556,7 +561,7 @@ export function allocateProductIds(products, existingRecords) {
 
 function sourceRecord(product, id) {
   const record = { id, published: product.published === true };
-  for (const field of ["artist", "album", "genre", "country", "year", "editionType", "coverCondition", "vinylCondition", "extras", "otherExtras", "notes", "priceARS", "availability"]) {
+  for (const field of ["artist", "album", "genre", "collection", "country", "year", "editionType", "coverCondition", "vinylCondition", "extras", "otherExtras", "notes", "priceARS", "availability"]) {
     if (product[field] !== undefined && product[field] !== null && product[field] !== "") record[field] = product[field];
   }
   return record;
@@ -583,13 +588,21 @@ function withUniquePhotoNames(names) {
   });
 }
 
-export async function createListReview({ repositoryRoot, preparationRoot, gitRunner = execFileSync }) {
+export async function createListReview({ repositoryRoot, preparationRoot, gitRunner = execFileSync, genreLookup = true, fetchImpl = globalThis.fetch }) {
   const current = await snapshot(repositoryRoot, preparationRoot, gitRunner);
   const raw = await readFile(current.listPath, "utf8");
   const existing = await catalogRecords(repositoryRoot);
   const registry = await readRegistry(repositoryRoot);
   const photoMap = await readPhotoMap(preparationRoot);
   const parsed = parseVinylList(raw);
+  if (genreLookup) {
+    for (const record of parsed) {
+      if (record.genre || !record.artist || !record.album) continue;
+      const result = await suggestGenres(record, fetchImpl);
+      record.genreSuggestions = result.suggestions ?? [];
+      record.genreSuggestionStatus = result.status;
+    }
+  }
   if (photoMap.assignments.some(assignment => assignment.sourceIndex > parsed.length)) {
     throw new Error("ASOCIACION DE FOTOS.json refiere a un número de producto que no existe en el TXT. Actualizá la asociación y volvé a revisar.");
   }

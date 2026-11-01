@@ -21,10 +21,10 @@ content:
       rename: false
       delete: true
     view:
-      fields: [artist, genre, availability, published]
+      fields: [artist, genre, collection, availability, published]
       primary: album
       sort: [artist, album]
-      search: [artist, album, country, genre]
+      search: [artist, album, country, genre, collection]
       default:
         sort: artist
         order: asc
@@ -49,10 +49,16 @@ content:
 
       - name: genre
         label: Género
+        type: string
+        required: false
+        description: Género musical libre, por ejemplo Soul, Funk, Country, Folk o Rock Progresivo.
+
+      - name: collection
+        label: Colección principal (opcional)
         type: select
         required: false
         options:
-          placeholder: Sin especificar
+          placeholder: Sin colección principal
           values:
             - name: rock-nacional
               label: Rock Nacional
