@@ -1,6 +1,5 @@
 {
   "id": "93dfb9b7-3290-4703-813b-9da7bd7f9693",
-  "published": false,
   "artist": "Stephen Stills",
   "album": "Right By You",
   "country": "Argentina",
@@ -10,5 +9,6 @@
     "insert"
   ],
   "priceARS": 10000,
+  "published": true,
   "cover": "assets/catalogo/93dfb9b7-3290-4703-813b-9da7bd7f9693/1-foto-1.jpg"
 }
