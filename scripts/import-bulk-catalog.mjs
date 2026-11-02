@@ -11,6 +11,7 @@ const dryRun = args.includes("--dry-run");
 const reviewList = args.includes("--review-list");
 const importReviewedList = args.includes("--import-reviewed-list");
 const skipGenreLookup = args.includes("--skip-genre-lookup");
+const approvedAvailable = args.includes("--approved-available");
 const help = args.includes("--help") || args.includes("-h");
 const inputArgument = args.find(value => !value.startsWith("--"));
 const reservedIds = new Set();
@@ -20,6 +21,7 @@ if (help || (!inputArgument && !reviewList && !importReviewedList)) {
   node scripts/import-bulk-catalog.mjs "VINILOS PARA PUBLICAR" --review-list
   node scripts/import-bulk-catalog.mjs "VINILOS PARA PUBLICAR" --review-list --skip-genre-lookup
   node scripts/import-bulk-catalog.mjs "VINILOS PARA PUBLICAR" --import-reviewed-list
+  node scripts/import-bulk-catalog.mjs "VINILOS PARA PUBLICAR" --import-reviewed-list --approved-available
   node scripts/import-bulk-catalog.mjs <carpeta-de-un-vinilo-o-lote> [--dry-run]
 
 El modo principal revisa un solo LISTADO DE VINILOS.txt y las carpetas de
@@ -29,6 +31,7 @@ El modo secundario conserva la importación por carpetas individuales y datos.tx
 }
 
 if (reviewList && importReviewedList) throw new Error("Elegí solo --review-list o --import-reviewed-list.");
+if (approvedAvailable && !importReviewedList) throw new Error("--approved-available solo se usa al aplicar una tanda que ya aprobaste como disponible para la venta.");
 
 const inputRoot = path.resolve(inputArgument || path.join(repositoryRoot, "VINILOS PARA PUBLICAR"));
 const rootInfo = await stat(inputRoot).catch(() => null);
@@ -37,7 +40,7 @@ if (!rootInfo?.isDirectory()) throw new Error(`No se encontró una carpeta de en
 if (reviewList || importReviewedList) {
   const listWorkflow = await import("./import-vinyl-list.mjs");
   if (reviewList) await listWorkflow.createListReview({ repositoryRoot, preparationRoot: inputRoot, genreLookup: !skipGenreLookup });
-  else await listWorkflow.importReviewedList({ repositoryRoot, preparationRoot: inputRoot });
+  else await listWorkflow.importReviewedList({ repositoryRoot, preparationRoot: inputRoot, availabilityDefault: approvedAvailable ? "available" : undefined });
   process.exit(0);
 }
 

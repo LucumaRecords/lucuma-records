@@ -198,12 +198,20 @@ function findDuplicates(product, candidates) {
     if (!otherAlbum) continue;
 
     if (album === otherAlbum) {
+      // A declared difference in pressing country or edition keeps otherwise
+      // identical album titles as separate products. If details are missing,
+      // retain the match for human review.
+      const countryDiffers = product.country && candidate.country
+        && normalizeMatchName(product.country) !== normalizeMatchName(candidate.country);
+      const editionDiffers = product.editionType && candidate.editionType
+        && normalizeMatchName(product.editionType) !== normalizeMatchName(candidate.editionType);
+      if (countryDiffers || editionDiffers) continue;
       const sameArtist = artist && otherArtist && artist === otherArtist;
       matches.push({ kind: sameArtist ? "exacto" : "posible", artist: candidate.artist || "(sin artista)", album: candidate.album, productId: candidate.id, source: candidate._sourceFile || `vinilo ${candidate.sourceIndex}` });
       continue;
     }
 
-    if ((artist && otherArtist && artist === otherArtist && tokenSimilarity(product.album, candidate.album) >= 0.75)
+    if ((artist && otherArtist && artist === otherArtist && tokenSimilarity(product.album, candidate.album) >= 0.65)
       || tokenSimilarity(`${product.artist ?? ""} ${product.album ?? ""}`, `${candidate.artist ?? ""} ${candidate.album ?? ""}`) >= 0.85) {
       matches.push({ kind: "posible", artist: candidate.artist || "(sin artista)", album: candidate.album, productId: candidate.id, source: candidate._sourceFile || `vinilo ${candidate.sourceIndex}` });
     }
@@ -514,17 +522,25 @@ export function materializeParsed(parsed, existingRecords, photoInventoryEntries
   return withPhotos.map(product => {
     const history = registryByKey.get(product.sourceKey);
     const historyRecord = history ? existingById.get(history.productId) : undefined;
-    const duplicates = historyRecord ? [] : [
+    const duplicates = [
       ...findDuplicates(product, existingRecords),
       ...findDuplicates(product, withPhotos.filter(candidate => candidate !== product))
-    ];
+    ].filter((match, index, all) => all.findIndex(item => item.productId === match.productId && item.kind === match.kind) === index);
     const issues = [...product.issues, ...product.photo.issues];
     let operation;
     let linkedProductId;
 
     if (history) {
       if (historyRecord) {
-        operation = "already_imported";
+        // The persistent key is supporting evidence; always consult current
+        // records too. A conflicting title match is reviewed instead of
+        // silently hidden by stale or incomplete import history.
+        if (duplicates.some(match => match.productId !== history.productId)) {
+          operation = "pending_duplicate";
+          issues.push("El historial coincide, pero los registros actuales señalan otra posible coincidencia. Revisá el lote antes de omitirlo.");
+        } else {
+          operation = "already_imported";
+        }
         linkedProductId = history.productId;
       } else {
         operation = "blocked";
@@ -673,7 +689,10 @@ async function assertSynced(repositoryRoot, gitRunner = execFileSync) {
   return head;
 }
 
-export async function importReviewedList({ repositoryRoot, preparationRoot, gitRunner = execFileSync }) {
+export async function importReviewedList({ repositoryRoot, preparationRoot, gitRunner = execFileSync, availabilityDefault }) {
+  if (availabilityDefault !== undefined && availabilityDefault !== "available") {
+    throw new Error("La disponibilidad predeterminada solo puede aplicarse como available tras la aprobación explícita de la tanda.");
+  }
   const planPath = path.join(preparationRoot, planFilename);
   const planInfo = await stat(planPath).catch(() => null);
   if (!planInfo?.isFile()) throw new Error(`No existe ${planFilename}. Primero generá el informe con --review-list.`);
@@ -715,6 +734,7 @@ export async function importReviewedList({ repositoryRoot, preparationRoot, gitR
       ...product,
       genre: product.genre || reviewed.genre,
       collection: product.collection || reviewed.collection,
+      availability: product.availability || availabilityDefault,
       classificationPending: reviewed.classificationPending === true,
       id: reviewed.id
     };

@@ -25,7 +25,9 @@ El archivo fuente de cada registro usa el identificador como nombre y solo neces
 
 ## Método principal: enviar el lote al chat de Codex desde iPhone
 
-Podés enviar el texto pegado desde Notas y adjuntar fotos en varios mensajes. Cuando termines, escribí `TERMINÉ DE ENVIAR`. Codex revisará los adjuntos de esta conversación y copiará al área de preparación únicamente los archivos que pueda abrir realmente. No hace falta crear carpetas por disco ni renombrar fotos. Si el chat solo muestra una imagen pero no ofrece un archivo accesible para copiar, no se contará como recibida: usá la alternativa de OneDrive que sigue.
+En un solo mensaje, adjuntá todas las fotos y pegá el listado completo copiado desde Notas. Al enviar ese mensaje, Codex lo considera una tanda completa y prepara directamente el informe visual; no hace falta escribir una frase adicional. Si avisás que vas a mandar más material en otros mensajes, Codex espera tu confirmación antes de cerrar la tanda. No hace falta crear carpetas por disco ni renombrar fotos.
+
+Codex revisa los adjuntos de la conversación y copia al área de preparación únicamente las imágenes que pueda abrir realmente. Las asocia con el listado por reconocimiento visual y coherencia de los títulos; si una asociación no es segura, la deja pendiente para revisión. Si el chat muestra una imagen pero no ofrece un archivo accesible para copiar, no se contará como recibida: usá la alternativa de OneDrive que sigue.
 
 Las imágenes sin nombres descriptivos se revisarán visualmente y Codex generará `VINILOS PARA PUBLICAR/ASOCIACION DE FOTOS.json`, asignando cada archivo a un bloque del listado y marcándolo como tapa o foto adicional. Si una edición o una portada no se reconoce con claridad, quedará sin asignar en el informe para que la revises; no se elegirá por intuición. La asociación queda ligada a la tanda revisada y el plan se invalida si cambian las fotos, el mapa, el texto, Pages CMS o el historial.
 
@@ -33,7 +35,7 @@ El informe incluye `INFORME DE REVISION.html`, una vista visual local con la por
 
 ## Alternativa: OneDrive y carga local
 
-Si un adjunto no se puede copiar desde el chat, subí las fotos desde OneDrive móvil a `VINILOS PARA PUBLICAR/FOTOS DE VINILOS/`, todas juntas. No crees subcarpetas ni cambies sus nombres: Codex puede armar el mismo mapa visual desde esos archivos después de que escribas `TERMINÉ DE ENVIAR` en el chat. También podés usar las reglas de nombres exactos o carpetas individuales que se describen abajo.
+Si un adjunto no se puede copiar desde el chat, subí las fotos desde OneDrive móvil a `VINILOS PARA PUBLICAR/FOTOS DE VINILOS/`, todas juntas y con sus nombres actuales. No crees subcarpetas ni cambies sus nombres; luego avisale a Codex que ya están disponibles. También podés usar las reglas de nombres exactos o carpetas individuales que se describen abajo.
 
 ## Método de respaldo: listado TXT y fotografías locales
 
@@ -49,7 +51,7 @@ Generar el informe no crea productos ni copia fotos al catálogo:
 node scripts/import-bulk-catalog.mjs "VINILOS PARA PUBLICAR" --review-list
 ```
 
-El informe y el plan quedan dentro de la carpeta de preparación. Revisá cada ficha, los campos faltantes, las fotos, duplicados y visibilidad prevista. Los productos quedan ocultos salvo que la nota diga expresamente `Publicado: sí` (o `Publicar: sí`). El historial persistente está en `data/import-history/listado-notas.json`: guarda una huella del bloque de notas y el ID del producto, no depende de sus datos editables. Así, los cambios posteriores de precio, fotos o disponibilidad en Pages CMS no hacen que el disco vuelva a aparecer como nuevo. El historial se conserva en Git junto con las publicaciones, pero el workflow lo excluye del sitio público.
+El informe y el plan quedan dentro de la carpeta de preparación. Revisá cada ficha, los campos faltantes, las fotos, duplicados, la clasificación y la visibilidad prevista. Preparar el informe no crea productos ni publica cambios. Después de tu aprobación se importan únicamente los discos autorizados. Si aprobás la tanda para la venta, la disponibilidad predeterminada será `available`, salvo que el texto indique `reserved` o `sold`; sin esa aprobación, la disponibilidad vacía permanece vacía. El historial persistente está en `data/import-history/listado-notas.json`: guarda una huella del bloque de notas y el ID del producto, no depende de sus datos editables. Así, los cambios posteriores de precio, fotos o disponibilidad en Pages CMS no hacen que el disco vuelva a aparecer como nuevo. El historial se conserva en Git junto con las publicaciones, pero el workflow lo excluye del sitio público.
 
 El comparador no descarta dos copias por compartir artista y álbum. Las marca para decisión. Dentro del bloque correspondiente, agregá `Ejemplar independiente: sí` para importar deliberadamente otro ejemplar. Si la nota corresponde a un disco que ya cargaste manualmente desde Pages CMS, agregá `Ya está cargado: sí`; solo se vincula cuando hay una única coincidencia exacta. El importador nunca sobrescribe el registro CMS.
 
