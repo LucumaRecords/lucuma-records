@@ -2,16 +2,19 @@
   "id": "93dfb9b7-3290-4703-813b-9da7bd7f9693",
   "artist": "Stephen Stills",
   "album": "Right By You",
+  "genre": "Folk Rock / Soft Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "Argentina",
+  "year": 1984,
+  "editionType": "Edición nacional 1984",
   "coverCondition": "VG++/EX-",
   "vinylCondition": "EX-",
   "extras": [
     "insert"
   ],
-  "priceARS": 10000,
+  "priceARS": 15000,
+  "availability": "available",
   "published": true,
-  "cover": "assets/catalogo/93dfb9b7-3290-4703-813b-9da7bd7f9693/1-foto-1.jpg",
-  "genre": "Pop/Rock / Soft Rock",
-  "collection": "rock-internacional",
-  "availability": "available"
+  "cover": "assets/catalogo/93dfb9b7-3290-4703-813b-9da7bd7f9693/1-foto-1.jpg"
 }
