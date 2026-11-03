@@ -2,11 +2,16 @@
   "id": "ac54b98a-e1bb-43a8-b618-32c5f0896269",
   "artist": "Peter Hammill",
   "album": "A Black Box",
-  "country": "Inglaterra",
-  "editionType": "Edición inglesa de época",
+  "genre": "Rock Progresivo / Art Rock / Experimental",
+  "collection": "rock-internacional",
+  "classificationPending": false,
+  "country": "UK",
+  "year": 1980,
+  "editionType": "Edición inglesa 1980",
   "coverCondition": "VG++",
   "vinylCondition": "EX-",
   "priceARS": 30000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/black-box.jpg"
 }
