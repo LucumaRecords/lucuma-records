@@ -2,12 +2,15 @@
   "id": "703718e0-68fc-4d36-9330-b7b1e73e2408",
   "artist": "Carole King",
   "album": "Really Rosie",
+  "genre": "Folk",
+  "classificationPending": false,
   "country": "USA",
   "year": 1975,
   "editionType": "Edición USA 1975",
   "coverCondition": "VG/VG+ (solamente lomo un poco desgastado)",
   "vinylCondition": "EX",
-  "priceARS": 10000,
+  "priceARS": 15000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/carole.jpg"
 }
