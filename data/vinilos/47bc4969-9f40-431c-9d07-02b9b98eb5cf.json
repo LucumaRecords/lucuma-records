@@ -2,6 +2,9 @@
   "id": "47bc4969-9f40-431c-9d07-02b9b98eb5cf",
   "artist": "Crosby & Nash",
   "album": "The Best Of…",
+  "genre": "Folk Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
   "year": 1978,
   "editionType": "Edición USA 1978",
@@ -9,6 +12,7 @@
   "vinylCondition": "VG++",
   "otherExtras": "c/ insert❗️",
   "priceARS": 20000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/corsby-nash-live-usa.jpg"
 }
