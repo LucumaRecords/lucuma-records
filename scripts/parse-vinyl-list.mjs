@@ -164,10 +164,10 @@ function parseCollectionLine(line) {
     ["rock-nacional", "rock-nacional"],
     ["rock-internacional", "rock-internacional"],
     ["hard-rock-metal", "hard-rock-metal"], ["hard-rock", "hard-rock-metal"], ["metal", "hard-rock-metal"],
-    ["jazz", "jazz"], ["otros", "otros"], ["other", "otros"],
+    ["jazz", "jazz"], ["pop", "pop"], ["otros", "otros"], ["other", "otros"],
     ["brasil", "otros"], ["brazil", "otros"]
   ]);
-  return { value: collections.get(key), raw: clean(match[1]) };
+  return { value: collections.get(key) || "otros", raw: clean(match[1]) };
 }
 
 function parseEdition(line) {
@@ -267,8 +267,7 @@ function parseRecord(lines, index) {
 
     const collectionLine = parseCollectionLine(line);
     if (collectionLine) {
-      if (collectionLine.value) record.collection = collectionLine.value;
-      else issues.push(`No se reconoce la colección principal «${collectionLine.raw}». Elegí una de las cinco colecciones de portada o dejala vacía.`);
+      record.collection = collectionLine.value;
       continue;
     }
 

@@ -8,6 +8,7 @@ const fold = value => String(value ?? "").normalize("NFD").replace(/[\u0300-\u03
 
 function familyFor(label, artist) {
   const tag = fold(label);
+  if (/\b(pop|synth pop|power pop|dance pop|art pop|pop rock)\b/u.test(tag)) return "pop";
   if (/\b(brazilian|brasil|brazil|mpb|samba|bossa nova)\b/u.test(tag)) return "otros";
   if (/\b(jazz|bebop|hard bop|modal jazz|jazz fusion|free jazz)\b/u.test(tag)) return "jazz";
   if (/\b(heavy metal|metal|hard rock|thrash|doom metal|death metal|speed metal|progressive metal)\b/u.test(tag)) return "hard-rock-metal";
@@ -15,7 +16,7 @@ function familyFor(label, artist) {
   if (/\b(rock|folk rock|soft rock|pop rock|progressive rock|art rock|rock and roll)\b/u.test(tag)) {
     return ARGENTINE_ROCK_ARTISTS.has(fold(artist)) ? "rock-nacional" : "rock-internacional";
   }
-  if (/\b(soul|funk|country|folk|pop|blues|reggae|disco|brazilian|brasil|mpb|samba|bossa nova|latin|world music|classical|electronic|new wave|r b|rhythm and blues)\b/u.test(tag)) return "otros";
+  if (/\b(soul|funk|country|folk|blues|reggae|disco|brazilian|brasil|mpb|samba|bossa nova|latin|world music|classical|electronic|new wave|r b|rhythm and blues)\b/u.test(tag)) return "otros";
   return null;
 }
 
@@ -24,7 +25,8 @@ function genreLabelFor(family) {
     "rock-nacional": "Rock",
     "rock-internacional": "Rock",
     "hard-rock-metal": "Hard Rock / Metal",
-    jazz: "Jazz"
+    jazz: "Jazz",
+    pop: "Pop"
   })[family];
 }
 

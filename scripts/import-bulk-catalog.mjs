@@ -125,10 +125,10 @@ function parseCollection(value) {
   const known = new Map([
     ["rock-nacional", "rock-nacional"], ["rock-internacional", "rock-internacional"],
     ["hard-rock-metal", "hard-rock-metal"], ["hard-rock", "hard-rock-metal"], ["metal", "hard-rock-metal"],
-    ["jazz", "jazz"], ["otros", "otros"], ["other", "otros"],
+    ["jazz", "jazz"], ["pop", "pop"], ["otros", "otros"], ["other", "otros"],
     ["brasil", "otros"], ["brazil", "otros"]
   ]);
-  return known.get(key);
+  return known.get(key) || "otros";
 }
 
 function parsePrice(value) {
@@ -217,9 +217,6 @@ async function prepareProduct(folder) {
   const genre = parseGenre(fields.genre);
   if (genre) product.genre = genre;
   const collection = parseCollection(fields.collection);
-  if (optionalString(fields.collection) && !collection) {
-    throw new Error(`La colección «${fields.collection}» no coincide con ninguna de las cinco colecciones principales.`);
-  }
   if (collection) product.collection = collection;
   const year = parseYear(fields.year);
   if (year) product.year = year;

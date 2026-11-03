@@ -77,7 +77,7 @@ lote/
     01-foto.webp
 ```
 
-En `datos.txt`, escribí un campo por línea con formato `campo: valor` o `campo = valor`. Se aceptan nombres en español o inglés: artista/artist, álbum/album, género/genre (texto libre), colección/collection (una de las cinco colecciones principales), país/country, año/year, edición/edition, estado_tapa/coverCondition, estado_disco/vinylCondition, extras, otros_extras/otherExtras, observaciones/notes, precio/priceARS, disponibilidad/availability y publicado/published. Se ignoran campos vacíos y líneas que empiezan con `#`. También se puede usar un objeto JSON dentro de `datos.txt`.
+En `datos.txt`, escribí un campo por línea con formato `campo: valor` o `campo = valor`. Se aceptan nombres en español o inglés: artista/artist, álbum/album, género/genre (texto libre), colección/collection (una de las seis colecciones principales), país/country, año/year, edición/edition, estado_tapa/coverCondition, estado_disco/vinylCondition, extras, otros_extras/otherExtras, observaciones/notes, precio/priceARS, disponibilidad/availability y publicado/published. Se ignoran campos vacíos y líneas que empiezan con `#`. También se puede usar un objeto JSON dentro de `datos.txt`.
 
 Solo fotos: el importador genera el registro sin datos descriptivos. Solo `datos.txt`: también genera el registro sin fotos, que tendrá el reemplazo visual en la web si luego se publica. Los identificadores UUID se generan automáticamente; las fotos se copian a `assets/catalogo/<id>/`. La primera foto por orden alfabético se toma como portada y las restantes se guardan en la galería.
 

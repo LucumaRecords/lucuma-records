@@ -68,6 +68,8 @@ content:
               label: Hard Rock / Metal
             - name: jazz
               label: Jazz
+            - name: pop
+              label: Pop
             - name: otros
               label: Otros
 

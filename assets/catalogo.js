@@ -1,4 +1,4 @@
-import { AVAILABILITY, COLLECTIONS, EXTRAS, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatPrice, listCatalogGenres, matchesCollection, productTitle, validateCatalog } from "./catalogo-core.mjs?v=3";
+import { AVAILABILITY, COLLECTIONS, EXTRAS, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatPrice, listCatalogGenres, matchesCollection, productTitle, validateCatalog } from "./catalogo-core.mjs?v=4";
 
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.getElementById("main-nav");
@@ -53,7 +53,6 @@ function configureCollectionFilter() {
   const options = [makeElement("option", "", "Todas las colecciones")];
   options[0].value = "todos";
   for (const [collection, label] of Object.entries(COLLECTIONS)) {
-    if (!products.some(product => matchesCollection(product, collection))) continue;
     const option = makeElement("option", "", label);
     option.value = collection;
     options.push(option);

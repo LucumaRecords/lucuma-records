@@ -3,6 +3,7 @@ export const COLLECTIONS = Object.freeze({
   "rock-internacional": "Rock Internacional",
   "hard-rock-metal": "Hard Rock / Metal",
   jazz: "Jazz",
+  pop: "Pop",
   otros: "Otros"
 });
 const LEGACY_COLLECTION_ALIASES = Object.freeze({ brasil: "otros" });
@@ -77,11 +78,11 @@ export function normalizeCatalogProduct(source) {
 
   if (!isBlank(source.collection)) {
     if (typeof source.collection !== "string") {
-      throw new Error("La colección debe ser una de las cinco colecciones principales.");
+      throw new Error("La colección debe ser una de las seis colecciones principales.");
     }
     const collection = source.collection.trim();
     const canonical = LEGACY_COLLECTION_ALIASES[collection] || collection;
-    if (!Object.hasOwn(COLLECTIONS, canonical)) throw new Error("La colección debe ser una de las cinco colecciones principales.");
+    if (!Object.hasOwn(COLLECTIONS, canonical)) throw new Error("La colección debe ser una de las seis colecciones principales.");
     product.collection = canonical;
   } else if (product.genre && (Object.hasOwn(COLLECTIONS, product.genre) || Object.hasOwn(LEGACY_COLLECTION_ALIASES, product.genre))) {
     // Older CMS entries stored the homepage collection slug in `genre`.

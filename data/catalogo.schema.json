@@ -20,7 +20,7 @@
         "artist": { "type": "string", "minLength": 1 },
         "album": { "type": "string", "minLength": 1 },
         "genre": { "type": "string", "minLength": 1 },
-        "collection": { "enum": ["rock-nacional", "rock-internacional", "hard-rock-metal", "jazz", "otros", "brasil"] },
+        "collection": { "enum": ["rock-nacional", "rock-internacional", "hard-rock-metal", "jazz", "pop", "otros", "brasil"] },
         "classificationPending": { "type": "boolean", "default": false },
         "country": { "type": "string", "minLength": 1 },
         "year": { "type": "integer", "minimum": 1900, "maximum": 2100 },

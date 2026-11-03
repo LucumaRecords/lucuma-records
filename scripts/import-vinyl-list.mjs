@@ -385,7 +385,7 @@ function reviewReport(products, inventory, unusedPhotoFiles, sourcePath) {
       `- **País:** ${product.country || "(vacío)"}`,
       `- **Año:** ${product.year || "(vacío)"}`,
       `- **Género:** ${product.genre || "(vacío)"}`,
-      `- **Colección principal:** ${product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",otros:"Otros"}[product.collection] || product.collection) : "(sin asignar)"}`,
+      `- **Colección principal:** ${product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",pop:"Pop",otros:"Otros"}[product.collection] || product.collection) : "(sin asignar)"}`,
       `- **Confianza de la clasificación:** ${product.classificationConfidence || "Sin clasificar"}`,
       ...(product.classificationSources?.length ? [`- **Fuentes de clasificación:** ${product.classificationSources.join("; ")}`] : []),
       ...(product.classificationWarning ? [`- **Advertencia de clasificación:** ${product.classificationWarning}`] : []),
@@ -441,7 +441,7 @@ function reviewReportHtml(products, unusedPhotoFiles) {
     const rows = [
       ["Artista", product.artist], ["Álbum", product.album], ["País / año", [product.country, product.year].filter(Boolean).join(" · ")],
       ["Edición", product.editionDescription || product.editionType], ["Género informado", product.genre],
-      ["Colección principal", product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",otros:"Otros"}[product.collection] || product.collection) : undefined],
+      ["Colección principal", product.collection ? ({"rock-nacional":"Rock Nacional","rock-internacional":"Rock Internacional","hard-rock-metal":"Hard Rock / Metal",jazz:"Jazz",pop:"Pop",otros:"Otros"}[product.collection] || product.collection) : undefined],
       ["Confianza de clasificación", product.classificationConfidence],
       ["Fuentes de clasificación", product.classificationSources?.join("; ")],
       ["Estado de clasificación", product.classificationPending ? "PENDIENTE DE REVISIÓN" : "Clasificación confirmada"],
