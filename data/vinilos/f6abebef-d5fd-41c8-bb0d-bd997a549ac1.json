@@ -2,12 +2,16 @@
   "id": "f6abebef-d5fd-41c8-bb0d-bd997a549ac1",
   "artist": "Crosby & Nash",
   "album": "The Best Of…",
+  "genre": "Folk Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "Inglaterra",
   "year": 1978,
   "editionType": "Edición inglesa 1978",
   "coverCondition": "VG+",
   "vinylCondition": "VG/VG+",
   "priceARS": 20000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/crsby-nash-live-uk.jpg"
 }
