@@ -2,14 +2,19 @@
   "id": "7b342396-f1c4-4f28-a07e-8492b159d752",
   "artist": "Jefferson Starship",
   "album": "Red Octopus",
+  "genre": "Soft Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
-  "editionType": "Edición USA de época",
+  "year": 1975,
+  "editionType": "Edición USA 1975",
   "coverCondition": "VG",
   "vinylCondition": "VG+",
   "extras": [
     "insert"
   ],
   "priceARS": 15000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/jeff.jpg"
 }
