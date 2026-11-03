@@ -167,7 +167,7 @@ function parseCollectionLine(line) {
     ["jazz", "jazz"], ["pop", "pop"], ["otros", "otros"], ["other", "otros"],
     ["brasil", "otros"], ["brazil", "otros"]
   ]);
-  return { value: collections.get(key) || "otros", raw: clean(match[1]) };
+  return { value: collections.get(key), raw: clean(match[1]) };
 }
 
 function parseEdition(line) {

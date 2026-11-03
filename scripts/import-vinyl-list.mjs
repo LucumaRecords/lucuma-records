@@ -43,7 +43,7 @@ async function hashDirectory(filename) {
   return { hash: hash.digest("hex"), files };
 }
 
-async function readRegistry(repositoryRoot) {
+export async function readRegistry(repositoryRoot) {
   const filename = path.join(repositoryRoot, registryRelativePath);
   let registry;
   try {
@@ -104,7 +104,7 @@ function isNonIdentityLine(line) {
     || /^(?:importar\s+como\s+)?(?:ejemplar\s+independiente|nuevo\s+ejemplar|otro\s+ejemplar|ejemplar\s+distinto|ya\s+est[aá]\s+cargad[oa]|ya\s+existe\s+en\s+cat[aá]logo|vincular\s+existente)\s*[:=\-]?\s*(?:s[ií]|no|yes|true|false|1|0)\b/iu.test(line);
 }
 
-function sourceKeys(products) {
+export function sourceKeys(products) {
   const counts = new Map();
   return products.map(product => {
     const stableLines = product.sourceBlock
@@ -203,9 +203,10 @@ function findDuplicates(product, candidates) {
       // retain the match for human review.
       const countryDiffers = product.country && candidate.country
         && normalizeMatchName(product.country) !== normalizeMatchName(candidate.country);
+      const yearDiffers = product.year && candidate.year && Number(product.year) !== Number(candidate.year);
       const editionDiffers = product.editionType && candidate.editionType
         && normalizeMatchName(product.editionType) !== normalizeMatchName(candidate.editionType);
-      if (countryDiffers || editionDiffers) continue;
+      if (countryDiffers || yearDiffers || editionDiffers) continue;
       const sameArtist = artist && otherArtist && artist === otherArtist;
       matches.push({ kind: sameArtist ? "exacto" : "posible", artist: candidate.artist || "(sin artista)", album: candidate.album, productId: candidate.id, source: candidate._sourceFile || `vinilo ${candidate.sourceIndex}` });
       continue;
