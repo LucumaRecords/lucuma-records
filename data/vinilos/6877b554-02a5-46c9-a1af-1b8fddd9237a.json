@@ -2,15 +2,19 @@
   "id": "6877b554-02a5-46c9-a1af-1b8fddd9237a",
   "artist": "Swampwater",
   "album": "Swampwater",
+  "genre": "Country Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
   "year": 1971,
   "editionType": "Edición USA 1971",
   "coverCondition": "VG+ (troquelada)",
   "vinylCondition": "EX-/EX",
-  "priceARS": 15000,
-  "published": true,
-  "availability": "available",
   "extras": [
     "gatefold"
-  ]
+  ],
+  "priceARS": 20000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/swamp.jpg"
 }
