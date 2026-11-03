@@ -2,17 +2,20 @@
   "id": "6664c8e9-8197-4224-8771-52bfa3c03522",
   "artist": "Loggins & Messina",
   "album": "Finale",
+  "genre": "Soft Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
   "year": 1977,
-  "editionType": "Edición USA 1977 doble",
+  "editionType": "c/ inserts, nylon y sticker original❗️",
   "coverCondition": "NM",
   "vinylCondition": "VG++/EX-",
   "extras": [
     "gatefold",
     "doble-lp"
   ],
-  "otherExtras": "c/ inserts, nylon y sticker original❗️",
-  "priceARS": 20000,
+  "priceARS": 25000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/loggin.jpg"
 }
