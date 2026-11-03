@@ -2,11 +2,15 @@
   "id": "0e9cc803-04b2-4ef9-a63f-540ed572160b",
   "artist": "Deranged",
   "album": "Struck By A Murderous Siege",
+  "genre": "Death Metal",
+  "collection": "hard-rock-metal",
+  "classificationPending": false,
   "year": 2016,
-  "editionType": "Edición europea 2016",
+  "editionType": "Edición europea",
   "coverCondition": "EX",
   "vinylCondition": "NM",
   "priceARS": 50000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/deranged.jpg"
 }
