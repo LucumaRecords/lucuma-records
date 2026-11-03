@@ -12,5 +12,6 @@
   "vinylCondition": "EX",
   "priceARS": 30000,
   "availability": "available",
-  "published": true
+  "published": true,
+  "cover": "assets/catalogo/jamesbr.jpg"
 }
