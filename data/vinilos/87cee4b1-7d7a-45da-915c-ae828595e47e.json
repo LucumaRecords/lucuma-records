@@ -2,6 +2,9 @@
   "id": "87cee4b1-7d7a-45da-915c-ae828595e47e",
   "artist": "Vinicius de Moraes, Ungaretti & Endrigo",
   "album": "La Vita, Amico, E’ L’ Arte Dell’ Incontro",
+  "genre": "Bossa Nova ",
+  "collection": "otros",
+  "classificationPending": false,
   "country": "Italia",
   "year": 1969,
   "editionType": "Edición italiana 1969",
@@ -11,6 +14,7 @@
     "gatefold"
   ],
   "priceARS": 10000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/vini.jpg"
 }
