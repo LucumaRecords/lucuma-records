@@ -2,6 +2,9 @@
   "id": "82ce997d-fa7d-44d9-a118-3b935f34c9b9",
   "artist": "Graham Nash",
   "album": "Earth & Sky",
+  "genre": "Folk Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
   "year": 1980,
   "editionType": "Edición USA 1980",
@@ -12,6 +15,7 @@
   ],
   "otherExtras": "c/ insert❗️",
   "priceARS": 20000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/graham-earth.jpg"
 }
