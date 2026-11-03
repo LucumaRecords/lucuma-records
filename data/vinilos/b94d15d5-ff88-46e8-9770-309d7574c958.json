@@ -2,12 +2,15 @@
   "id": "b94d15d5-ff88-46e8-9770-309d7574c958",
   "artist": "Pat Travers",
   "album": "Black Pearl",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
   "year": 1982,
   "editionType": "Edición USA 1982",
   "coverCondition": "EX-",
   "vinylCondition": "EX-",
   "priceARS": 25000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/pat.jpg"
 }
