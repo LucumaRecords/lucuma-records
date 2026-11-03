@@ -2,6 +2,9 @@
   "id": "d69e6639-63ae-4500-80ad-c281b7d03fca",
   "artist": "Crosby/Nash",
   "album": "Live",
+  "genre": "Folk Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
   "editionType": "Edición USA de época",
   "coverCondition": "VG++",
@@ -9,7 +12,8 @@
   "extras": [
     "insert"
   ],
-  "priceARS": 15000,
+  "priceARS": 20000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/corsby-live.jpg"
 }
