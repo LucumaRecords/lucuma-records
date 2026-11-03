@@ -2,6 +2,7 @@
   "id": "e6e68073-869f-4b22-b470-48dfb09b6332",
   "artist": "Billy Joel",
   "album": "Songs In The Attic",
+  "classificationPending": false,
   "country": "USA",
   "year": 1981,
   "editionType": "Edición USA 1981 doble",
@@ -12,8 +13,9 @@
     "doble-lp",
     "insert"
   ],
-  "priceARS": 20000,
   "otherExtras": "c/ 2 inserts",
+  "priceARS": 25000,
+  "availability": "available",
   "published": true,
-  "availability": "available"
+  "cover": "assets/catalogo/billy.jpg"
 }
