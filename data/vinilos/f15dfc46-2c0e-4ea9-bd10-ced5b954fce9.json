@@ -1,10 +1,17 @@
 {
   "id": "f15dfc46-2c0e-4ea9-bd10-ced5b954fce9",
-  "published": true,
   "artist": "Slayer",
   "album": "Frantic Minds",
+  "genre": "Trash metal",
+  "collection": "hard-rock-metal",
+  "classificationPending": false,
+  "year": 2023,
+  "coverCondition": "NM",
+  "vinylCondition": "NM",
   "otherExtras": "c/ entrada impresa de gira Show No Mercy (no original)",
-  "notes": "Bootleg 2023 (país desconocido) · NM · En vivo gira Canada · Copia 73 de 100‼️",
-  "priceARS": 55000,
-  "availability": "available"
+  "notes": "En vivo gira Canada · Copia 73 de 100‼️",
+  "priceARS": 50000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/slayer-franctic.jpg"
 }
