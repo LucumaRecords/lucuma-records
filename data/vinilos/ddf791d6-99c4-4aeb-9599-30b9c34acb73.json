@@ -1,13 +1,16 @@
 {
   "id": "ddf791d6-99c4-4aeb-9599-30b9c34acb73",
-  "published": true,
   "artist": "The Who",
   "album": "Who Are You",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
+  "year": 1980,
   "editionType": "Super Disk",
   "coverCondition": "NM",
   "vinylCondition": "NM",
-  "year": 1980,
   "priceARS": 55000,
-  "availability": "available"
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/thehwo.jpg"
 }
