@@ -1,12 +1,16 @@
 {
   "id": "1571b4f4-6816-4ccd-b4c8-a4f187061c5f",
-  "published": true,
   "artist": "Stevie Wonder",
   "album": "Light My Fire",
+  "genre": "Soul",
+  "collection": "otros",
+  "classificationPending": false,
   "country": "UK",
+  "year": 1979,
   "coverCondition": "EX",
   "vinylCondition": "EX",
-  "year": 1979,
   "priceARS": 30000,
-  "availability": "available"
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/steevie-ra.jpg"
 }
