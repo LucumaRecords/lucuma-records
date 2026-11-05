@@ -47,7 +47,7 @@ button, input, select { font: inherit; }
 .catalog-results-bar { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 14px; border-bottom: 1px solid var(--line); }
 .catalog-results-bar p { margin: 0; color: var(--muted); font-size: 12px; }
 .text-button { padding: 8px 0; border: 0; background: transparent; color: var(--ink); cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-decoration: underline; text-underline-offset: 3px; text-transform: uppercase; }
-.product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 22px; padding-top: 24px; }
+.product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 22px; padding-top: 24px; }
 .product-card { min-width: 0; }
 .product-card__open { width: 100%; display: block; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; text-align: left; }
 .product-card__photo { position: relative; overflow: hidden; aspect-ratio: 1 / 1; background: #eeeae2; }
