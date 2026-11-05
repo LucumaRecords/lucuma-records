@@ -1,15 +1,20 @@
 {
   "id": "8de34076-0dbe-4fe4-8bb3-20f06648a961",
-  "published": true,
   "artist": "Sadus",
   "album": "Live in Chile",
+  "genre": "Trash / Death Metal",
+  "collection": "hard-rock-metal",
+  "classificationPending": false,
   "country": "Italia",
-  "coverCondition": "NM gatefold",
-  "vinylCondition": "NM",
   "year": 2017,
+  "coverCondition": "NM",
+  "vinylCondition": "NM",
+  "extras": [
+    "insert",
+    "gatefold"
+  ],
   "priceARS": 50000,
   "availability": "available",
-  "extras": [
-    "insert"
-  ]
+  "published": true,
+  "cover": "assets/catalogo/sadus.jpg"
 }
