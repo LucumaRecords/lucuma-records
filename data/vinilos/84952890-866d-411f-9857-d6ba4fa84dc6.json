@@ -1,13 +1,20 @@
 {
   "id": "84952890-866d-411f-9857-d6ba4fa84dc6",
-  "published": true,
   "artist": "Roy Buchanan",
   "album": "Live Stock",
+  "genre": "Blues",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "Japón",
+  "year": 1975,
   "coverCondition": "VG+",
   "vinylCondition": "EX",
-  "otherExtras": "c/ insert sin obi",
-  "year": 1975,
-  "priceARS": 55000,
-  "availability": "available"
+  "extras": [
+    "insert"
+  ],
+  "notes": "Sin obi",
+  "priceARS": 50000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/roy-buch.jpg"
 }
