@@ -1,12 +1,17 @@
 {
   "id": "822a6318-81b4-49f6-823d-ac7bcfaa00df",
-  "published": true,
   "artist": "Cat Stevens",
   "album": "Numbers",
+  "genre": "Folk Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "Argentina",
-  "editionType": "nacional",
+  "year": 1976,
+  "editionType": "Edición nacional 1976",
   "coverCondition": "VG+",
   "vinylCondition": "VG+",
   "priceARS": 10000,
-  "availability": "available"
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/cat.jpg"
 }
