@@ -1,15 +1,20 @@
 {
   "id": "27baf295-b88f-4903-8faa-21b352d6f1ea",
-  "published": true,
   "artist": "The Jacksons",
   "album": "Victory",
+  "genre": "Pop / Soul / R&B / Funk",
+  "collection": "pop",
+  "classificationPending": false,
   "country": "USA",
-  "coverCondition": "VG/VG+ gatefold",
-  "vinylCondition": "VG++",
   "year": 1984,
+  "coverCondition": "VG/VG+",
+  "vinylCondition": "VG++",
+  "extras": [
+    "insert",
+    "gatefold"
+  ],
   "priceARS": 15000,
   "availability": "available",
-  "extras": [
-    "insert"
-  ]
+  "published": true,
+  "cover": "assets/catalogo/jacksons.jpg"
 }
