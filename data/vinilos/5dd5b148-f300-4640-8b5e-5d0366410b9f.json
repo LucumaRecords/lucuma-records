@@ -1,12 +1,14 @@
 {
   "id": "5dd5b148-f300-4640-8b5e-5d0366410b9f",
-  "published": true,
   "artist": "John Mayall",
   "album": "The Turning Point",
+  "classificationPending": false,
   "country": "USA",
+  "year": 1970,
   "coverCondition": "EX",
   "vinylCondition": "EX",
-  "year": 1970,
   "priceARS": 35000,
-  "availability": "available"
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/john-mayall-turning.jpg"
 }
