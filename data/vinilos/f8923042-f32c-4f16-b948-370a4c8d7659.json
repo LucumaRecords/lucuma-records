@@ -1,16 +1,19 @@
 {
   "id": "f8923042-f32c-4f16-b948-370a4c8d7659",
-  "published": true,
   "artist": "Roger Daltrey",
   "album": "Under a Raging Moon",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
+  "year": 1985,
   "coverCondition": "NM",
   "vinylCondition": "EX",
-  "otherExtras": "c/ nylon y sticker original",
-  "year": 1985,
-  "priceARS": 30000,
-  "availability": "available",
   "extras": [
     "insert"
-  ]
+  ],
+  "otherExtras": "c/ nylon y sticker original",
+  "priceARS": 30000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/roger-daltrey-nylon.jpg"
 }
