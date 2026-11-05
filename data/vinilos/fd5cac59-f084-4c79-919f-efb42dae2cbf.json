@@ -1,13 +1,15 @@
 {
   "id": "fd5cac59-f084-4c79-919f-efb42dae2cbf",
-  "published": true,
   "artist": "Lou Reed",
   "album": "New Sensations",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "Nueva Zelanda",
-  "editionType": "neozelandesa",
+  "year": 1984,
   "coverCondition": "EX",
   "vinylCondition": "NM",
-  "year": 1984,
   "priceARS": 55000,
-  "availability": "available"
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/loureed.jpg"
 }
