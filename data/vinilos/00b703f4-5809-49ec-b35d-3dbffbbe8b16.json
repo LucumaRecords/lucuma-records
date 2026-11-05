@@ -1,15 +1,17 @@
 {
   "id": "00b703f4-5809-49ec-b35d-3dbffbbe8b16",
-  "published": true,
   "artist": "Edgar Winter",
   "album": "Standing On Rock",
+  "classificationPending": false,
   "country": "USA",
+  "year": 1981,
   "coverCondition": "VG+",
   "vinylCondition": "VG+",
-  "year": 1981,
-  "priceARS": 35000,
-  "availability": "available",
   "extras": [
     "insert"
-  ]
+  ],
+  "priceARS": 35000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/winter-standing-rock.jpg"
 }
