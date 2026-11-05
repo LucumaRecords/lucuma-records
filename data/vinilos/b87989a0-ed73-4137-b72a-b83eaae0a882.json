@@ -1,15 +1,19 @@
 {
   "id": "b87989a0-ed73-4137-b72a-b83eaae0a882",
-  "published": true,
   "artist": "Kraftwerk",
   "album": "Computer World",
+  "genre": "Electronica / Synth Pop",
+  "collection": "otros",
+  "classificationPending": false,
   "country": "USA",
+  "year": 1981,
   "coverCondition": "EX-",
   "vinylCondition": "VG+",
-  "year": 1981,
-  "priceARS": 60000,
-  "availability": "available",
   "extras": [
     "insert"
-  ]
+  ],
+  "priceARS": 60000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/kraftwerk.jpg"
 }
