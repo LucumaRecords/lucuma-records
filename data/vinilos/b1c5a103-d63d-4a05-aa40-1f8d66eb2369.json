@@ -1,12 +1,20 @@
 {
   "id": "b1c5a103-d63d-4a05-aa40-1f8d66eb2369",
-  "published": true,
   "artist": "Debbie Harry",
   "album": "KooKoo",
+  "collection": "pop",
+  "classificationPending": false,
   "country": "USA",
-  "otherExtras": "c/ insert y nylon original",
-  "notes": "VG+",
   "year": 1981,
+  "editionType": "Edición USA 1981",
+  "coverCondition": "VG+",
+  "vinylCondition": "VG+",
+  "extras": [
+    "insert"
+  ],
+  "otherExtras": "c/ insert y nylon original",
   "priceARS": 25000,
-  "availability": "available"
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/debbie-harry.jpg"
 }
