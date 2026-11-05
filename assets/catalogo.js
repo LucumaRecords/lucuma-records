@@ -175,10 +175,10 @@ function makeProductCard(product) {
   } else {
     info.append(makeElement("h2", "product-card__album product-card__generic", product.artist || product.album || "VINILO"));
   }
-  const price = formatPrice(product.priceARS);
-  if (price) info.append(makeElement("span", "product-card__price", price));
   const pressing = [product.country, product.year].filter(value => value !== undefined && value !== null && value !== "").join(" · ");
   if (pressing) info.append(makeElement("p", "product-card__pressing", pressing));
+  const price = formatPrice(product.priceARS);
+  if (price) info.append(makeElement("span", "product-card__price", price));
   if (product.availability) info.append(availabilityBadge(product.availability, "product-card__availability"));
 
   openButton.append(photoWrap, info);
