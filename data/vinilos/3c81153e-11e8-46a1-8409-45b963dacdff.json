@@ -1,16 +1,19 @@
 {
   "id": "3c81153e-11e8-46a1-8409-45b963dacdff",
-  "published": true,
   "artist": "Silvina Garre",
   "album": "Otro Cuerpo Mas",
+  "genre": "Rock Pop",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "Argentina",
-  "editionType": "nacional",
+  "year": 1987,
   "coverCondition": "VG+",
   "vinylCondition": "VG",
-  "year": 1987,
-  "priceARS": 10000,
-  "availability": "available",
   "extras": [
     "insert"
-  ]
+  ],
+  "priceARS": 10000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/silvina-garre.jpg"
 }
