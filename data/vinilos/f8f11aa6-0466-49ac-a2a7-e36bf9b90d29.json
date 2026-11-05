@@ -1,16 +1,20 @@
 {
   "id": "f8f11aa6-0466-49ac-a2a7-e36bf9b90d29",
-  "published": true,
   "artist": "Pete Townshend",
   "album": "Another Scoop",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
-  "coverCondition": "NM gatefold",
-  "vinylCondition": "EX-",
-  "otherExtras": "c/ inserts",
   "year": 1987,
+  "coverCondition": "NM",
+  "vinylCondition": "EX-",
+  "extras": [
+    "doble-lp",
+    "gatefold",
+    "insert"
+  ],
   "priceARS": 45000,
   "availability": "available",
-  "extras": [
-    "doble-lp"
-  ]
+  "published": true,
+  "cover": "assets/catalogo/another-scoop.jpg"
 }
