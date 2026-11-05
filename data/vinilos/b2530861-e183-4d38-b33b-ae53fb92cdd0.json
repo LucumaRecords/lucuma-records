@@ -1,15 +1,20 @@
 {
   "id": "b2530861-e183-4d38-b33b-ae53fb92cdd0",
-  "published": true,
   "artist": "Duran Duran",
   "album": "Arena",
+  "collection": "pop",
+  "classificationPending": false,
   "country": "USA",
-  "coverCondition": "VG+ gatefold",
-  "vinylCondition": "VG+",
   "year": 1984,
+  "editionType": "Edición USA 1984",
+  "coverCondition": "VG+",
+  "vinylCondition": "VG+",
+  "extras": [
+    "insert",
+    "gatefold"
+  ],
   "priceARS": 40000,
   "availability": "available",
-  "extras": [
-    "insert"
-  ]
+  "published": true,
+  "cover": "assets/catalogo/duranduran.jpg"
 }
