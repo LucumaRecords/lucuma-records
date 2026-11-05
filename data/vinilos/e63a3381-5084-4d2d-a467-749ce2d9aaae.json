@@ -10,5 +10,6 @@
   "vinylCondition": "EX",
   "priceARS": 35000,
   "availability": "available",
-  "published": true
+  "published": true,
+  "cover": "assets/catalogo/john-mayall-the-last.jpg"
 }
