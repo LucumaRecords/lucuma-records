@@ -1,16 +1,19 @@
 {
   "id": "8a096228-adba-460e-935b-08ea8b4f655d",
-  "published": true,
   "artist": "The Rolling Stones",
   "album": "Welcome To Shepherd’s Bush",
-  "editionType": "europea",
+  "collection": "rock-internacional",
+  "classificationPending": false,
+  "country": "Europa",
+  "year": 2024,
   "coverCondition": "NM",
   "vinylCondition": "NM",
-  "otherExtras": "c/ inserts",
-  "year": 2024,
-  "priceARS": 55000,
-  "availability": "available",
   "extras": [
     "doble-lp"
-  ]
+  ],
+  "otherExtras": "c/ inserts",
+  "priceARS": 55000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/stones.jpg"
 }
