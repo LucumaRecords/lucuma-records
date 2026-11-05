@@ -1,10 +1,20 @@
 {
   "id": "8a2a7fac-2995-4491-bcc5-816894112577",
-  "published": true,
   "artist": "Slayer",
   "album": "Baptized In Fire",
-  "otherExtras": "c/ obi e insert",
-  "notes": "Bootleg 2022 (país desconocido) · NM · En vivo gira USA (Nueva York) · Copia 76 de 130‼️",
+  "genre": "Trash metal",
+  "collection": "hard-rock-metal",
+  "classificationPending": false,
+  "year": 2022,
+  "coverCondition": "NM",
+  "vinylCondition": "NM",
+  "extras": [
+    "insert"
+  ],
+  "otherExtras": "c/ obi",
+  "notes": "En vivo gira USA (Nueva York) · Copia 76 de 130‼️",
   "priceARS": 50000,
-  "availability": "available"
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/slayer-baptized.jpg"
 }
