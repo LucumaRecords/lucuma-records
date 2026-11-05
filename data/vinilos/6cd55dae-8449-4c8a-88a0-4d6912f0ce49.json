@@ -1,15 +1,19 @@
 {
   "id": "6cd55dae-8449-4c8a-88a0-4d6912f0ce49",
-  "published": true,
   "artist": "Little Walter",
   "album": "Blues Anthology Vol.6",
+  "genre": "Blues",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "Brasil",
   "coverCondition": "EX",
   "vinylCondition": "NM",
+  "extras": [
+    "insert"
+  ],
   "notes": "Compilado brasileño 1987",
   "priceARS": 30000,
   "availability": "available",
-  "extras": [
-    "insert"
-  ]
+  "published": true,
+  "cover": "assets/catalogo/bluenathholo.jpg"
 }
