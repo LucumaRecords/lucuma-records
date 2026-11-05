@@ -1,15 +1,19 @@
 {
   "id": "34b45910-83e0-427e-9001-28296735b131",
-  "published": true,
   "artist": "Neil Young",
   "album": "Hawks & Doves",
+  "genre": "Folk Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
+  "year": 1980,
   "coverCondition": "EX",
   "vinylCondition": "EX",
-  "year": 1980,
-  "priceARS": 35000,
-  "availability": "available",
   "extras": [
     "insert"
-  ]
+  ],
+  "priceARS": 35000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/neil-young.jpg"
 }
