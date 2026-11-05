@@ -1,12 +1,20 @@
 {
   "id": "7a0defec-b62e-492a-90b4-af334520738b",
-  "published": true,
   "artist": "Creedence Clearwater Revival",
   "album": "Pendulum",
+  "genre": "Country Rock",
+  "collection": "rock-internacional",
+  "classificationPending": false,
   "country": "USA",
-  "coverCondition": "VG gatefold",
-  "vinylCondition": "VG+",
   "year": 1970,
-  "priceARS": 39000,
-  "availability": "available"
+  "editionType": "Edición USA 1970",
+  "coverCondition": "VG",
+  "vinylCondition": "VG+",
+  "extras": [
+    "gatefold"
+  ],
+  "priceARS": 40000,
+  "availability": "available",
+  "published": true,
+  "cover": "assets/catalogo/creedence.jpg"
 }
