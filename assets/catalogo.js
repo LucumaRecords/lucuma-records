@@ -14,6 +14,9 @@ const emptyTitle = document.getElementById("empty-title");
 const emptyMessage = document.getElementById("empty-message");
 const emptyLink = emptyState.querySelector(".empty-link");
 const resetButton = document.getElementById("reset-filters");
+const filtersToggle = document.getElementById("filters-toggle");
+const filterOptions = document.getElementById("filter-options");
+const filtersActiveCount = document.getElementById("filters-active-count");
 const dialog = document.getElementById("product-dialog");
 const dialogContent = document.getElementById("dialog-content");
 let products = [];
@@ -25,6 +28,32 @@ function closeMenu() {
   menuToggle.setAttribute("aria-expanded", "false");
   mainNav.classList.remove("is-open");
 }
+
+function setFiltersExpanded(expanded) {
+  filtersToggle.setAttribute("aria-expanded", String(expanded));
+  filterOptions.classList.toggle("is-open", expanded);
+}
+
+function updateFiltersToggle() {
+  const activeCount = [
+    Boolean(searchInput.value.trim()),
+    collectionFilter.value !== "todos",
+    genreFilter.value !== "todos",
+    sortSelect.value !== "artist-asc"
+  ].filter(Boolean).length;
+  filtersActiveCount.hidden = activeCount === 0;
+  filtersActiveCount.textContent = activeCount ? `${activeCount} activo${activeCount === 1 ? "" : "s"}` : "";
+  filtersToggle.setAttribute("aria-label", activeCount
+    ? `Filtros y orden, ${activeCount} ${activeCount === 1 ? "criterio activo" : "criterios activos"}`
+    : "Filtros y orden");
+}
+
+filtersToggle.addEventListener("click", () => {
+  setFiltersExpanded(filtersToggle.getAttribute("aria-expanded") !== "true");
+});
+window.matchMedia("(min-width: 651px)").addEventListener("change", event => {
+  if (event.matches) setFiltersExpanded(false);
+});
 
 if (menuToggle && mainNav) {
   menuToggle.addEventListener("click", () => {
@@ -197,6 +226,7 @@ function showEmptyState({ eyebrow, title, message, link = false }) {
 }
 
 function render() {
+  updateFiltersToggle();
   const hasFilters = Boolean(searchInput.value.trim()) || genreFilter.value !== "todos" || collectionFilter.value !== "todos";
   resetButton.hidden = !hasFilters;
   const visibleProducts = filterAndSortProducts(products, {

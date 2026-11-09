@@ -40,6 +40,8 @@ button, input, select { font: inherit; }
 .catalog-intro p { max-width: 660px; margin: 0; color: #46433f; font-size: 15px; line-height: 1.6; }
 .catalog-browser { padding-top: 28px; }
 .catalog-controls { display: grid; grid-template-columns: minmax(240px, 1.6fr) repeat(3, minmax(150px, .8fr)); gap: 18px; align-items: end; }
+.filters-toggle { display: none; }
+.filter-options { display: contents; }
 .field { display: grid; gap: 8px; color: #514d47; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
 .field input, .field select { width: 100%; height: 48px; padding: 0 14px; border: 1px solid #d8d3ca; border-radius: 0; outline: 0; background: #fffefa; color: var(--ink); font-size: 14px; font-weight: 400; letter-spacing: 0; text-transform: none; }
 .field input::placeholder { color: #89847d; }
@@ -144,6 +146,14 @@ button, input, select { font: inherit; }
   .catalog-intro p { font-size: 13px; }
   .catalog-controls { grid-template-columns: 1fr; gap: 14px; }
   .search-field { grid-column: auto; }
+  .filters-toggle { width: 100%; min-height: 46px; display: flex; align-items: center; gap: 10px; padding: 0 14px; border: 1px solid #d8d3ca; background: #fffefa; color: var(--ink); cursor: pointer; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-align: left; text-transform: uppercase; }
+  .filters-toggle:focus-visible { outline-color: var(--ink); outline-offset: 3px; }
+  .filters-toggle__count { margin-left: auto; color: var(--muted); font-size: 9px; letter-spacing: .6px; white-space: nowrap; }
+  .filters-toggle__chevron { width: 8px; height: 8px; margin-left: auto; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .18s ease; }
+  .filters-toggle[aria-expanded="true"] .filters-toggle__chevron { transform: translateY(2px) rotate(225deg); }
+  .filters-toggle__count:not([hidden]) + .filters-toggle__chevron { margin-left: 0; }
+  .filter-options { grid-column: 1 / -1; display: none; grid-template-columns: 1fr; gap: 14px; }
+  .filter-options.is-open { display: grid; }
   .field input, .field select { height: 46px; }
   .catalog-results-bar { min-height: 48px; }
   .product-grid { gap: 36px 14px; padding-top: 18px; }

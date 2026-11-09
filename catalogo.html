@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#f8f6f1">
   <meta name="description" content="Explorá el catálogo de vinilos de Lucuma Records. Una colección curada de originales, reediciones y ediciones especiales.">
   <title>Catálogo de vinilos — Lucuma Records</title>
-  <link rel="stylesheet" href="assets/catalogo.css?v=7">
-  <script type="module" src="assets/catalogo.js?v=4"></script>
+  <link rel="stylesheet" href="assets/catalogo.css?v=8">
+  <script type="module" src="assets/catalogo.js?v=5"></script>
 </head>
 <body>
   <header class="site-header">
@@ -46,27 +46,34 @@
           <span>Buscar</span>
           <input id="catalog-search" type="search" placeholder="Artista, álbum, país…" autocomplete="off">
         </label>
-        <label class="field">
-          <span>Colección</span>
-          <select id="collection-filter">
-            <option value="todos">Todas las colecciones</option>
-          </select>
-        </label>
-        <label class="field">
-          <span>Género</span>
-          <select id="genre-filter">
-            <option value="todos">Todos los géneros</option>
-          </select>
-        </label>
-        <label class="field">
-          <span>Ordenar por</span>
-          <select id="catalog-sort">
-            <option value="artist-asc">Artista: A–Z</option>
-            <option value="album-asc">Álbum: A–Z</option>
-            <option value="price-asc">Precio: menor a mayor</option>
-            <option value="price-desc">Precio: mayor a menor</option>
-          </select>
-        </label>
+        <button class="filters-toggle" id="filters-toggle" type="button" aria-expanded="false" aria-controls="filter-options" aria-label="Filtros y orden">
+          <span>Filtros y orden</span>
+          <span class="filters-toggle__count" id="filters-active-count" hidden></span>
+          <span class="filters-toggle__chevron" aria-hidden="true"></span>
+        </button>
+        <div class="filter-options" id="filter-options">
+          <label class="field">
+            <span>Colección</span>
+            <select id="collection-filter">
+              <option value="todos">Todas las colecciones</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Género</span>
+            <select id="genre-filter">
+              <option value="todos">Todos los géneros</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Ordenar por</span>
+            <select id="catalog-sort">
+              <option value="artist-asc">Artista: A–Z</option>
+              <option value="album-asc">Álbum: A–Z</option>
+              <option value="price-asc">Precio: menor a mayor</option>
+              <option value="price-desc">Precio: mayor a menor</option>
+            </select>
+          </label>
+        </div>
       </div>
 
       <div class="catalog-results-bar">
