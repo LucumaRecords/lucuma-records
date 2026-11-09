@@ -219,11 +219,49 @@ export function productTitle(product) {
   return [product.artist, product.album].filter(value => typeof value === "string" && value.trim()).join(" - ") || "este vinilo";
 }
 
+function normalizeDisplayText(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLocaleLowerCase("es")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}
+
+function includesDisplayPhrase(text, phrase) {
+  const normalizedText = normalizeDisplayText(text);
+  const normalizedPhrase = normalizeDisplayText(phrase);
+  return Boolean(normalizedPhrase && ` ${normalizedText} `.includes(` ${normalizedPhrase} `));
+}
+
+function removeDuplicateYearSuffix(country, year) {
+  if (!country || !year) return country;
+  if (country === year) return "";
+  if (!country.endsWith(year)) return country;
+
+  const prefix = country.slice(0, -year.length);
+  if (!/[\s(·,;:–—-]$/u.test(prefix)) return country;
+  return prefix.replace(/[\s(·,;:–—-]+$/gu, "").trim();
+}
+
+export function formatCountryYear(country, year, { separator = " · ", editionType = "" } = {}) {
+  const yearText = isBlank(year) ? "" : String(year).trim();
+  let countryText = typeof country === "string" ? country.trim() : "";
+  countryText = removeDuplicateYearSuffix(countryText, yearText);
+
+  if (editionType) {
+    if (countryText && includesDisplayPhrase(editionType, countryText)) countryText = "";
+    if (yearText && includesDisplayPhrase(editionType, yearText)) return countryText;
+  }
+
+  return [countryText, yearText].filter(Boolean).join(separator);
+}
+
 export function buildWhatsAppUrl(product) {
   if (product.availability === "sold") return null;
 
   const identity = productTitle(product);
-  const edition = [product.country, product.year].filter(value => !isBlank(value)).join(" ");
+  const edition = formatCountryYear(product.country, product.year, { separator: " " });
   const editionText = edition ? `, edición ${edition}` : "";
   const priceText = product.priceARS > 0 ? `, publicado a ${formatPrice(product.priceARS).replace(/\s/gu, "")}` : "";
   const status = product.availability === "reserved"

@@ -1,4 +1,4 @@
-import { AVAILABILITY, COLLECTIONS, EXTRAS, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatPrice, listCatalogGenres, matchesCollection, productTitle, validateCatalog } from "./catalogo-core.mjs?v=4";
+import { AVAILABILITY, COLLECTIONS, EXTRAS, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatCountryYear, formatPrice, listCatalogGenres, matchesCollection, productTitle, validateCatalog } from "./catalogo-core.mjs?v=5";
 
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.getElementById("main-nav");
@@ -220,7 +220,7 @@ function makeProductCard(product) {
   } else {
     info.append(makeElement("h2", "product-card__album product-card__generic", product.artist || product.album || "VINILO"));
   }
-  const pressing = [product.country, product.year].filter(value => value !== undefined && value !== null && value !== "").join(" · ");
+  const pressing = formatCountryYear(product.country, product.year);
   if (pressing) info.append(makeElement("p", "product-card__pressing", pressing));
   const price = formatPrice(product.priceARS);
   if (price) info.append(makeElement("span", "product-card__price", price));
@@ -315,7 +315,7 @@ function openProductDetails(product) {
   heading.id = "dialog-title";
   copy.append(heading);
   if (product.artist && product.album) copy.append(makeElement("p", "detail-copy__album", product.album));
-  const metadata = [product.country, product.year].filter(value => value !== undefined && value !== null && value !== "").join(" · ");
+  const metadata = formatCountryYear(product.country, product.year, { editionType: product.editionType });
   if (metadata) copy.append(makeElement("p", "detail-copy__meta", metadata));
   const price = formatPrice(product.priceARS);
   const priceNode = price ? makeElement("p", "detail-copy__price", price) : null;
