@@ -37,6 +37,7 @@
     .brand { display: inline-flex; width: max-content; align-items: center; }
     .brand img { width: 164px; height: 76px; object-fit: contain; object-position: left center; }
     .primary-nav { display: flex; align-items: center; justify-content: center; gap: clamp(25px, 1.8vw, 34px); }
+    .primary-nav .nav-how-to { display: none; }
     .primary-nav a { position: relative; padding: 12px 0; font-size: 13px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; }
     .primary-nav a::after { position: absolute; right: 0; bottom: 6px; left: 0; height: 1px; background: currentColor; content: ""; transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
     .primary-nav a:hover::after, .primary-nav a:focus-visible::after, .primary-nav a[href="#inicio"]::after { transform: scaleX(1); }
@@ -111,6 +112,23 @@
     .catalog-art::after { position: absolute; top: 49%; left: 49%; width: 8px; height: 8px; border-radius: 50%; background: var(--ink); content: ""; }
     .catalog-link { margin-top: 18px; }
 
+    /* How to buy */
+    .how-to { padding-block: 48px 42px; border-bottom: 1px solid var(--line); }
+    .how-to-heading { max-width: 760px; margin: 0 auto 30px; text-align: center; }
+    .how-to-heading .eyebrow { color: var(--muted); }
+    .how-to-heading h2 { margin: 10px 0 0; font-size: clamp(30px, 3.3vw, 44px); letter-spacing: -.055em; line-height: 1; }
+    .buy-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .buy-step { position: relative; padding: 20px clamp(16px, 2.3vw, 30px) 22px; }
+    .buy-step + .buy-step { border-left: 1px solid var(--line); }
+    .buy-step-number { display: block; margin-bottom: 14px; color: #8d877d; font-family: Georgia, 'Times New Roman', serif; font-size: 26px; font-style: italic; line-height: 1; }
+    .buy-step h3, .buy-info h3 { margin: 0 0 9px; font-size: 11px; font-weight: 700; letter-spacing: 1px; line-height: 1.4; }
+    .buy-step p, .buy-info p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .buy-info-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 22px; background: var(--cream); }
+    .buy-info { padding: 18px 22px; }
+    .buy-info + .buy-info { border-left: 1px solid #ded6c9; }
+    .buy-info h3 { display: flex; align-items: center; gap: 7px; margin-bottom: 7px; }
+    .buy-info-icon { font-size: 14px; font-weight: 400; letter-spacing: 0; }
+
     /* Contact and footer */
     .contact { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 36px; border-bottom: 1px solid var(--line); }
     .contact h2 { margin: 8px 0 5px; font-size: 30px; letter-spacing: -.05em; }
@@ -156,6 +174,7 @@
       .primary-nav.is-open { display: flex; flex-direction: column; }
       .primary-nav a { min-height: 44px; display: flex; align-items: center; padding: 14px 4px; border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600; line-height: 1.3; }
       .primary-nav a::after { display: none; }
+      .primary-nav .nav-how-to { display: flex; }
       .hero { min-height: 350px; aspect-ratio: auto; margin-top: 18px; padding: 26px 21px; }
       .hero::before { background: linear-gradient(90deg, rgb(16 15 14 / 78%) 0%, rgb(16 15 14 / 56%) 62%, rgb(16 15 14 / 24%) 100%); }
       .hero-copy { padding: 0; }
@@ -183,6 +202,19 @@
       .catalog p { max-width: 340px; font-size: 12px; }
       .catalog-art { right: -46px; width: 210px; opacity: .44; }
       .catalog .button { position: relative; z-index: 1; }
+      .how-to { padding-block: 36px 30px; }
+      .how-to-heading { margin-bottom: 20px; text-align: left; }
+      .how-to-heading h2 { max-width: 380px; font-size: clamp(29px, 8vw, 38px); line-height: 1.02; }
+      .buy-steps { grid-template-columns: 1fr; }
+      .buy-step { display: grid; grid-template-columns: 38px 1fr; column-gap: 10px; padding: 16px 0; }
+      .buy-step + .buy-step { border-top: 1px solid var(--line); border-left: 0; }
+      .buy-step-number { grid-row: span 2; margin: 0; font-size: 23px; }
+      .buy-step h3 { margin-bottom: 5px; }
+      .buy-step p { font-size: 11px; }
+      .buy-info-grid { grid-template-columns: 1fr; margin-top: 16px; }
+      .buy-info { padding: 15px 17px; }
+      .buy-info + .buy-info { border-top: 1px solid #ded6c9; border-left: 0; }
+      .buy-info p { font-size: 11px; }
       .contact { align-items: flex-start; flex-direction: column; gap: 16px; padding-block: 28px; }
       .contact h2 { font-size: 28px; }
       .footer { align-items: flex-start; flex-direction: column; gap: 12px; padding-block: 21px 27px; }
@@ -207,6 +239,7 @@
         <a href="#colecciones">Colecciones</a>
         <a href="#nosotros">Nosotros</a>
         <a href="catalogo.html">Catálogo</a>
+        <a class="nav-how-to" href="#como-comprar">Cómo comprar</a>
         <a href="#contacto">Contacto</a>
       </nav>
       <div class="header-actions">
@@ -286,6 +319,44 @@
         <a class="button catalog-link" href="catalogo.html">VER CATÁLOGO COMPLETO <span aria-hidden="true">→</span></a>
       </div>
       <div class="catalog-art" aria-hidden="true"></div>
+    </section>
+
+    <section class="how-to container" id="como-comprar" aria-labelledby="how-to-title">
+      <div class="how-to-heading">
+        <span class="eyebrow">CÓMO COMPRAR</span>
+        <h2 id="how-to-title">TU PRÓXIMO VINILO ESTÁ A UNOS PASOS.</h2>
+      </div>
+      <div class="buy-steps">
+        <article class="buy-step">
+          <span class="buy-step-number" aria-hidden="true">01</span>
+          <h3>ELEGÍ TU DISCO</h3>
+          <p>Explorá el catálogo y encontrá el vinilo que estás buscando. En cada ficha podés ver la edición y el estado del disco.</p>
+        </article>
+        <article class="buy-step">
+          <span class="buy-step-number" aria-hidden="true">02</span>
+          <h3>ESCRIBINOS POR WHATSAPP</h3>
+          <p>Abrí la ficha del disco que te interesa y escribinos. Confirmamos la disponibilidad y coordinamos la compra.</p>
+        </article>
+        <article class="buy-step">
+          <span class="buy-step-number" aria-hidden="true">03</span>
+          <h3>RECIBÍ TU VINILO</h3>
+          <p>Acordamos la forma de entrega que te resulte más cómoda.</p>
+        </article>
+      </div>
+      <div class="buy-info-grid">
+        <article class="buy-info">
+          <h3><span class="buy-info-icon" aria-hidden="true">💳</span>MEDIOS DE PAGO</h3>
+          <p>Aceptamos transferencia bancaria, efectivo y Mercado Pago.</p>
+        </article>
+        <article class="buy-info">
+          <h3><span class="buy-info-icon" aria-hidden="true">🚚</span>ENVÍOS A TODO EL PAÍS</h3>
+          <p>Llegamos a toda la Argentina con PAQ.AR, el servicio de e-commerce de Correo Argentino.</p>
+        </article>
+        <article class="buy-info">
+          <h3><span class="buy-info-icon" aria-hidden="true">📍</span>RETIRO EN SAAVEDRA</h3>
+          <p>Podés coordinar el retiro de tu compra en el barrio de Saavedra, Ciudad Autónoma de Buenos Aires.</p>
+        </article>
+      </div>
     </section>
 
     <section class="contact container" id="contacto" aria-labelledby="contact-title">
