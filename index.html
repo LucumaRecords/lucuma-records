@@ -64,6 +64,10 @@
     .button:hover { background: transparent; color: var(--ink); }
     .hero .button { border-color: #fff; background: transparent; color: #fff; }
     .hero .button:hover { background: #fff; color: var(--ink); }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 18px; margin-top: 24px; }
+    .hero-actions .button { margin-top: 0; }
+    .hero-catalog-link { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; border-bottom: 1px solid #ffffff70; color: #f2efe9; font-size: 10px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+    .hero-catalog-link:hover { border-color: #fff; color: #fff; }
 
     /* Curated genres */
     .collections { padding-block: 24px 0; }
@@ -111,6 +115,7 @@
     .contact { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 36px; border-bottom: 1px solid var(--line); }
     .contact h2 { margin: 8px 0 5px; font-size: 30px; letter-spacing: -.05em; }
     .contact p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .contact-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; }
     .contact .button { margin-top: 0; }
     .footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 24px 30px; color: var(--muted); font-size: 11px; }
     .footer strong { color: var(--ink); font-size: 14px; letter-spacing: .8px; }
@@ -157,7 +162,8 @@
       .eyebrow { font-size: 9px; letter-spacing: 1.8px; }
       .hero h1 { margin: 13px 0 10px; font-size: clamp(42px, 11.2vw, 52px); }
       .hero-copy > p { max-width: 430px; font-size: 15px; }
-      .hero .button { min-height: 46px; margin-top: 18px; }
+      .hero-actions { gap: 10px 14px; margin-top: 18px; }
+      .hero-actions .button, .hero-catalog-link { min-height: 46px; }
       .collections { padding-top: 19px; }
       .section-heading { display: block; margin-bottom: 16px; }
       .section-heading h2 { margin-top: 7px; font-size: clamp(29px, 8vw, 38px); }
@@ -217,7 +223,10 @@
         <span class="eyebrow">Colección curada</span>
         <h1 id="hero-title">VINILOS<br>QUE INSPIRAN.</h1>
         <p>Discos seleccionados, ediciones especiales y música que merece seguir girando.</p>
-        <a class="button" href="#colecciones">Ver colecciones <span aria-hidden="true">→</span></a>
+        <div class="hero-actions">
+          <a class="button" href="#colecciones">Ver colecciones <span aria-hidden="true">→</span></a>
+          <a class="hero-catalog-link" href="catalogo.html">Ver catálogo <span aria-hidden="true">→</span></a>
+        </div>
       </div>
       <img class="hero-image" src="portada-tocadiscos.jpg" width="739" height="303" fetchpriority="high" alt="">
     </section>
@@ -271,10 +280,10 @@
 
     <section class="catalog container" id="catalogo" aria-labelledby="catalog-title">
       <div class="catalog-copy">
-        <span class="eyebrow">Estamos preparando algo especial</span>
-        <h2 id="catalog-title">EL CATÁLOGO<br>LLEGA PRONTO.</h2>
-        <p>Muy pronto vas a poder explorar nuestros vinilos y consultar disponibilidad. Seguinos en Instagram para conocer las novedades.</p>
-        <a class="button catalog-link" href="https://www.instagram.com/lucumarecords/" target="_blank" rel="noopener noreferrer">Seguinos en Instagram <span aria-hidden="true">→</span></a>
+        <span class="eyebrow">EXPLORÁ NUESTRA COLECCIÓN</span>
+        <h2 id="catalog-title">ENCONTRÁ TU<br>PRÓXIMO VINILO.</h2>
+        <p>Explorá nuestra selección de vinilos, descubrí distintas ediciones y consultá disponibilidad de manera directa.</p>
+        <a class="button catalog-link" href="catalogo.html">VER CATÁLOGO COMPLETO <span aria-hidden="true">→</span></a>
       </div>
       <div class="catalog-art" aria-hidden="true"></div>
     </section>
@@ -283,9 +292,12 @@
       <div>
         <span class="eyebrow">Contacto</span>
         <h2 id="contact-title">¿Buscás un disco?</h2>
-        <p>Escribinos por Instagram y contanos qué música estás buscando.</p>
+        <p>Escribinos por Instagram o WhatsApp y contanos qué música estás buscando.</p>
       </div>
-      <a class="button" href="https://www.instagram.com/lucumarecords/" target="_blank" rel="noopener noreferrer">Escribinos por Instagram <span aria-hidden="true">↗</span></a>
+      <div class="contact-actions">
+        <a class="button" href="https://www.instagram.com/lucumarecords/" target="_blank" rel="noopener noreferrer">Escribinos por Instagram <span aria-hidden="true">↗</span></a>
+        <a class="button" href="https://wa.me/5491165437000" target="_blank" rel="noopener noreferrer">Escribinos por WhatsApp <span aria-hidden="true">↗</span></a>
+      </div>
     </section>
   </main>
 
