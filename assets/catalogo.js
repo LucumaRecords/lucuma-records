@@ -19,6 +19,8 @@ const filterOptions = document.getElementById("filter-options");
 const filtersActiveCount = document.getElementById("filters-active-count");
 const dialog = document.getElementById("product-dialog");
 const dialogContent = document.getElementById("dialog-content");
+const mobileDetailQuery = window.matchMedia("(max-width: 650px)");
+let activeWhatsAppPlacement = null;
 let products = [];
 let pendingGenre = "todos";
 let pendingCollection = "todos";
@@ -47,6 +49,20 @@ function updateFiltersToggle() {
     ? `Filtros y orden, ${activeCount} ${activeCount === 1 ? "criterio activo" : "criterios activos"}`
     : "Filtros y orden");
 }
+
+function placeWhatsAppActions(placement, isMobile) {
+  if (isMobile) {
+    placement.anchor.after(placement.hint, placement.link);
+  } else {
+    placement.contactAlt.before(placement.hint, placement.link);
+  }
+}
+
+mobileDetailQuery.addEventListener("change", event => {
+  if (dialog.open && activeWhatsAppPlacement) {
+    placeWhatsAppActions(activeWhatsAppPlacement, event.matches);
+  }
+});
 
 filtersToggle.addEventListener("click", () => {
   setFiltersExpanded(filtersToggle.getAttribute("aria-expanded") !== "true");
@@ -264,6 +280,7 @@ function render() {
 }
 
 function openProductDetails(product) {
+  activeWhatsAppPlacement = null;
   const gallery = makeElement("div", "detail-gallery");
   const mainPhoto = makeElement("div", "detail-gallery__main");
   const label = productLabel(product);
@@ -301,12 +318,15 @@ function openProductDetails(product) {
   const metadata = [product.country, product.year].filter(value => value !== undefined && value !== null && value !== "").join(" · ");
   if (metadata) copy.append(makeElement("p", "detail-copy__meta", metadata));
   const price = formatPrice(product.priceARS);
-  if (price) copy.append(makeElement("p", "detail-copy__price", price));
+  const priceNode = price ? makeElement("p", "detail-copy__price", price) : null;
+  if (priceNode) copy.append(priceNode);
+  let availabilityNode = null;
   if (product.availability === "sold") {
-    copy.append(makeElement("p", "sold-notice", "VINILO VENDIDO"));
+    availabilityNode = makeElement("p", "sold-notice", "VINILO VENDIDO");
   } else if (product.availability) {
-    copy.append(availabilityBadge(product.availability));
+    availabilityNode = availabilityBadge(product.availability);
   }
+  if (availabilityNode) copy.append(availabilityNode);
 
   const specs = makeElement("dl", "detail-specs");
   const extras = [
@@ -336,6 +356,7 @@ function openProductDetails(product) {
     soldContact.append(instagramLink);
     copy.append(soldContact);
   } else {
+    const whatsappHint = makeElement("p", "detail-whatsapp-hint", "Revisá los detalles del disco y consultanos por WhatsApp");
     const whatsappLink = document.createElement("a");
     whatsappLink.className = "whatsapp-button";
     whatsappLink.href = buildWhatsAppUrl(product);
@@ -343,11 +364,18 @@ function openProductDetails(product) {
     whatsappLink.rel = "noopener noreferrer";
     whatsappLink.textContent = "CONSULTAR POR WHATSAPP";
     whatsappLink.setAttribute("aria-label", `Consultar por WhatsApp sobre ${productTitle(product)}`);
-    copy.append(whatsappLink);
-
+    copy.append(whatsappHint, whatsappLink);
     const contactAlt = makeElement("p", "detail-contact-alt", "También podés escribirnos por ");
     contactAlt.append(instagramLink);
     copy.append(contactAlt);
+    activeWhatsAppPlacement = {
+      copy,
+      hint: whatsappHint,
+      link: whatsappLink,
+      contactAlt,
+      anchor: availabilityNode || priceNode || heading
+    };
+    placeWhatsAppActions(activeWhatsAppPlacement, mobileDetailQuery.matches);
   }
 
   dialogContent.replaceChildren(gallery, copy);
