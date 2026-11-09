@@ -362,7 +362,17 @@ function openProductDetails(product) {
     whatsappLink.href = buildWhatsAppUrl(product);
     whatsappLink.target = "_blank";
     whatsappLink.rel = "noopener noreferrer";
-    whatsappLink.textContent = "CONSULTAR POR WHATSAPP";
+    const whatsappIcon = document.createElement("span");
+    whatsappIcon.className = "whatsapp-button__icon";
+    whatsappIcon.setAttribute("aria-hidden", "true");
+    const whatsappSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    whatsappSvg.setAttribute("viewBox", "0 0 24 24");
+    const whatsappPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    whatsappPath.setAttribute("fill", "currentColor");
+    whatsappPath.setAttribute("d", "M20.52 3.48A11.82 11.82 0 0 0 12.13 0C5.57 0 .23 5.34.23 11.9c0 2.1.55 4.14 1.6 5.95L.12 24l6.3-1.65a11.9 11.9 0 0 0 5.7 1.45h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.51-8.42ZM12.13 21.8h-.01c-1.78 0-3.52-.48-5.04-1.39l-.36-.21-3.74.98 1-3.65-.24-.37a9.84 9.84 0 0 1-1.51-5.26c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.84 9.84 0 0 1 2.9 7c0 5.46-4.44 9.9-9.9 9.9Zm5.43-7.41c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.46-.88-.79-1.48-1.77-1.65-2.07-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.51s1.08 2.91 1.23 3.11c.15.2 2.12 3.24 5.14 4.55.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.12-.28-.2-.58-.35Z");
+    whatsappSvg.append(whatsappPath);
+    whatsappIcon.append(whatsappSvg);
+    whatsappLink.append(whatsappIcon, document.createTextNode("CONSULTAR POR WHATSAPP"));
     whatsappLink.setAttribute("aria-label", `Consultar por WhatsApp sobre ${productTitle(product)}`);
     copy.append(whatsappHint, whatsappLink);
     const contactAlt = makeElement("p", "detail-contact-alt", "También podés escribirnos por ");
