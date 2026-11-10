@@ -109,11 +109,24 @@ button, input, select { font: inherit; }
 .detail-specs dd { font-weight: 600; overflow-wrap: anywhere; }
 .detail-notes { margin: 17px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
 
-.site-footer { border-top: 1px solid var(--line); }
-.footer-inner { min-height: 92px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 22px; color: var(--muted); font-size: 11px; }
-.footer-inner strong { color: var(--ink); font-size: 14px; letter-spacing: .8px; }
-.footer-inner p { margin: 5px 0 0; }
-.footer-inner a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.site-footer { background: var(--ink); color: var(--paper); }
+.footer-main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(140px, .7fr) minmax(230px, .9fr); gap: clamp(24px, 4vw, 56px); padding-block: 32px 26px; }
+  .footer-brand { display: flex; align-items: flex-start; gap: 15px; }
+.footer-record-mark { position: relative; flex: 0 0 44px; width: 44px; aspect-ratio: 1; border: 1px solid rgb(248 246 241 / 28%); border-radius: 50%; background: repeating-radial-gradient(circle at center, #171717 0 3px, #242424 4px 5px, #111 6px 8px); }
+.footer-record-mark::before { position: absolute; inset: 31%; border: 1px solid rgb(23 23 23 / 15%); border-radius: 50%; background: var(--cream); content: ""; }
+.footer-record-mark::after { position: absolute; top: 48%; left: 48%; width: 4px; aspect-ratio: 1; border-radius: 50%; background: var(--ink); content: ""; }
+.footer-wordmark { display: inline-block; color: var(--paper); font-size: 15px; font-weight: 700; letter-spacing: 1.1px; }
+.footer-tagline { max-width: 280px; margin: 8px 0 0; color: #dedbd5; font-family: Georgia, "Times New Roman", serif; font-size: 13px; line-height: 1.5; }
+.footer-heading { margin: 0 0 10px; color: #aaa59d; font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
+.footer-links, .footer-contact { display: flex; flex-direction: column; align-items: flex-start; }
+  .footer-links { gap: 8px; }
+.footer-links a, .footer-contact-link { color: var(--paper); font-size: 11px; line-height: 1.4; }
+  .footer-contact { gap: 8px; }
+.footer-contact-link { display: inline-flex; min-height: 20px; align-items: center; gap: 8px; }
+.footer-contact-link svg { width: 14px; height: 14px; flex: 0 0 14px; fill: currentColor; }
+.footer-contact-link:last-of-type svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.footer-location { margin: 4px 0 0; color: #aaa59d; font-size: 10px; line-height: 1.5; }
+  .footer-bottom { border-top: 1px solid rgb(248 246 241 / 14%); padding-block: 11px 14px; color: #aaa59d; font-size: 10px; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 
 @media (min-width: 961px) and (max-width: 1100px) {
@@ -170,12 +183,22 @@ button, input, select { font: inherit; }
   .detail-copy h2 { font-size: 34px; }
   .detail-whatsapp-hint { display: block; margin: 14px 0 0; color: var(--muted); font-size: 11px; line-height: 1.45; }
   .detail-copy .whatsapp-button { margin-top: 10px; }
-  .footer-inner { min-height: 0; align-items: flex-start; flex-direction: column; gap: 13px; padding-block: 22px; }
+  .footer-main { grid-template-columns: 1fr 1fr; gap: 22px 16px; padding-block: 27px 22px; }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-links { grid-column: 1; }
+  .footer-contact { grid-column: 2; }
+  .footer-bottom { padding-right: 72px; }
 }
 @media (max-width: 500px) {
   .product-grid { grid-template-columns: 1fr; }
   .product-card__photo { aspect-ratio: 1.12 / 1; }
 }
+@media (max-width: 650px) {
+      .footer-main { grid-template-columns: 1fr; gap: 19px; padding-block: 26px 21px; }
+      .footer-brand, .footer-links, .footer-contact { grid-column: 1; }
+      .footer-contact { gap: 8px; }
+      .footer-bottom { padding-right: 0; }
+    }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }

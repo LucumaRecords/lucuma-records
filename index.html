@@ -61,7 +61,6 @@
     .brand { display: inline-flex; width: max-content; align-items: center; }
     .brand img { width: 164px; height: 76px; object-fit: contain; object-position: left center; }
     .primary-nav { display: flex; align-items: center; justify-content: center; gap: clamp(25px, 1.8vw, 34px); }
-    .primary-nav .nav-how-to { display: none; }
     .primary-nav a { position: relative; padding: 12px 0; font-size: 13px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; }
     .primary-nav a::after { position: absolute; right: 0; bottom: 6px; left: 0; height: 1px; background: currentColor; content: ""; transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
     .primary-nav a:hover::after, .primary-nav a:focus-visible::after, .primary-nav a[href="#inicio"]::after { transform: scaleX(1); }
@@ -183,10 +182,24 @@
       -webkit-tap-highlight-color: transparent;
     }
     .floating-whatsapp svg { display: block; width: 30px; height: 30px; fill: currentColor; }
-    .footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 24px 30px; color: var(--muted); font-size: 11px; }
-    .footer strong { color: var(--ink); font-size: 14px; letter-spacing: .8px; }
-    .footer p { margin: 5px 0 0; }
-    .footer a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .site-footer { background: var(--ink); color: var(--paper); }
+    .footer-main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(140px, .7fr) minmax(230px, .9fr); gap: clamp(24px, 4vw, 56px); padding-block: 32px 26px; }
+    .footer-brand { display: flex; align-items: flex-start; gap: 15px; }
+    .footer-record-mark { position: relative; flex: 0 0 44px; width: 44px; aspect-ratio: 1; border: 1px solid rgb(248 246 241 / 28%); border-radius: 50%; background: repeating-radial-gradient(circle at center, #171717 0 3px, #242424 4px 5px, #111 6px 8px); }
+    .footer-record-mark::before { position: absolute; inset: 31%; border: 1px solid rgb(23 23 23 / 15%); border-radius: 50%; background: var(--cream); content: ""; }
+    .footer-record-mark::after { position: absolute; top: 48%; left: 48%; width: 4px; aspect-ratio: 1; border-radius: 50%; background: var(--ink); content: ""; }
+    .footer-wordmark { display: inline-block; color: var(--paper); font-size: 15px; font-weight: 700; letter-spacing: 1.1px; }
+    .footer-tagline { max-width: 280px; margin: 8px 0 0; color: #dedbd5; font-family: Georgia, "Times New Roman", serif; font-size: 13px; line-height: 1.5; }
+    .footer-heading { margin: 0 0 10px; color: #aaa59d; font-size: 9px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
+    .footer-links, .footer-contact { display: flex; flex-direction: column; align-items: flex-start; }
+    .footer-links { gap: 8px; }
+    .footer-links a, .footer-contact-link { color: var(--paper); font-size: 11px; line-height: 1.4; }
+    .footer-contact { gap: 8px; }
+    .footer-contact-link { display: inline-flex; min-height: 20px; align-items: center; gap: 8px; }
+    .footer-contact-link svg { width: 14px; height: 14px; flex: 0 0 14px; fill: currentColor; }
+    .footer-contact-link:last-of-type svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .footer-location { margin: 4px 0 0; color: #aaa59d; font-size: 10px; line-height: 1.5; }
+    .footer-bottom { border-top: 1px solid rgb(248 246 241 / 14%); padding-block: 11px 14px; color: #aaa59d; font-size: 10px; }
     :focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 
     @media (max-width: 960px) {
@@ -222,7 +235,6 @@
       .primary-nav.is-open { display: flex; flex-direction: column; }
       .primary-nav a { min-height: 44px; display: flex; align-items: center; padding: 14px 4px; border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600; line-height: 1.3; }
       .primary-nav a::after { display: none; }
-      .primary-nav .nav-how-to { display: flex; }
       .hero { min-height: 350px; aspect-ratio: auto; margin-top: 18px; padding: 26px 21px; }
       .hero::before { background: linear-gradient(90deg, rgb(16 15 14 / 78%) 0%, rgb(16 15 14 / 56%) 62%, rgb(16 15 14 / 24%) 100%); }
       .hero-copy { padding: 0; }
@@ -265,7 +277,18 @@
       .buy-info p { font-size: 11px; }
       .contact { align-items: flex-start; flex-direction: column; gap: 16px; padding-block: 28px; }
       .contact h2 { font-size: 28px; }
-      .footer { align-items: flex-start; flex-direction: column; gap: 12px; padding-block: 21px 27px; }
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 22px 16px; padding-block: 27px 22px; }
+      .footer-brand { grid-column: 1 / -1; }
+      .footer-links { grid-column: 1; }
+      .footer-contact { grid-column: 2; }
+      .footer-bottom { padding-right: 72px; }
+    }
+    @media (max-width: 650px) {
+      .footer-main { grid-template-columns: 1fr; gap: 19px; padding-block: 26px 21px; }
+      .footer-brand, .footer-links, .footer-contact { grid-column: 1; }
+      .footer-contact { gap: 8px; }
+      .footer-bottom { padding-right: 0; }
+      .home-footer .footer-contact, .home-footer .footer-bottom { padding-right: 76px; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -420,10 +443,36 @@
     </section>
   </main>
 
-  <footer class="footer container">
-    <div><strong>LUCUMA RECORDS</strong><p>Buenos Aires · Argentina</p></div>
-    <div>Seguinos en <a href="https://www.instagram.com/lucumarecords/" target="_blank" rel="noopener noreferrer">Instagram</a><br><span>© <span id="year"></span> Lucuma Records</span></div>
-  </footer>
+  <footer class="site-footer home-footer">
+  <div class="container footer-main">
+    <div class="footer-brand">
+      <span class="footer-record-mark" aria-hidden="true"></span>
+      <div>
+        <a class="footer-wordmark" href="index.html#inicio">LUCUMA RECORDS</a>
+        <p class="footer-tagline">Discos para escuchar, descubrir y coleccionar.</p>
+      </div>
+    </div>
+    <nav class="footer-links" aria-label="Enlaces del pie de página">
+      <p class="footer-heading">Explorá</p>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="nosotros.html">Sobre nosotros</a>
+      <a href="index.html#como-comprar">Cómo comprar</a>
+    </nav>
+    <div class="footer-contact">
+      <p class="footer-heading">Contacto</p>
+      <a class="footer-contact-link" href="https://wa.me/5491165437000" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.13 0C5.57 0 .23 5.34.23 11.9c0 2.1.55 4.14 1.6 5.95L.12 24l6.3-1.65a11.9 11.9 0 0 0 5.7 1.45h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.51-8.42ZM12.13 21.8h-.01c-1.78 0-3.52-.48-5.04-1.39l-.36-.21-3.74.98 1-3.65-.24-.37a9.84 9.84 0 0 1-1.51-5.26c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.84 9.84 0 0 1 2.9 7c0 5.46-4.44 9.9-9.9 9.9Zm5.43-7.41c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.46-.88-.79-1.48-1.77-1.65-2.07-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.51s1.08 2.91 1.23 3.11c.15.2 2.12 3.24 5.14 4.55.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.43.25-.7.18-1.3.18-1.43-.08-.12-.28-.2-.58-.35Z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+      <a class="footer-contact-link" href="https://www.instagram.com/lucumarecords/" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r=".8" fill="currentColor" stroke="none"/></svg>
+        <span>Instagram</span>
+      </a>
+      <p class="footer-location">Saavedra · Ciudad Autónoma de Buenos Aires</p>
+    </div>
+  </div>
+  <div class="container footer-bottom"><span>© <span id="year"></span> Lucuma Records</span></div>
+</footer>
 
   <a class="floating-whatsapp" href="https://wa.me/5491165437000?text=Hola%2C%20quer%C3%ADa%20hacer%20una%20consulta%20sobre%20Lucuma%20Records." target="_blank" rel="noopener noreferrer" aria-label="Consultá por WhatsApp sobre Lucuma Records" title="Consultá por WhatsApp sobre Lucuma Records">
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.13 0C5.57 0 .23 5.34.23 11.9c0 2.1.55 4.14 1.6 5.95L.12 24l6.3-1.65a11.9 11.9 0 0 0 5.7 1.45h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.51-8.42ZM12.13 21.8h-.01c-1.78 0-3.52-.48-5.04-1.39l-.36-.21-3.74.98 1-3.65-.24-.37a9.84 9.84 0 0 1-1.51-5.26c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.13 1.03 7 2.9a9.84 9.84 0 0 1 2.9 7c0 5.46-4.44 9.9-9.9 9.9Zm5.43-7.41c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.46-.88-.79-1.48-1.77-1.65-2.07-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.51s1.08 2.91 1.23 3.11c.15.2 2.12 3.24 5.14 4.55.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.43.25-.7.18-1.3.18-1.43-.08-.12-.28-.2-.58-.35Z"/></svg>
