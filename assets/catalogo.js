@@ -1,4 +1,5 @@
 import { AVAILABILITY, COLLECTIONS, EXTRAS, buildWhatsAppUrl, capitalizeExtraDescriptions, filterAndSortProducts, formatCountryYear, formatPrice, listCatalogGenres, matchesCollection, productTitle, validateCatalog } from "./catalogo-core.mjs?v=5";
+import { addToCart, hasInCart } from "./cart.js?v=1";
 
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.getElementById("main-nav");
@@ -52,7 +53,7 @@ function updateFiltersToggle() {
 
 function placeWhatsAppActions(placement, isMobile) {
   if (isMobile) {
-    placement.anchor.after(placement.hint, placement.link);
+    placement.cartAddButton.after(placement.hint, placement.link);
   } else {
     placement.contactAlt.before(placement.hint, placement.link);
   }
@@ -203,6 +204,26 @@ function displayPhoto(container, source, alt, fallbackLabel) {
   container.replaceChildren(photo);
 }
 
+function makeCartAddButton(product, isDetail = false) {
+  const button = makeElement("button", `cart-add-button${isDetail ? " cart-add-button--detail" : ""}`);
+  button.type = "button";
+  button.dataset.cartProductId = product.id;
+  button.dataset.cartAvailability = product.availability || "";
+  button.dataset.cartTitle = productLabel(product);
+  const added = hasInCart(product.id);
+  const available = product.availability === "available";
+  button.textContent = added ? "EN EL CARRITO" : available ? "AGREGAR AL CARRITO" : product.availability === "sold" ? "VENDIDO" : "NO DISPONIBLE";
+  button.disabled = added || !available;
+  button.setAttribute("aria-label", added
+    ? `${productLabel(product)}, ya está en el carrito`
+    : available ? `Agregar ${productLabel(product)} al carrito` : `${productLabel(product)}, no disponible para agregar`);
+  button.addEventListener("click", async event => {
+    event.stopPropagation();
+    await addToCart(product.id);
+  });
+  return button;
+}
+
 function makeProductCard(product) {
   const article = makeElement("article", "product-card");
   const openButton = makeElement("button", "product-card__open");
@@ -228,7 +249,7 @@ function makeProductCard(product) {
 
   openButton.append(photoWrap, info);
   openButton.addEventListener("click", () => openProductDetails(product));
-  article.append(openButton);
+  article.append(openButton, makeCartAddButton(product));
   return article;
 }
 
@@ -327,6 +348,8 @@ function openProductDetails(product) {
     availabilityNode = availabilityBadge(product.availability);
   }
   if (availabilityNode) copy.append(availabilityNode);
+  const cartAddButton = makeCartAddButton(product, true);
+  copy.append(cartAddButton);
 
   const specs = makeElement("dl", "detail-specs");
   const extras = [
@@ -383,6 +406,7 @@ function openProductDetails(product) {
       hint: whatsappHint,
       link: whatsappLink,
       contactAlt,
+      cartAddButton,
       anchor: availabilityNode || priceNode || heading
     };
     placeWhatsAppActions(activeWhatsAppPlacement, mobileDetailQuery.matches);
